@@ -16,7 +16,6 @@
 #
 # Author:
 #   <github username of the original script author>
-
 module.exports = (robot) ->
   robot.hear /(‚Î‚é|ƒoƒ‹)/i, (res) ->
     res.send res.random ["¡“ú‚ÍH", "‚ñH"]

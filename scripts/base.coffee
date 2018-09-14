@@ -18,7 +18,9 @@
 #   <github username of the original script author>
 
 module.exports = (robot) ->
-
-  robot.respond /おはよう/i, (msg) ->
-    msg.send "おはようございます！"
-    
+  robot.hear /(ばる|バル)/i, (res) ->
+    res.send res.random ["今日は？", "ん？"]
+  robot.hear /おはよう/i, (res) ->
+    res.send res.random ["おはよう！", "オッス!", "Good Morning!"]
+  robot.hear /おやすみ/i, (res) ->
+    res.send res.random ["おやすみ！", "み!"]

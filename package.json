@@ -5,6 +5,9 @@
   "author": "hnarita.umc@gmail.com",
   "description": "Is he an angel?",
   "dependencies": {
+    "cron": "^1.4.1",
+    "google-auth-library": "^2.0.0",
+    "googleapis": "^33.0.0",
     "hubot": "^3.1.1",
     "hubot-diagnostics": "^1.0.0",
     "hubot-google-images": "^0.2.7",
@@ -17,7 +20,8 @@
     "hubot-rules": "^1.0.0",
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.1",
-    "hubot-slack": "^4.5.4"
+    "hubot-slack": "^4.5.4",
+    "time": "^0.12.0"
   },
   "engines": {
     "node": "10.10.0",

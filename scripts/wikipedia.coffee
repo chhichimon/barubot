@@ -21,6 +21,9 @@ module.exports = (robot) ->
           respond += value.extract
           msg.send(respond)
         else
-          msg.send("わからない！")
+          respond = "[ggrks](http://www.google.co.jp/search?q="
+          respond += msg.match[1]
+          respond += ")"
+          msg.send msg.random ["眠い。", "わかんない", respond]
     )
   )

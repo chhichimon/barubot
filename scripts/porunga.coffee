@@ -4,7 +4,7 @@
 module.exports = (robot) ->
     robot.hear /(タッカラプト ポッポルンガ プピリット パロ)/i, (msg) ->
         data =
-          file: fs.createReadStream('./image/porunga.png')
+          file: fs.createReadStream('../image/porunga.png')
           channels: msg.envelope.room
         robot.adapter.client.web.files.upload("ポルンガ！！", data)
 

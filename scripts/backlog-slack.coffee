@@ -13,30 +13,30 @@ module.exports = (robot) ->
 
     try
       switch body.type
-          when 1
-              label = '課題を追加'
-              color = '#36a64f'
-          when 2
-              label = '課題を更新'
-              color = '#0c6bee'
-          when 3
-              label = '課題にコメント'
-              color = '#ecee0c'
-          when 8
-              label = '共有ファイルを追加'
-              color = '#0c6bee'
-          when 9
-              label = '共有ファイルを更新'
-              color = '#0c6bee'
-          when 10
-              label = '共有ファイルを削除'
-              color = '#ff0000'
-          when 14
-              label = '課題をまとめて更新'
-              color = '#ff7400'
-          else
-              # 上記以外はスルー
-              return
+        when 1
+          label = '課題を追加'
+          color = '#36a64f'
+        when 2
+          label = '課題を更新'
+          color = '#0c6bee'
+        when 3
+          label = '課題にコメント'
+          color = '#ecee0c'
+        when 8
+          label = '共有ファイルを追加'
+          color = '#0c6bee'
+        when 9
+          label = '共有ファイルを更新'
+          color = '#0c6bee'
+        when 10
+          label = '共有ファイルを削除'
+          color = '#ff0000'
+        when 14
+          label = '課題をまとめて更新'
+          color = '#ff7400'
+        else
+          # 上記以外はスルー
+          return
 
       # 課題ステータス
       issue_status: { 1: "未対応", 2: "処理中", 3: "処理済み", 4: "完了" }
@@ -59,17 +59,17 @@ module.exports = (robot) ->
       if body.type == 1
       # TODO: 課題を作成したユーザーが担当の場合はお知らせに追加されない
       # TODO: そのため、担当が決まっているのも関わらず「未設定」となってしまう
-      assigner = (body.notifications.filter (n) -> n.reason == 1)[0]
-      fields.push(
-        {
-          title: "担当"
-          value: assigner?.user?.name
-        },
-        {
-          title: "詳細"
-          value: body.content.description
-        }
-      )
+        assigner = (body.notifications.filter (n) -> n.reason == 1)[0]
+        fields.push(
+          {
+            title: "担当"
+            value: assigner?.user?.name
+          },
+          {
+            title: "詳細"
+            value: body.content.description
+          }
+        )
 
       # 課題更新
       if body.content?.changes?
@@ -117,7 +117,7 @@ module.exports = (robot) ->
         fields.push(
           title: "コメント"
           value: body.content.comment.content
-      )
+        )
 
       # メッセージ整形
       msg =

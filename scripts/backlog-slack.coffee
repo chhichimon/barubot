@@ -63,7 +63,7 @@ module.exports = (robot) ->
       fields.push(
         {
           title: "担当"
-          value: config.decorate(assigner?.user?.name)
+          value: assigner?.user?.name
         },
         {
           title: "詳細"
@@ -75,7 +75,7 @@ module.exports = (robot) ->
       if body.content?.changes?
         for change in body.content.changes
           title = null
-          value = "#{config.decorate(change.old_value)} → #{config.decorate(change.new_value)}"
+          value = "#{change.old_value} → #{change.new_value}"
           short = true
 
           switch change.field
@@ -85,7 +85,7 @@ module.exports = (robot) ->
             when "limitDate" then title = "期限日変更"
             when "description"
               title = "詳細変更"
-              value = "#{config.decorate(change.old_value)}\n ↓ \n#{config.decorate(change.new_value)}"
+              value = "#{change.old_value}\n ↓ \n#{change.new_value}"
               short = false
             when "status"
               title = "ステータス変更"
@@ -121,9 +121,7 @@ module.exports = (robot) ->
 
       # メッセージ整形
       msg =
-        username: "#{config.type[body.type]}: by #{body.createdUser?.name}"
-        content:
-        fallback: "{body.createdUser?.name} #{label}しました。"
+        pretext: "{body.createdUser?.name}さんが#{label}しました。"
         color: color
         title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
         title_link: "#{backlog_url}view/#{body.project?.projectKey}-#{body.content?.key_id}"

@@ -6,7 +6,7 @@ module.exports = (robot) ->
     fs = require 'fs'
     try
       data =
-        file: fs.createReadStream('./porunga.png')
+        file: fs.createReadStream('image/porunga.png')
         channels: msg.envelope.room
       robot.adapter.client.web.files.upload("ポルンガ！！", data)
 

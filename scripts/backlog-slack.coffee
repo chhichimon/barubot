@@ -127,14 +127,17 @@ module.exports = (robot) ->
         title_link: "#{backlog_url}view/#{body.project?.projectKey}-#{body.content?.key_id}"
         fields: fields
 
+      console.log msg
+
       # Slack に投稿
       if msg?
-          robot.messageRoom room, msg
-          res.end "OK"
+        robot.messageRoom room, msg
+        res.end "OK"
       else
-          robot.messageRoom room, "Backlog integration error."
-          res.end "Error"
+        robot.messageRoom room, "Backlog integration error."
+        res.end "Error"
 
     catch error
       robot.send
       res.end "Error"
+      console.log 'Error'

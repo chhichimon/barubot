@@ -132,25 +132,23 @@ module.exports = (robot) ->
 
       # メッセージ整形
       msg =
-        pretext: "{body.createdUser?.name}さんが#{label}しました。"
-        color: "#{color}"
-        title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
-        title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
-        fields: fields
+        content:
+          pretext: "#{body.createdUser?.name}さんが#{label}しました。"
+          color: "#{color}"
+          title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
+          title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
+          fields: fields
 
       console.log msg
 
       console.log '5:l.142'
 
       # Slack に投稿
-      if msg?
-        robot.messageRoom room, msg
-        res.end "OK"
-      else
-        robot.messageRoom room, "Backlog integration error."
-        res.end "Error"
+      msg.channel = room
+      robot.emit 'slack-attachment', msg
+      res.end "OK"
 
     catch error
+      robot.messageRoom room, "error:" + error
       robot.send
       res.end "Error"
-      console.log error

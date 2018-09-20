@@ -55,6 +55,8 @@ module.exports = (robot) ->
 #        value: "#{notifications}"
 #      )
 
+      console.log '0:l.58'
+
       # 課題追加
       if body.type == 1
       # TODO: 課題を作成したユーザーが担当の場合はお知らせに追加されない
@@ -70,6 +72,8 @@ module.exports = (robot) ->
             value: body.content.description
           }
         )
+
+      console.log '1:l.76'
 
       # 課題更新
       if body.content?.changes?
@@ -101,6 +105,8 @@ module.exports = (robot) ->
               short: short
             )
 
+      console.log '2:l.108'
+
       # 添付ファイル
       if body.content?.attachments?
         value = ""
@@ -112,12 +118,16 @@ module.exports = (robot) ->
           value: value
         )
 
+      console.log '3:l.121'
+
       # コメント
       if body.content?.comment? && body.content.comment.content?.trim() != ""
         fields.push(
           title: "コメント"
           value: body.content.comment.content
         )
+
+      console.log '4:l.130'
 
       # メッセージ整形
       msg =
@@ -128,6 +138,8 @@ module.exports = (robot) ->
         fields: fields
 
       console.log msg
+
+      console.log '5:l.142'
 
       # Slack に投稿
       if msg?
@@ -140,4 +152,4 @@ module.exports = (robot) ->
     catch error
       robot.send
       res.end "Error"
-      console.log 'Error'
+      console.log error

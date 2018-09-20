@@ -112,7 +112,7 @@ module.exports = (robot) ->
       if body.content?.attachments?
         value = ""
         for attachment in body.content.attachments
-          url = "#{backlog_url}downloadAttachment/#{attachment.id}/#{attachment.name}"
+          url = "#{backlogUrl}downloadAttachment/#{attachment.id}/#{attachment.name}"
           value += "- #{url}\n"
         fields.push(
           title: "添付ファイル"
@@ -135,7 +135,7 @@ module.exports = (robot) ->
         pretext: "{body.createdUser?.name}さんが#{label}しました。"
         color: "#{color}"
         title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
-        title_link: "#{backlog_url}view/#{body.project?.projectKey}-#{body.content?.key_id}"
+        title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
         fields: fields
 
       console.log msg

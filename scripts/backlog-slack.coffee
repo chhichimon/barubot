@@ -40,10 +40,10 @@ module.exports = (robot) ->
           return
 
       # 課題ステータス
-      issue_status: { 1: "未対応", 2: "処理中", 3: "処理済み", 4: "完了" }
+      issue_status = { 1: "未対応", 2: "処理中", 3: "処理済み", 4: "完了" }
 
       # 完了理由
-      resolution: { 0: "対応済み", 1: "対応しない", 2: "無効", 3: "重複", 4: "再現しない" }
+      resolution = { 0: "対応済み", 1: "対応しない", 2: "無効", 3: "重複", 4: "再現しない" }
 
       # 投稿メッセージを整形
       url = "#{backlogUrl}view/#{body.project.projectKey}-#{body.content.key_id}"

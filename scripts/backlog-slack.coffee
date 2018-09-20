@@ -132,7 +132,6 @@ module.exports = (robot) ->
 
       # メッセージ整形
       data =
-        channel: "#{room}"
         attachments: [
           pretext: "#{body.createdUser?.name}さんが#{label}しました。"
           color: "#{color}"
@@ -146,7 +145,7 @@ module.exports = (robot) ->
       console.log '5:l.142'
 
       # Slack に投稿
-      msg.send data
+      robot.messageRoom room, data
       res.end "OK"
 
     catch error

@@ -131,21 +131,22 @@ module.exports = (robot) ->
       console.log '4:l.130'
 
       # メッセージ整形
-      msg =
-        content:
+      data =
+        channel: "#{room}"
+        attachments: [
           pretext: "#{body.createdUser?.name}さんが#{label}しました。"
           color: "#{color}"
           title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
           title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
           fields: fields
+        ]
 
-      console.log msg
+      console.log data
 
       console.log '5:l.142'
 
       # Slack に投稿
-      msg.channel = room
-      robot.emit 'slack-attachment', msg
+      msg.send data
       res.end "OK"
 
     catch error

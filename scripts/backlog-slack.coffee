@@ -114,10 +114,12 @@ module.exports = (robot) ->
         for attachment in body.content.attachments
           url = "#{backlogUrl}downloadAttachment/#{attachment.id}/#{attachment.name}"
           value += "- #{url}\n"
-        fields.push(
-          title: "添付ファイル"
-          value: value
-        )
+
+        if value != ""
+          fields.push(
+            title: "添付ファイル"
+            value: value
+          )
 
       console.log '3:l.121'
 

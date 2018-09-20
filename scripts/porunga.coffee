@@ -3,9 +3,10 @@
 
 module.exports = (robot) ->
   robot.hear /(タッカラプト ポッポルンガ プピリット パロ)/i, (msg) ->
+    fs = require 'fs'
     try
       data =
-        file: fs.createReadStream('porunga.png')
+        file: fs.createReadStream('./porunga.png')
         channels: msg.envelope.room
       robot.adapter.client.web.files.upload("ポルンガ！！", data)
 

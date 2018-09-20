@@ -122,3 +122,6 @@ module.exports = (robot) ->
 
   robot.hear /おはよ(う|ー|〜|っ|！)+/, (msg) ->
     msg.send msg.random mornings
+
+  robot.hear /(タッカラプト ポッポルンガ プピリット パロ)/i, (msg) ->
+    msg.send ("https://vignette.wikia.nocookie.net/dragonball/images/0/0c/PorungaDragonDBK..png") 

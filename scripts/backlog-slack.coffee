@@ -15,25 +15,25 @@ module.exports = (robot) ->
       switch body.type
           when 1
               label = '課題を追加'
-              color = "#36a64f"
+              color = '#36a64f'
           when 2
               label = '課題を更新'
-              color = "#0c6bee"
+              color = '#0c6bee'
           when 3
               label = '課題にコメント'
-              color = "#ecee0c"
+              color = '#ecee0c'
           when 8
               label = '共有ファイルを追加'
-              color = "#0c6bee"
+              color = '#0c6bee'
           when 9
               label = '共有ファイルを更新'
-              color = "#0c6bee"
+              color = '#0c6bee'
           when 10
               label = '共有ファイルを削除'
-              color = "#ff0000"
+              color = '#ff0000'
           when 14
               label = '課題をまとめて更新'
-              color = "#ff7400"
+              color = '#ff7400'
           else
               # 上記以外はスルー
               return
@@ -48,12 +48,12 @@ module.exports = (robot) ->
       url = "#{backlogUrl}view/#{body.project.projectKey}-#{body.content.key_id}"
 
       # 通知対象者
-      notifications = body.notifications?.map (n) -> " #{n.user.name}"
-      if notifications?.length > 0
-      fields.push(
-        title: "To"
-        value: "#{notifications}"
-      )
+#      notifications = body.notifications?.map (n) -> " #{n.user.name}"
+#      if notifications?.length > 0
+#      fields.push(
+#        title: "To"
+#        value: "#{notifications}"
+#      )
 
       # 課題追加
       if body.type == 1
@@ -122,7 +122,7 @@ module.exports = (robot) ->
       # メッセージ整形
       msg =
         pretext: "{body.createdUser?.name}さんが#{label}しました。"
-        color: color
+        color: "#{color}"
         title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
         title_link: "#{backlog_url}view/#{body.project?.projectKey}-#{body.content?.key_id}"
         fields: fields

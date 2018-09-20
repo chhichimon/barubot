@@ -149,6 +149,7 @@ module.exports = (robot) ->
       res.end "OK"
 
     catch error
+      console.log error
       robot.messageRoom room, "error:" + error
       robot.send
       res.end "Error"

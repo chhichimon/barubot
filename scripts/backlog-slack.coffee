@@ -9,7 +9,7 @@ module.exports = (robot) ->
     body = req.body
     fields = []
     idmap = []
-    idmap =
+    idmap = [
       {
         backlogUserId: 15536
         slackName: "片野"
@@ -46,7 +46,7 @@ module.exports = (robot) ->
         backlogUserId: 29119
         slackName: "y.fukumoto"
       }
-
+    ]
 
     try
       switch body.type
@@ -92,9 +92,9 @@ module.exports = (robot) ->
 
         if value != ""
           fields.push(
-            title: "お知らせ"
-            value: value
-        )
+              title: "お知らせ"
+              value: value
+          )
 
       # 課題追加
       if body.type == 1

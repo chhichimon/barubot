@@ -177,13 +177,15 @@ module.exports = (robot) ->
 
       # メッセージ整形
       data =
+        text: "Backlogからお知らせ - #{body.project.name}",
         attachments: [
           pretext: "#{body.createdUser?.name}さんが#{label}しました。"
           color: "#{color}"
           title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
           title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
           fields: fields
-        ]
+        ],
+        mrkdwn_in: ["fields","text"]
 
       # Slack に投稿
       robot.messageRoom room, data

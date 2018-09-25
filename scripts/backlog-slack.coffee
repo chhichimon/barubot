@@ -101,7 +101,7 @@ module.exports = (robot) ->
           userid = get_slack_id_by_backlog_id(notification.user.id,idmap)
           if userid == ""
             userid = "#{notification.user.name}"
-          value += "@#{userid}\n"
+          value += "<@#{userid}>\n"
 
         if value != ""
           fields.push(

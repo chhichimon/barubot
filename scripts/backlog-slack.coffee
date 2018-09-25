@@ -10,41 +10,50 @@ module.exports = (robot) ->
     fields = []
     idmap = []
     idmap = [
+      # 片野
       {
         backlogUserId: 15536
-        slackName: "片野"
+        slackUserId: "U95TZK4HX"
       },
+      # h.narita
       {
         backlogUserId: 29037
-        slackName: "h.narita"
+        slackUserId: "U3YNUQBFT"
       },
+      # nakagawa
       {
         backlogUserId: 29041
-        slackName: "nakagawa"
+        slackUserId: "U3Z7NT400"
       },
+      # sosa
       {
         backlogUserId: 29036
-        slackName: "sosa"
+        slackUserId: "U81SFBDT5"
       },
+      # yamagata
       {
         backlogUserId: 29038
-        slackName: "yamagata"
+        slackUserId: "U3ZLRJ37S"
       },
+      # takeishi
       {
         backlogUserId: 29043
-        slackName: "takeishi"
+        slackUserId: "U821BJ9S9"
       },
+      # 佐藤　晴香
       {
         backlogUserId: 29039
-        slackName: "佐藤　晴香"
+        slackUserId: "U8XQ58R45"
       },
+      # N.Motoki
       {
         backlogUserId: 29139
-        slackName: "N.Motoki"
+        slackUserId: "U8WUE53S6"
       },
+      # y.fukumoto
       {
         backlogUserId: 29119
-        slackName: "y.fukumoto"
+        slackUserId: "U4JKGV1QX"
       }
     ]
 
@@ -88,7 +97,11 @@ module.exports = (robot) ->
       if body.notifications?
         value = ""
         for notification in body.notifications
-          value += " @#{decorate(get_slack_name_by_backlog_id(notification.user.id,idmap))}\n"
+          userid = ""
+          userid = get_slack_id_by_backlog_id(notification.user.id,idmap)
+          if userid == ""
+            userid = "#{notification.user.name}"
+          value += "@#{userid}\n"
 
         if value != ""
           fields.push(
@@ -199,9 +212,9 @@ decorate = (s) ->
   return s
 
 # idからSlackのユーザー名を取得
-get_slack_name_by_backlog_id = (id , json) ->
+get_slack_id_by_backlog_id = (id , json) ->
   return "" if json == null
 
   for val in json
-    return val.slackName if val.backlogUserId == id
+    return val.slackUserId if val.backlogUserId == id
   return ""

@@ -177,9 +177,9 @@ module.exports = (robot) ->
 
       # メッセージ整形
       data =
-        text: "Backlog - *#{body.project.name}*"
+        text: "Backlog *#{body.project.name}*"
         attachments: [
-          pretext: "#{body.createdUser?.name}さんが#{label}しました。"
+          author_name: "#{body.createdUser?.name}さんが#{label}しました。"
           color: "#{color}"
           title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
           title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"

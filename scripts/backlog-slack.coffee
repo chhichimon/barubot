@@ -177,7 +177,7 @@ module.exports = (robot) ->
 
       # メッセージ整形
       data =
-        text: "Backlogからお知らせ - #{body.project.name}"
+        text: "Backlog - *#{body.project.name}*"
         attachments: [
           pretext: "#{body.createdUser?.name}さんが#{label}しました。"
           color: "#{color}"

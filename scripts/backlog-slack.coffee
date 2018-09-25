@@ -8,9 +8,45 @@ module.exports = (robot) ->
     room = req.params.room
     body = req.body
     fields = []
+    idmap = []
+    idmap =
+      {
+        backlogUserId: 15536
+        slackName: "片野"
+      },
+      {
+        backlogUserId: 29037
+        slackName: "h.narita"
+      },
+      {
+        backlogUserId: 29041
+        slackName: "nakagawa"
+      },
+      {
+        backlogUserId: 29036
+        slackName: "sosa"
+      },
+      {
+        backlogUserId: 29038
+        slackName: "yamagata"
+      },
+      {
+        backlogUserId: 29043
+        slackName: "takeishi"
+      },
+      {
+        backlogUserId: 29039
+        slackName: "佐藤　晴香"
+      },
+      {
+        backlogUserId: 29139
+        slackName: "N.Motoki"
+      },
+      {
+        backlogUserId: 29119
+        slackName: "y.fukumoto"
+      }
 
-    console.log 'body type = ' + body.type
-    console.log 'room = ' + room
 
     try
       switch body.type
@@ -49,14 +85,16 @@ module.exports = (robot) ->
       url = "#{backlogUrl}view/#{body.project.projectKey}-#{body.content.key_id}"
 
       # 通知対象者
-#      notifications = body.notifications?.map (n) -> " #{n.user.name}"
-#      if notifications?.length > 0
-#      fields.push(
-#        title: "To"
-#        value: "#{notifications}"
-#      )
+      if body.notifications?
+        value = ""
+        for notification in body.notifications
+          value += "@#{decorate(get_slack_name_by_backlog_id(notification.user.id,idmap))}\n"
 
-      console.log '0:l.58'
+        if value != ""
+          fields.push(
+            title: "お知らせ"
+            value: value
+        )
 
       # 課題追加
       if body.type == 1
@@ -66,7 +104,7 @@ module.exports = (robot) ->
         fields.push(
           {
             title: "担当"
-            value: assigner?.user?.name
+            value: decorate(assigner?.user?.name)
           },
           {
             title: "詳細"
@@ -74,13 +112,11 @@ module.exports = (robot) ->
           }
         )
 
-      console.log '1:l.76'
-
       # 課題更新
       if body.content?.changes?
         for change in body.content.changes
           title = null
-          value = "#{change.old_value} → #{change.new_value}"
+          value = "#{decorate(change.old_value)} → #{decorate(change.new_value)}"
           short = true
 
           switch change.field
@@ -90,14 +126,14 @@ module.exports = (robot) ->
             when "limitDate" then title = "期限日変更"
             when "description"
               title = "詳細変更"
-              value = "#{change.old_value}\n ↓ \n#{change.new_value}"
+              value = "#{decorate(change.old_value)}\n ↓ \n#{decorate(change.new_value)}"
               short = false
             when "status"
               title = "ステータス変更"
-              value = "#{issue_status[change.old_value]} → #{issue_status[change.new_value]}"
+              value = "#{decorate(issue_status[change.old_value])} → #{decorate(issue_status[change.new_value])}"
             when "resolution"
               title = "完了理由変更"
-              value = "#{resolution[change.old_value]} → #{resolution[change.new_value]}"
+              value = "#{decorate(resolution[change.old_value])} → #{decorate(resolution[change.new_value])}"
 
           if title?
             fields.push(
@@ -105,8 +141,6 @@ module.exports = (robot) ->
               value: value
               short: short
             )
-
-      console.log '2:l.108'
 
       # 添付ファイル
       if body.content?.attachments?
@@ -121,16 +155,12 @@ module.exports = (robot) ->
             value: value
           )
 
-      console.log '3:l.121'
-
       # コメント
       if body.content?.comment? && body.content.comment.content?.trim() != ""
         fields.push(
           title: "コメント"
           value: body.content.comment.content
         )
-
-      console.log '4:l.130'
 
       # メッセージ整形
       data =
@@ -142,10 +172,6 @@ module.exports = (robot) ->
           fields: fields
         ]
 
-      console.log data
-
-      console.log '5:l.142'
-
       # Slack に投稿
       robot.messageRoom room, data
       res.end "OK"
@@ -155,3 +181,27 @@ module.exports = (robot) ->
       robot.messageRoom room, "error:" + error
       robot.send
       res.end "Error"
+
+
+#----------------------------------------------------------------------
+# 課題のステータス名を検索
+# search_task_status_name = (task_status_json, state_id) ->
+#  return __search_name_by_id(task_status_json, state_id)
+
+# 完了理由のステータス名を検索
+#search_task_resolution_name = (task_resolution_json, resolution_id) ->
+#  return __search_name_by_id(task_resolution_json, resolution_id)
+
+# 空文字の場合、未設定を返す
+decorate = (s) ->
+  if !s? || s.trim?() is ""
+    return "未設定"
+  return s
+
+# idからSlackのユーザー名を取得
+get_slack_name_by_backlog_id = (id , json) ->
+  return "" if json == null
+
+  for val in json
+    return val.slackName if val.backlogUserId == id
+  return ""

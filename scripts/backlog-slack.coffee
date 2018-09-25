@@ -88,7 +88,7 @@ module.exports = (robot) ->
       if body.notifications?
         value = ""
         for notification in body.notifications
-          value += "@#{decorate(get_slack_name_by_backlog_id(notification.user.id,idmap))}\n"
+          value += " @#{decorate(get_slack_name_by_backlog_id(notification.user.id,idmap))}\n"
 
         if value != ""
           fields.push(

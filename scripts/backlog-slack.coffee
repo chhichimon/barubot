@@ -287,5 +287,5 @@ get_slack_user_icon = (id,slack_token) ->
     else
       console.log "************* userInfo : #{userInfo}"
       data = JSON.parse userInfo
-      console.log "************* userInfo.profile.image_24 -> parse : #{data}"
-      "#{data.profile.image_24}"
+      console.log "************* userInfo.profile.image_24 -> parse : #{data.profile.image_24}"
+      ret = "#{data.profile.image_24}"

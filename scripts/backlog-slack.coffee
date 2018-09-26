@@ -214,7 +214,8 @@ module.exports = (robot) ->
               value: value
           )
 
-      user_icon = get_slack_user_icon(get_slack_id_by_backlog_id(body.createdUser.id,idmap),SLACK_TOKEN)
+      userid = get_slack_id_by_backlog_id(body.createdUser.id,idmap)
+      user_icon = get_slack_user_icon(userid,SLACK_TOKEN)
       console.log "************* user_icon : #{user_icon}"
 
       # メッセージ整形
@@ -288,4 +289,4 @@ get_slack_user_icon = (id,slack_token) ->
       console.log "************* userInfo : #{userInfo}"
       data = JSON.parse userInfo
       console.log "************* userInfo.profile.image_24 -> parse : #{data.profile.image_24}"
-      ret = "#{data.profile.image_24}"
+      return "#{data.profile.image_24}"

@@ -2,6 +2,7 @@
 #   Backlog to Slack
 
 backlogUrl = 'https://usn.backlog.com/'
+BACKLOG_API_KEY = process.env.BACKLOG_API_KEY
 
 module.exports = (robot) ->
   robot.router.post "/backlog/:room", (req, res) ->
@@ -93,36 +94,40 @@ module.exports = (robot) ->
       # 投稿メッセージを整形
       url = "#{backlogUrl}view/#{body.project.projectKey}-#{body.content.key_id}"
 
-      # 通知対象者
-      if body.notifications?
-        value = ""
-        for notification in body.notifications
-          userid = ""
-          userid = get_slack_id_by_backlog_id(notification.user.id,idmap)
-          if userid == ""
-            userid = "#{notification.user.name}"
-          value += "<@#{userid}>\n"
-
-        if value != ""
-          fields.push(
-              title: "お知らせ"
-              value: value
-          )
-
       # 課題追加
       if body.type == 1
-      # TODO: 課題を作成したユーザーが担当の場合はお知らせに追加されない
-      # TODO: そのため、担当が決まっているのも関わらず「未設定」となってしまう
-        assigner = (body.notifications.filter (n) -> n.reason == 1)[0]
-        fields.push(
-          {
-            title: "担当"
-            value: decorate(assigner?.user?.name)
-          },
-          {
-            title: "詳細"
-            value: body.content.description
-          }
+        # 課題情報を取得する
+        apiUrl="#{backlogUrl}api/v2/issues/#{body.content.id}?apiKey=#{BACKLOG_API_KEY}"
+        request = robot.http(apiUrl)
+        .get()
+
+        request((err, res, issuebody) ->
+          issueInfo = JSON.parse(issuebody)
+          # 詳細
+          if issueInfo.description?
+            fields.push(
+              title: "詳細"
+              value: issueInfo.description
+              short: false
+            )
+          # 担当
+          fields.push(
+            title: "担当者"
+            value: decorate(issueInfo.assignee)
+            short: true
+          )
+          # 期限日
+          fields.push(
+            title: "期限日"
+            value: decorate(issueInfo.dueDate)
+            short: true
+          )
+          # ステータス
+          fields.push(
+            title: "ステータス"
+            value: decorate(issue_status[issueInfo.status.id]))
+            short: true
+          )
         )
 
       # 課題更新
@@ -174,6 +179,22 @@ module.exports = (robot) ->
           title: "コメント"
           value: body.content.comment.content
         )
+
+      # 通知対象者
+      if body.notifications?
+        value = ""
+        for notification in body.notifications
+          userid = ""
+          userid = get_slack_id_by_backlog_id(notification.user.id,idmap)
+          if userid == ""
+            userid = "#{notification.user.name}"
+          value += "<@#{userid}>\n"
+
+        if value != ""
+          fields.push(
+              title: "お知らせした人"
+              value: value
+          )
 
       # メッセージ整形
       data =

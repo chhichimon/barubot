@@ -119,7 +119,7 @@ module.exports = (robot) ->
           else
             console.log "************* issuebody : #{issuebody}"
             issueInfo = JSON.parse issuebody
-            console.log "************* issuebody -> parse : #{issueInfo}"
+            console.log "************* issuebody -> parse : #{issueInfo.description}"
 
           # 詳細
           if issueInfo.description?
@@ -288,4 +288,4 @@ get_slack_user_icon = (id,slack_token) ->
       console.log "************* userInfo : #{userInfo}"
       data = JSON.parse userInfo
       console.log "************* userInfo.profile.image_24 -> parse : #{data}"
-      data.profile.image_24
+      "#{data.profile.image_24}"

@@ -113,8 +113,6 @@ module.exports = (robot) ->
           }
           json: true
 
-        console.log options
-
         request.get options, (err, res, issueInfo) ->
           return console.log err if err
           # 詳細
@@ -220,34 +218,29 @@ module.exports = (robot) ->
         }
         json: true
 
-      console.log options
-
       request.get options, (err,res,userInfo) ->
         if err? or res.statusCode isnt 200
           console.log err
-
-        console.log userInfo
 
         if userInfo.profile?
           user_icon = userInfo.profile.image_24
         else
           user_icon = ""
 
-        console.log userInfo.profile.image_24
-        console.log user_icon
-
       # メッセージ整形
       data =
         text: "Backlog *#{body.project.name}*"
         attachments: [
           author_name: "#{body.createdUser?.name}さんが#{label}しました。"
-          author_icon: user_icon
+          author_icon: "#{user_icon}"
           color: "#{color}"
           title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
           title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
           fields: fields
           mrkdwn_in: ["fields","text"]
         ]
+
+      console.log data
 
       # Slack に投稿
       robot.messageRoom room, data

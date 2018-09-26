@@ -108,12 +108,15 @@ module.exports = (robot) ->
         request = require("request")
         options =
           url: apiUrl
-          apiKey: BACKLOG_API_KEY
+          qs: {
+            apiKey: BACKLOG_API_KEY
+          }
           json: true
 
-        request.get options, (err, res, issuebody) ->
+        console.log options
+
+        request.get options, (err, res, issueInfo) ->
           return console.log err if err
-          issueInfo = JSON.parse(issuebody)
           # 詳細
           if issueInfo.description?
             fields.push(
@@ -211,19 +214,20 @@ module.exports = (robot) ->
       request = require("request")
       options =
         url: apiUrl
-        token: SLACK_TOKEN
-        user: get_slack_id_by_backlog_id(body.createdUser.id,idmap)
+        qs: {
+          token: SLACK_TOKEN
+          user: get_slack_id_by_backlog_id(body.createdUser.id,idmap)
+        }
         json: true
 
       console.log options
 
-      request.get options, (err,res,userbody) ->
+      request.get options, (err,res,userInfo) ->
         if err? or res.statusCode isnt 200
           console.log err
 
         console.log userbody
 
-        userInfo = JSON.parse(userbody)[0]
         if userInfo.profile?
           user_icon = userInfo.profile.image_24
         else

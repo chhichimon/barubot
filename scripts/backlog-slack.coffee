@@ -206,25 +206,7 @@ module.exports = (robot) ->
               value: value
           )
 
-      # 作成者情報をslackから取得
-      apiUrl="https://slack.com/api/users.profile.get"
-      request = require("request")
-      options =
-        url: apiUrl
-        qs: {
-          token: SLACK_TOKEN
-          user: get_slack_id_by_backlog_id(body.createdUser.id,idmap)
-        }
-        json: true
-
-      request.get options, (err,res,userInfo) ->
-        if err? or res.statusCode isnt 200
-          console.log err
-
-        if userInfo.profile?
-          user_icon = userInfo.profile.image_24
-        else
-          user_icon = ""
+      user_icon = get_slack_user_icon(get_slack_id_by_backlog_id(body.createdUser.id,idmap),SLACK_TOKEN)
 
       # メッセージ整形
       data =
@@ -274,3 +256,25 @@ get_slack_id_by_backlog_id = (id , json) ->
   for val in json
     return val.slackUserId if val.backlogUserId == id
   return ""
+
+
+# Slackからユーザーアイコンを取得
+get_slack_user_icon = (id,slack_token) ->
+  # 作成者情報をslackから取得
+  apiUrl="https://slack.com/api/users.profile.get"
+  request = require("request")
+  options =
+    url: apiUrl
+    qs: {
+      token: slack_token
+      user: id
+    }
+    json: true
+
+  request.get options, (err,res,userInfo) ->
+    if err? or res.statusCode isnt 200
+      console.log err
+      if userInfo.profile?
+        return userInfo.profile.image_24
+      else
+        return ""

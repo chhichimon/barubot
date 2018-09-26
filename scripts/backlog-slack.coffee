@@ -226,7 +226,7 @@ module.exports = (robot) ->
         if err? or res.statusCode isnt 200
           console.log err
 
-        console.log userbody
+        console.log userInfo
 
         if userInfo.profile?
           user_icon = userInfo.profile.image_24

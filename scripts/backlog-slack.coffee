@@ -97,11 +97,15 @@ module.exports = (robot) ->
       # 課題追加
       if body.type == 1
         # 課題情報を取得する
-        apiUrl="#{backlogUrl}api/v2/issues/#{body.content.id}?apiKey=#{BACKLOG_API_KEY}"
-        request = robot.http(apiUrl)
-        .get()
+        apiUrl="#{backlogUrl}api/v2/issues/#{body.content.id}"
+        request = require("request")
+        options =
+          url: apiUrl
+          apiKey: BACKLOG_API_KEY
+          json: true
 
-        request((err, res, issuebody) ->
+        request.get options, (err, res, issueInfo) ->
+          return console.log err if err
           issueInfo = JSON.parse(issuebody)
           # 詳細
           if issueInfo.description?
@@ -128,7 +132,6 @@ module.exports = (robot) ->
             value: decorate(issue_status[issueInfo.status.id]))
             short: true
           )
-        )
 
       # 課題更新
       if body.content?.changes?

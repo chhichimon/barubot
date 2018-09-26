@@ -216,11 +216,16 @@ module.exports = (robot) ->
         json: true
 
       request.get options, (err, res, userbody) ->
+        console.log err if err
         userInfo = JSON.parse(userbody)
         if userInfo.profile?
           user_icon = userInfo.profile.image_24
         else
           user_icon = ""
+
+        console.log options
+        console.log userInfo.profile.image_24
+        console.log user_icon
 
       # メッセージ整形
       data =

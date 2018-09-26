@@ -10,7 +10,6 @@ module.exports = (robot) ->
     room = req.params.room
     body = req.body
     fields = []
-    user_icon = ""
     idmap = []
     idmap = [
       # 片野

@@ -129,7 +129,7 @@ module.exports = (robot) ->
           # ステータス
           fields.push(
             title: "ステータス"
-            value: decorate(issue_status[issueInfo.status.id]))
+            value: decorate(issue_status[issueInfo.status.id])
             short: true
           )
 

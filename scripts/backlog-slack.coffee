@@ -274,6 +274,7 @@ get_slack_user_icon = (id,slack_token) ->
   request.get options, (err,res,userInfo) ->
     if err? or res.statusCode isnt 200
       console.log err
+    else
       if userInfo.profile?
         return "#{userInfo.profile.image_24}"
       else

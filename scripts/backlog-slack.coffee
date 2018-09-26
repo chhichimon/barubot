@@ -215,7 +215,7 @@ module.exports = (robot) ->
         user: get_slack_id_by_backlog_id(body.createdUser.id,idmap)
         json: true
 
-        console.log options
+      console.log options
 
       request.get options, (err,res,userbody) ->
         if err? or res.statusCode isnt 200

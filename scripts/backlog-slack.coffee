@@ -3,12 +3,14 @@
 
 backlogUrl = 'https://usn.backlog.com/'
 BACKLOG_API_KEY = process.env.BACKLOG_API_KEY
+SLACK_TOKEN = process.env.SLACK_TOKEN
 
 module.exports = (robot) ->
   robot.router.post "/backlog/:room", (req, res) ->
     room = req.params.room
     body = req.body
     fields = []
+    user_icon = ""
     idmap = []
     idmap = [
       # 片野
@@ -17,7 +19,6 @@ module.exports = (robot) ->
         slackUserId: "U95TZK4HX"
       },
       # h.narita
-      {
         backlogUserId: 29037
         slackUserId: "U3YNUQBFT"
       },
@@ -55,6 +56,11 @@ module.exports = (robot) ->
       {
         backlogUserId: 29119
         slackUserId: "U4JKGV1QX"
+      },
+      # ozawa
+      {
+        backlogUserId: 15539
+        slackUserId: "UD17ESETX"
       }
     ]
 
@@ -104,7 +110,7 @@ module.exports = (robot) ->
           apiKey: BACKLOG_API_KEY
           json: true
 
-        request.get options, (err, res, issueInfo) ->
+        request.get options, (err, res, issuebody) ->
           return console.log err if err
           issueInfo = JSON.parse(issuebody)
           # 詳細
@@ -199,11 +205,28 @@ module.exports = (robot) ->
               value: value
           )
 
+      # 作成者情報をslackから取得
+      apiUrl="https://slack.com/api/users.profile.get"
+      request = require("request")
+      options =
+        url: apiUrl
+        token: SLACK_TOKEN
+        user: get_slack_id_by_backlog_id(body.createdUser.id,idmap)
+        json: true
+
+        request.get options, (err, res, userbody) ->
+          userInfo = JSON.parse(userbody)
+          if userInfo.profile?
+            user_icon = userInfo.profile.image_24
+          else
+            user_icon = ""
+
       # メッセージ整形
       data =
         text: "Backlog *#{body.project.name}*"
         attachments: [
           author_name: "#{body.createdUser?.name}さんが#{label}しました。"
+          author_icon: user_icon
           color: "#{color}"
           title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
           title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"

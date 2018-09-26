@@ -19,6 +19,7 @@ module.exports = (robot) ->
         slackUserId: "U95TZK4HX"
       },
       # h.narita
+      {
         backlogUserId: 29037
         slackUserId: "U3YNUQBFT"
       },
@@ -214,12 +215,12 @@ module.exports = (robot) ->
         user: get_slack_id_by_backlog_id(body.createdUser.id,idmap)
         json: true
 
-        request.get options, (err, res, userbody) ->
-          userInfo = JSON.parse(userbody)
-          if userInfo.profile?
-            user_icon = userInfo.profile.image_24
-          else
-            user_icon = ""
+      request.get options, (err, res, userbody) ->
+        userInfo = JSON.parse(userbody)
+        if userInfo.profile?
+          user_icon = userInfo.profile.image_24
+        else
+          user_icon = ""
 
       # メッセージ整形
       data =

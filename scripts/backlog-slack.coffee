@@ -114,6 +114,8 @@ module.exports = (robot) ->
 
         request.get options, (err, res, issueInfo) ->
           return console.log err if err
+          console.log "************* issueInfo : #{issueInfo}"
+
           # 詳細
           if issueInfo.description?
             fields.push(
@@ -139,6 +141,7 @@ module.exports = (robot) ->
             value: decorate(issue_status[issueInfo.status.id])
             short: true
           )
+          console.log "************* fields : #{fields}"
 
       # 課題更新
       if body.content?.changes?
@@ -207,6 +210,7 @@ module.exports = (robot) ->
           )
 
       user_icon = get_slack_user_icon(get_slack_id_by_backlog_id(body.createdUser.id,idmap),SLACK_TOKEN)
+      console.log "************* user_icon : #{user_icon}"
 
       # メッセージ整形
       data =
@@ -275,7 +279,5 @@ get_slack_user_icon = (id,slack_token) ->
     if err? or res.statusCode isnt 200
       console.log err
     else
-      if userInfo.profile?
-        return "#{userInfo.profile.image_24}"
-      else
-        return ""
+      console.log "************* userInfo.profile.image_24 : #{userInfo.profile.image_24}"
+      img = userInfo.profile.image_24

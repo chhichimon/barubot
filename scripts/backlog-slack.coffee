@@ -113,9 +113,14 @@ module.exports = (robot) ->
           json: true
 
         request.get options, (err, res, issueInfo) ->
-          return console.log err if err
-          console.log "************* issueInfo : #{issueInfo}"
-
+          if err?
+            console.log err
+            return
+          else
+            console.log "************* issueInfo : #{issueInfo}"
+            data = JSON.parse issueInfo
+            console.log "************* JSON.parse : #{data}"
+            
           # 詳細
           if issueInfo.description?
             fields.push(
@@ -278,6 +283,7 @@ get_slack_user_icon = (id,slack_token) ->
   request.get options, (err,res,userInfo) ->
     if err? or res.statusCode isnt 200
       console.log err
+      return
     else
       console.log "************* userInfo.profile.image_24 : #{userInfo.profile.image_24}"
-      img = userInfo.profile.image_24
+      userInfo.profile.image_24

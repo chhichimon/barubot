@@ -215,9 +215,10 @@ module.exports = (robot) ->
         user: get_slack_id_by_backlog_id(body.createdUser.id,idmap)
         json: true
 
-      request.get options, (err, res, userbody) ->
-        console.log err if err
+      request.get options, (userbody) ->
         userInfo = JSON.parse(userbody)
+        console.log userInfo.error if userInfo.error?
+        
         if userInfo.profile?
           user_icon = userInfo.profile.image_24
         else

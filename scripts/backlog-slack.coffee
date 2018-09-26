@@ -110,17 +110,17 @@ module.exports = (robot) ->
           qs: {
             apiKey: BACKLOG_API_KEY
           }
-          json: true
+#          json: true
 
-        request.get options, (err, res, issueInfo) ->
+        request.get options, (err, res, issuebody) ->
           if err?
             console.log err
             return
           else
-            console.log "************* issueInfo : #{issueInfo}"
-            data = JSON.parse issueInfo
-            console.log "************* JSON.parse : #{data}"
-            
+            console.log "************* issuebody : #{issuebody}"
+            issueInfo = JSON.parse issuebody
+            console.log "************* issuebody -> parse : #{issueInfo}"
+
           # 詳細
           if issueInfo.description?
             fields.push(
@@ -278,7 +278,7 @@ get_slack_user_icon = (id,slack_token) ->
       token: slack_token
       user: id
     }
-    json: true
+#    json: true
 
   request.get options, (err,res,userInfo) ->
     if err? or res.statusCode isnt 200
@@ -286,4 +286,6 @@ get_slack_user_icon = (id,slack_token) ->
       return
     else
       console.log "************* userInfo.profile.image_24 : #{userInfo.profile.image_24}"
-      userInfo.profile.image_24
+      data = JSON.parse userInfo
+      console.log "************* userInfo.profile.image_24 -> parse : #{data}"
+      data.profile.image_24

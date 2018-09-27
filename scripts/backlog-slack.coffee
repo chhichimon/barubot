@@ -126,8 +126,6 @@ module.exports = (robot) ->
               value: "#{response.description}"
               short: false
             )
-            for fld in fields
-              console.log "************* fields : #{fld.value}"
 
           # 担当
           fields.push(
@@ -148,7 +146,9 @@ module.exports = (robot) ->
             short: true
           )
           for field in fields
-            console.log "************* fields : #{field.value}"
+            console.log "************* field.value : #{field.title}"
+            console.log "************* field.value : #{field.value}"
+            console.log "************* field.value : #{field.short}"
 
       # 課題更新
       if body.content?.changes?
@@ -223,6 +223,11 @@ module.exports = (robot) ->
         console.log "************* userInfo.profile.image_24 -> parse : #{response.profile.image_24}"
         user_icon = "#{response.profile.image_24}"
         console.log "************* user_icon : #{user_icon}"
+
+      for field in fields
+        console.log "************* field.value : #{field.title}"
+        console.log "************* field.value : #{field.value}"
+        console.log "************* field.value : #{field.short}"
 
       # メッセージ整形
       data =

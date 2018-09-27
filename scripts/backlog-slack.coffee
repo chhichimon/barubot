@@ -128,7 +128,7 @@ module.exports = (robot) ->
           # 期限日
           fields.push(
             title: "期限日"
-            value: "#{decorate(issue_info.dueDate?)}".replace(/(T.*Z)/g,"")
+            value: "#{decorate(issue_info.dueDate)}".replace(/(T.*Z)/g,"")
             short: true
           )
 

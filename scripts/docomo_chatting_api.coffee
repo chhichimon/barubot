@@ -32,8 +32,8 @@ module.exports = (robot) ->
                    + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
 
 
-    consol.log old_msec
-    consol.log user_name
+    console.log old_msec
+    console.log user_name
 
     request = require("request")
     request.post

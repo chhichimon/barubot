@@ -12,6 +12,8 @@ module.exports = (robot) ->
     body = req.body
 
     fields = []
+    user_icon = ""
+
     idmap = []
     idmap = [
       # 片野
@@ -117,9 +119,6 @@ module.exports = (robot) ->
         request.get options, (err, res, body) ->
           response = JSON.parse body
 
-          console.log "************* issuebody : #{body}"
-          console.log "************* issuebody -> parse : #{response.description}"
-
           # 詳細
           if response.description?
             fields.push(
@@ -133,7 +132,7 @@ module.exports = (robot) ->
           # 担当
           fields.push(
             title: "担当者"
-            value: "#{decorate(response.assignee)}"
+            value: "#{decorate(response.assignee.name)}"
             short: true
           )
           # 期限日
@@ -218,7 +217,6 @@ module.exports = (robot) ->
           )
 
       userid = get_slack_id_by_backlog_id(body.createdUser.id,idmap)
-      user_icon = ""
 
       get_slack_user_icon userid,SLACK_TOKEN,(err,res,body) ->
         response = JSON.parse body

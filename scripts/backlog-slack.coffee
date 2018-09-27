@@ -213,6 +213,7 @@ module.exports = (robot) ->
           )
 
       userid = get_slack_id_by_backlog_id(body.createdUser.id,idmap)
+      user_icon = ""
 
       get_slack_user_icon userid,SLACK_TOKEN,(err,res,body) ->
         response = JSON.parse body

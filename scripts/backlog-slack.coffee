@@ -2,6 +2,7 @@
 #   Backlog to Slack
 
 backlogUrl = 'https://usn.backlog.com/'
+
 BACKLOG_API_KEY = process.env.BACKLOG_API_KEY
 SLACK_TOKEN = process.env.SLACK_TOKEN
 
@@ -9,7 +10,6 @@ module.exports = (robot) ->
   robot.router.post "/backlog/:room", (req, res) ->
     room = req.params.room
     body = req.body
-    fields = []
     idmap = []
     idmap = [
       # 片野
@@ -112,41 +112,39 @@ module.exports = (robot) ->
           }
 #          json: true
 
-        request.get options, (err, res, issuebody) ->
-          if err?
-            console.log err
-            return
-          else
-            console.log "************* issuebody : #{issuebody}"
-            issueInfo = JSON.parse issuebody
-            console.log "************* issuebody -> parse : #{issueInfo.description}"
+        request.get options, (err, res, body) ->
+          response = JSON.parse body
+
+          console.log "************* issuebody : #{body}"
+          console.log "************* issuebody -> parse : #{response.description}"
 
           # 詳細
-          if issueInfo.description?
+          if response.description?
             fields.push(
               title: "詳細"
-              value: issueInfo.description
+              value: "#{response.description}"
               short: false
             )
           # 担当
           fields.push(
             title: "担当者"
-            value: decorate(issueInfo.assignee)
+            value: "#{decorate(response.assignee)}"
             short: true
           )
           # 期限日
           fields.push(
             title: "期限日"
-            value: decorate(issueInfo.dueDate)
+            value: "#{decorate(response.dueDate)}"
             short: true
           )
           # ステータス
           fields.push(
             title: "ステータス"
-            value: decorate(issue_status[issueInfo.status.id])
+            value: "#{decorate(issue_status[response.status.id])}"
             short: true
           )
-          console.log "************* fields : #{fields}"
+          for field in fields
+            console.log "************* fields : #{field}"
 
       # 課題更新
       if body.content?.changes?
@@ -215,8 +213,12 @@ module.exports = (robot) ->
           )
 
       userid = get_slack_id_by_backlog_id(body.createdUser.id,idmap)
-      user_icon = get_slack_user_icon(userid,SLACK_TOKEN)
-      console.log "************* user_icon : #{user_icon}"
+
+      get_slack_user_icon userid,SLACK_TOKEN,(err,res,body) ->
+        response = JSON.parse body
+        console.log "************* userInfo.profile.image_24 -> parse : #{response.profile.image_24}"
+        user_icon = "#{response.profile.image_24}"
+        console.log "************* user_icon : #{user_icon}"
 
       # メッセージ整形
       data =
@@ -269,7 +271,7 @@ get_slack_id_by_backlog_id = (id , json) ->
 
 
 # Slackからユーザーアイコンを取得
-get_slack_user_icon = (id,slack_token) ->
+get_slack_user_icon = (id,slack_token,callback) ->
   # 作成者情報をslackから取得
   apiUrl="https://slack.com/api/users.profile.get"
   request = require("request")
@@ -281,12 +283,9 @@ get_slack_user_icon = (id,slack_token) ->
     }
 #    json: true
 
-  request.get options, (err,res,userInfo) ->
+  request.get options, (err,res,body) ->
     if err? or res.statusCode isnt 200
       console.log err
       return
     else
-      console.log "************* userInfo : #{userInfo}"
-      data = JSON.parse userInfo
-      console.log "************* userInfo.profile.image_24 -> parse : #{data.profile.image_24}"
-      return "#{data.profile.image_24}"
+      callback(err,res,body)

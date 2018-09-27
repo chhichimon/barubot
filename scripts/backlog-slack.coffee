@@ -146,9 +146,9 @@ module.exports = (robot) ->
             short: true
           )
           for field in fields
-            console.log "************* field.value : #{field.title}"
+            console.log "************* field.title : #{field.title}"
             console.log "************* field.value : #{field.value}"
-            console.log "************* field.value : #{field.short}"
+            console.log "************* field.short : #{field.short}"
 
       # 課題更新
       if body.content?.changes?
@@ -224,29 +224,29 @@ module.exports = (robot) ->
         user_icon = "#{response.profile.image_24}"
         console.log "************* user_icon : #{user_icon}"
 
-      for field in fields
-        console.log "************* field.value : #{field.title}"
-        console.log "************* field.value : #{field.value}"
-        console.log "************* field.value : #{field.short}"
+        for field in fields
+          console.log "************* field.title : #{field.title}"
+          console.log "************* field.value : #{field.value}"
+          console.log "************* field.short : #{field.short}"
 
-      # メッセージ整形
-      data =
-        text: "Backlog *#{body.project.name}*"
-        attachments: [
-          author_name: "#{body.createdUser?.name}さんが#{label}しました。"
-          author_icon: "#{user_icon}"
-          color: "#{color}"
-          title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
-          title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
-          fields: fields
-          mrkdwn_in: ["fields","text"]
-        ]
+        # メッセージ整形
+        data =
+          text: "Backlog *#{body.project.name}*"
+          attachments: [
+            author_name: "#{body.createdUser?.name}さんが#{label}しました。"
+            author_icon: "#{user_icon}"
+            color: "#{color}"
+            title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
+            title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
+            fields: fields
+            mrkdwn_in: ["fields","text"]
+          ]
 
-      console.log data
+        console.log data
 
-      # Slack に投稿
-      robot.messageRoom room, data
-      res.end "OK"
+        # Slack に投稿
+        robot.messageRoom room, data
+        res.end "OK"
 
     catch error
       console.log error

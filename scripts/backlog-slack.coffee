@@ -122,13 +122,13 @@ module.exports = (robot) ->
           # 担当
           fields.push(
             title: "担当者"
-            value: "#{decorate(issue_info.assignee.name)}"
+            value: "#{decorate(issue_info.assignee?.name)}"
             short: true
           )
           # 期限日
           fields.push(
             title: "期限日"
-            value: "#{decorate(issue_info.dueDate)}".replace(/(T.*Z)/g,"")
+            value: "#{decorate(issue_info.dueDate?)}".replace(/(T.*Z)/g,"")
             short: true
           )
 

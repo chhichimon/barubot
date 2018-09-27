@@ -108,15 +108,7 @@ module.exports = (robot) ->
       if body.type == 1
         # 課題情報を取得する
         apiUrl="#{backlogUrl}api/v2/issues/#{body.content.id}"
-        request = require("request")
-        options =
-          url: apiUrl
-          qs: {
-            apiKey: BACKLOG_API_KEY
-          }
-#          json: true
-
-        request.get options, (issue_err, issue_res, issue_body) ->
+        get_baccklog_issue apiUrl,BACKLOG_API_KEY,(uissue_err, issue_res, issue_body) ->
           response = JSON.parse issue_body
 
           # 詳細
@@ -283,6 +275,21 @@ get_slack_id_by_backlog_id = (id , json) ->
     return val.slackUserId if val.backlogUserId == id
   return ""
 
+# Backlogから課題情報を取得
+get_baccklog_issue = (apiUrl,backlog_api_key,callback) ->
+  request = require("request")
+  options =
+    url: apiUrl
+    qs: {
+      apiKey: backlog_api_key
+    }
+
+  request.get options, (err,res,body) ->
+    if err? or res.statusCode isnt 200
+      console.log err
+      return
+    else
+      callback(err,res,body)
 
 # Slackからユーザーアイコンを取得
 get_slack_user_icon = (id,slack_token,callback) ->

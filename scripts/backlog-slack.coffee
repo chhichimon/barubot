@@ -109,38 +109,43 @@ module.exports = (robot) ->
         # 課題情報を取得する
         apiUrl="#{backlogUrl}api/v2/issues/#{body.content.id}"
         get_baccklog_issue apiUrl,BACKLOG_API_KEY,(uissue_err, issue_res, issue_body) ->
-          response = JSON.parse issue_body
+          issue_info = JSON.parse issue_body
 
           # 詳細
-          if response.description?
+          if issue_info.description?
             fields.push(
               title: "詳細"
-              value: "#{response.description}"
+              value: "#{issue_info.description}"
               short: false
             )
 
           # 担当
           fields.push(
             title: "担当者"
-            value: "#{decorate(response.assignee.name)}"
+            value: "#{decorate(issue_info.assignee.name)}"
             short: true
           )
           # 期限日
           fields.push(
             title: "期限日"
-            value: "#{decorate(response.dueDate)}"
+            value: "#{decorate(issue_info.dueDate)}"
             short: true
           )
+
           # ステータス
           fields.push(
             title: "ステータス"
-            value: "#{decorate(issue_status[response.status.id])}"
+            value: "#{decorate(issue_status[issue_info.status.id])}"
             short: true
           )
+
           for field in fields
             console.log "************* field.title : #{field.title}"
             console.log "************* field.value : #{field.value}"
             console.log "************* field.short : #{field.short}"
+            console.log "************* field start"
+            console.log fields
+            console.log "************* field end"
 
         console.log fields
 
@@ -221,8 +226,8 @@ module.exports = (robot) ->
       userid = get_slack_id_by_backlog_id(body.createdUser.id,idmap)
 
       get_slack_user_icon userid,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
-        response = JSON.parse user_info_body
-        user_icon = "#{response.profile.image_24}"
+        user_info = JSON.parse user_info_body
+        user_icon = "#{user_info.profile.image_24}"
 
         console.log fields
 

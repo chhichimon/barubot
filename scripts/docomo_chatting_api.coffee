@@ -31,6 +31,10 @@ module.exports = (robot) ->
     appSendTime = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2) + ' '\
                    + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
 
+
+    consol.log old_msec
+    consol.log user_name
+
     request = require("request")
     request.post
       url: url

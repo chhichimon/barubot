@@ -150,6 +150,8 @@ module.exports = (robot) ->
             console.log "************* field.value : #{field.value}"
             console.log "************* field.short : #{field.short}"
 
+        console.log fields
+
       # 課題更新
       if body.content?.changes?
         for change in body.content.changes
@@ -180,6 +182,8 @@ module.exports = (robot) ->
               short: short
             )
 
+        console.log fields
+
       # 添付ファイル
       if body.content?.attachments?
         value = ""
@@ -193,12 +197,16 @@ module.exports = (robot) ->
             value: value
           )
 
+        console.log fields
+
       # コメント
       if body.content?.comment? && body.content.comment.content?.trim() != ""
         fields.push(
           title: "コメント"
           value: body.content.comment.content
         )
+
+        console.log fields
 
       # 通知対象者
       if body.notifications?
@@ -216,17 +224,15 @@ module.exports = (robot) ->
               value: value
           )
 
+        console.log fields
+
       userid = get_slack_id_by_backlog_id(body.createdUser.id,idmap)
 
       get_slack_user_icon userid,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
         response = JSON.parse user_info_body
         user_icon = "#{response.profile.image_24}"
-        console.log "************* user_icon : #{user_icon}"
 
-        for field in fields
-          console.log "************* field.title : #{field.title}"
-          console.log "************* field.value : #{field.value}"
-          console.log "************* field.short : #{field.short}"
+        console.log fields
 
         # メッセージ整形
         data =

@@ -127,6 +127,9 @@ module.exports = (robot) ->
               value: "#{response.description}"
               short: false
             )
+            for fld in fields
+              console.log "************* fields : #{fld.value}"
+
           # 担当
           fields.push(
             title: "担当者"
@@ -146,7 +149,7 @@ module.exports = (robot) ->
             short: true
           )
           for field in fields
-            console.log "************* fields : #{field}"
+            console.log "************* fields : #{field.value}"
 
       # 課題更新
       if body.content?.changes?

@@ -218,9 +218,8 @@ module.exports = (robot) ->
 
       userid = get_slack_id_by_backlog_id(body.createdUser.id,idmap)
 
-      get_slack_user_icon userid,SLACK_TOKEN,(err,res,body) ->
-        response = JSON.parse body
-        console.log "************* userInfo.profile.image_24 -> parse : #{response.profile.image_24}"
+      get_slack_user_icon userid,SLACK_TOKEN,(err,res,userInfoBody) ->
+        response = JSON.parse userInfoBody
         user_icon = "#{response.profile.image_24}"
         console.log "************* user_icon : #{user_icon}"
 

@@ -104,50 +104,50 @@ module.exports = (robot) ->
       # 投稿メッセージを整形
       url = "#{backlogUrl}view/#{body.project.projectKey}-#{body.content.key_id}"
 
+      # 課題情報を取得する
+      apiUrl="#{backlogUrl}api/v2/issues/#{body.content.id}"
+      get_baccklog_issue apiUrl,BACKLOG_API_KEY,(uissue_err, issue_res, issue_body) ->
+        issue_info = JSON.parse issue_body
+
       # 課題追加
       if body.type == 1
-        # 課題情報を取得する
-        apiUrl="#{backlogUrl}api/v2/issues/#{body.content.id}"
-        get_baccklog_issue apiUrl,BACKLOG_API_KEY,(uissue_err, issue_res, issue_body) ->
-          issue_info = JSON.parse issue_body
-
-          # 詳細
-          if issue_info.description?
-            fields.push(
-              title: "詳細"
-              value: "#{issue_info.description}"
-              short: false
-            )
-
-          # 担当
+        # 詳細
+        if issue_info.description?
           fields.push(
-            title: "担当者"
-            value: "#{decorate(issue_info.assignee.name)}"
-            short: true
-          )
-          # 期限日
-          fields.push(
-            title: "期限日"
-            value: "#{decorate(issue_info.dueDate)}"
-            short: true
+            title: "詳細"
+            value: "#{issue_info.description}"
+            short: false
           )
 
-          # ステータス
-          fields.push(
-            title: "ステータス"
-            value: "#{decorate(issue_status[issue_info.status.id])}"
-            short: true
-          )
+        # 担当
+        fields.push(
+          title: "担当者"
+          value: "#{decorate(issue_info.assignee.name)}"
+          short: true
+        )
+        # 期限日
+        fields.push(
+          title: "期限日"
+          value: "#{decorate(issue_info.dueDate)}"
+          short: true
+        )
 
-          for field in fields
-            console.log "************* field.title : #{field.title}"
-            console.log "************* field.value : #{field.value}"
-            console.log "************* field.short : #{field.short}"
-            console.log "************* field start"
-            console.log fields
-            console.log "************* field end"
+        # ステータス
+        fields.push(
+          title: "ステータス"
+          value: "#{decorate(issue_status[issue_info.status.id])}"
+          short: true
+        )
 
-        console.log fields
+        for field in fields
+          console.log "************* field.title : #{field.title}"
+          console.log "************* field.value : #{field.value}"
+          console.log "************* field.short : #{field.short}"
+          console.log "************* field start"
+          console.log fields
+          console.log "************* field end"
+
+      console.log fields
 
       # 課題更新
       if body.content?.changes?

@@ -10,6 +10,8 @@ module.exports = (robot) ->
   robot.router.post "/backlog/:room", (req, res) ->
     room = req.params.room
     body = req.body
+
+    fields = []
     idmap = []
     idmap = [
       # 片野

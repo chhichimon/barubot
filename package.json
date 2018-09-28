@@ -5,6 +5,7 @@
   "author": "hnarita.umc@gmail.com",
   "description": "Is he an angel?",
   "dependencies": {
+    "cheerio-httpcli": "^0.7.3",
     "cron": "^1.4.1",
     "google-auth-library": "^2.0.0",
     "googleapis": "^33.0.0",

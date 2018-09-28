@@ -51,7 +51,7 @@ module.exports = (robot) ->
           title: "#{forecasts_date.getFullYear()}年#{forecasts_date.getMonth() + 1}月#{forecasts_date.getDate()}日（#{days[forecasts_date.getDay()]}）  #{weather_info.title}"
           title_link: "#{weather_info.link}"
           thumb_url: "#{weather_info.forecasts[0].image.url}"
-          text: "#{weather_info.description.text}"
+          text: "*#{weather_info.forecasts[0].telop}*"
           fields: [
             {
               title: "最高気温"
@@ -64,6 +64,7 @@ module.exports = (robot) ->
               short: true
             }
           ]
+          mrkdwn_in: ["fields","text"]
         ]
 
       # Slack に投稿

@@ -22,12 +22,12 @@ module.exports = (robot) ->
           thumb_url: "#{weather_info.forecasts[0].image.url}"
         ]
 ###
-      data =
-        text: "test"
-        attachments: [
-          title: "test"
-        ]
+    data =
+      text: "test"
+      attachments: [
+        title: "test"
+      ]
 
-      # Slack に投稿
-      robot.messageRoom room, data
-      res.end "OK"
+    # Slack に投稿
+    robot.messageRoom room, data
+    res.end "OK"

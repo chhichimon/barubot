@@ -10,18 +10,6 @@ module.exports = (robot) ->
 
     console.log body
 
-###
-      # メッセージ整形
-      data =
-        text: ""
-        attachments: [
-          title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
-          title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
-          fields: fields
-          mrkdwn_in: ["fields","text"]
-          thumb_url: "#{weather_info.forecasts[0].image.url}"
-        ]
-###
     data =
       text: "test"
       attachments: [

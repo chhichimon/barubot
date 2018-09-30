@@ -4,7 +4,7 @@
 SLACK_TOKEN = process.env.SLACK_TOKEN
 
 module.exports = (robot) ->
-  robot.router.post "https://baru-bot.herokuapp.com/weather", (req, res) ->
+  robot.router.post "/weather", (req, res) ->
     room = "test"
     body = req.body
 

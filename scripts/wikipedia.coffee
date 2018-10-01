@@ -1,5 +1,8 @@
 # Description:
 #   wikipedia 検索
+#
+# Commands:
+#   hubot <ワード>って(なに or 何)
 
 apiUrl = "https://ja.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&redirects=1&exchars=500&explaintext=1"
 
@@ -21,9 +24,8 @@ module.exports = (robot) ->
           respond += value.extract
           msg.send(respond)
         else
-          respond = "[ggrks](http://www.google.co.jp/search?q="
+          respond = "http://www.google.co.jp/search?q="
           respond += msg.match[1]
-          respond += ")"
-          msg.send msg.random ["眠い。", "わかんない", respond]
+          msg.send(respond)
     )
   )

@@ -2,7 +2,7 @@
 #   fortunes
 #
 # Commands:
-#   hubot 占|運|fortune : Returns "大吉"〜"破滅級"
+#   hubot 占 or 運
 
 module.exports = (robot) ->
     robot.respond /(占|運|fortune)/i, (msg) ->

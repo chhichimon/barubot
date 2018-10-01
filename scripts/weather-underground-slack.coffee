@@ -9,10 +9,10 @@ module.exports = (robot) ->
     data =
       text: "今日の天気"
       attachments: [
-        thumb_url: "#{body.value1}"
-        title: "#{body.value3}"
-        title_link: "#{body.value2}"
-        mrkdwn_in: ["fields","text"]
+        color: "#07b3de"
+        thumb_url: "#{body.value3}"
+        title: "#{body.value1}"
+        text: "#{body.value2}"
       ]
 
     # Slack に投稿

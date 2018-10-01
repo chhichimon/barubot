@@ -10,27 +10,9 @@ module.exports = (robot) ->
       attachments: [
         color: "#07b3de"
         thumb_url: "#{body.image_url}"
-        text: "#{body.condition}"
         title: "今日の台東区の天気"
         title_link: "#{body.forecast_url}"
-        fields: [
-          {
-            title: "最高気温"
-            value: "#{body.high_temp}℃"
-            short: false
-          },
-          {
-            title: "最低気温"
-            value: "#{body.low_temp}℃"
-            short: false
-          },
-          {
-            title: "更新日時"
-            value: "#{body.check_time}℃"
-            short: false
-          }
-        ]
-        mrkdwn_in: ["fields","text"]
+        text: "#{body.condition}\n" + "最高気温：#{body.high_temp}℃\n" + "最低気温：#{body.low_temp}℃\n" + "\n#{body.check_time}"
       ]
 
     # Slack に投稿

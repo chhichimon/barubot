@@ -38,7 +38,7 @@ module.exports = (robot) ->
     cheerio.fetch url, (err, $, res) ->
       title = "#{$('h1').text()}"
       if $('.icnNormalLarge').length
-        msg.send ":ok_woman: #{title}は遅延してないので安心しろ。"
+        msg.send ":ok: #{title}は遅延してないので安心しろ。"
       else
         info = $('.trouble p').text()
         msg.send ":warning: #{title}は遅延しとる。フザケンナ。\n#{info}"

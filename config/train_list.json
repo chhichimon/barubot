@@ -1,0 +1,382 @@
+[
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/25/0/",
+    "name": "湘南新宿ライン"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/27/0/",
+    "name": "東海道本線[東京～熱海]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/29/0/",
+    "name": "横須賀線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/46/46/",
+    "name": "宇都宮線[東京～宇都宮]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/48/0/",
+    "name": "高崎線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/61/0/",
+    "name": "総武線(快速)[東京～千葉]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/120/0/",
+    "name": "京急本線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/121/0/",
+    "name": "京急空港線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/627/0/",
+    "name": "上野東京ライン"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/1/0/",
+    "name": "東北新幹線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/3/0/",
+    "name": "上越新幹線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/21/0/",
+    "name": "山手線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/22/0/",
+    "name": "京浜東北根岸線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/25/0/",
+    "name": "湘南新宿ライン"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/27/0/",
+    "name": "東海道本線[東京～熱海]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/29/0/",
+    "name": "横須賀線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/31/0/",
+    "name": "横浜線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/34/0/",
+    "name": "南武線[川崎～立川]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/38/0/",
+    "name": "中央線(快速)[東京～高尾]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/40/0/",
+    "name": "中央総武線(各停)"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/42/0/",
+    "name": "中央本線[高尾～大月]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/43/43/",
+    "name": "青梅線[立川～青梅]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/43/44/",
+    "name": "青梅線[青梅～奥多摩]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/45/0/",
+    "name": "五日市線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/46/46/",
+    "name": "宇都宮線[東京～宇都宮]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/48/0/",
+    "name": "高崎線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/50/0/",
+    "name": "埼京川越線[大崎～川越]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/52/0/",
+    "name": "八高川越線[八王子～川越]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/57/0/",
+    "name": "常磐線(快速)[品川～取手]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/58/0/",
+    "name": "常磐線(各停)"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/59/59/",
+    "name": "常磐線[品川～水戸]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/61/0/",
+    "name": "総武線(快速)[東京～千葉]"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/69/0/",
+    "name": "京葉線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/71/0/",
+    "name": "武蔵野線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/627/0/",
+    "name": "上野東京ライン"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/84/0/",
+    "name": "西武池袋線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/86/0/",
+    "name": "西武新宿線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/87/0/",
+    "name": "西武西武園線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/88/0/",
+    "name": "西武国分寺線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/89/0/",
+    "name": "西武多摩湖線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/90/0/",
+    "name": "西武有楽町線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/91/0/",
+    "name": "西武豊島線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/93/0/",
+    "name": "西武拝島線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/94/0/",
+    "name": "西武多摩川線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/95/0/",
+    "name": "西武山口線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/132/0/",
+    "name": "東京メトロ銀座線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/133/0/",
+    "name": "東京メトロ丸ノ内線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/134/0/",
+    "name": "東京メトロ日比谷線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/135/0/",
+    "name": "東京メトロ東西線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/136/0/",
+    "name": "東京メトロ千代田線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/137/0/",
+    "name": "東京メトロ有楽町線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/138/0/",
+    "name": "東京メトロ半蔵門線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/139/0/",
+    "name": "東京メトロ南北線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/540/0/",
+    "name": "東京メトロ副都心線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/112/0/",
+    "name": "東急東横線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/113/0/",
+    "name": "東急目黒線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/114/0/",
+    "name": "東急田園都市線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/115/0/",
+    "name": "東急大井町線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/116/0/",
+    "name": "東急多摩川線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/117/0/",
+    "name": "東急池上線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/119/0/",
+    "name": "東急世田谷線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/102/0/",
+    "name": "京王線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/103/0/",
+    "name": "京王新線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/104/0/",
+    "name": "京王相模原線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/105/0/",
+    "name": "京王高尾線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/106/0/",
+    "name": "京王競馬場線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/107/0/",
+    "name": "京王動物園線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/108/0/",
+    "name": "京王井の頭線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/128/0/",
+    "name": "都営浅草線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/129/0/",
+    "name": "都営三田線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/130/0/",
+    "name": "都営新宿線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/131/0/",
+    "name": "都営大江戸線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/190/0/",
+    "name": "都電荒川線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/541/0/",
+    "name": "日暮里・舎人ライナー"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/96/0/",
+    "name": "京成本線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/98/0/",
+    "name": "京成押上線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/101/0/",
+    "name": "京成金町線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/622/0/",
+    "name": "成田スカイアクセス線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/77/0/",
+    "name": "東武スカイツリーライン"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/78/0/",
+    "name": "東武亀戸線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/79/0/",
+    "name": "東武大師線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/82/0/",
+    "name": "東武東上線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/109/0/",
+    "name": "小田急小田原線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/111/0/",
+    "name": "小田急多摩線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/120/0/",
+    "name": "京急本線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/121/0/",
+    "name": "京急空港線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/160/0/",
+    "name": "ゆりかもめ線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/624/0/",
+    "name": "北陸新幹線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/156/0/",
+    "name": "多摩都市モノレール線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/412/0/",
+    "name": "つくばエクスプレス線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/143/0/",
+    "name": "埼玉高速鉄道線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/7/0/",
+    "name": "東海道新幹線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/141/0/",
+    "name": "北総線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/144/0/",
+    "name": "りんかい線"
+  },
+  {
+    "url": "https://transit.yahoo.co.jp/traininfo/detail/154/0/",
+    "name": "東京モノレール線"
+  }
+]

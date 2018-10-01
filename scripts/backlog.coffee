@@ -47,5 +47,20 @@ class Backlog
 
         resolve messages
 
+  # since,until (yyyy-MM-dd)
+  get_stars: (user_id,since,until) ->
+    new Promise (resolve) ->
+      url = "#{backlogApiDomain}/api/v2/users/#{user_id}/stars/count?apiKey=#{backlogApiKey}"
+      options =
+        url: url
+        qs: {
+          apiKey: backlogApiKey
+          since: since
+          until: until
+        }
+
+      request options, (err, res, body) ->
+        json = JSON.parse body
+        resolve json.count
 
 module.exports = Backlog

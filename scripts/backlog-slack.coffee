@@ -2,6 +2,7 @@
 #   Backlog to Slack
 
 backlogUrl = 'https://usn.backlog.com/'
+users_list = require('../config/users.json')
 
 BACKLOG_API_KEY = process.env.BACKLOG_API_KEY
 SLACK_TOKEN = process.env.SLACK_TOKEN
@@ -13,60 +14,6 @@ module.exports = (robot) ->
 
     fields = []
     user_icon = ""
-
-    idmap = []
-    idmap = [
-      # 片野
-      {
-        backlogUserId: 15536
-        slackUserId: "U95TZK4HX"
-      },
-      # h.narita
-      {
-        backlogUserId: 29037
-        slackUserId: "U3YNUQBFT"
-      },
-      # nakagawa
-      {
-        backlogUserId: 29041
-        slackUserId: "U3Z7NT400"
-      },
-      # sosa
-      {
-        backlogUserId: 29036
-        slackUserId: "U81SFBDT5"
-      },
-      # yamagata
-      {
-        backlogUserId: 29038
-        slackUserId: "U3ZLRJ37S"
-      },
-      # takeishi
-      {
-        backlogUserId: 29043
-        slackUserId: "U821BJ9S9"
-      },
-      # 佐藤　晴香
-      {
-        backlogUserId: 29039
-        slackUserId: "U8XQ58R45"
-      },
-      # N.Motoki
-      {
-        backlogUserId: 29139
-        slackUserId: "U8WUE53S6"
-      },
-      # y.fukumoto
-      {
-        backlogUserId: 29119
-        slackUserId: "U4JKGV1QX"
-      },
-      # ozawa
-      {
-        backlogUserId: 15539
-        slackUserId: "UD17ESETX"
-      }
-    ]
 
     try
       switch body.type
@@ -203,7 +150,7 @@ module.exports = (robot) ->
           value = ""
           for notification in body.notifications
             userid = ""
-            userid = get_slack_id_by_backlog_id(notification.user.id,idmap)
+            userid = get_slack_id_by_backlog_id(notification.user.id)
             if userid == ""
               userid = "#{notification.user.name}"
             value += "<@#{userid}>\n"
@@ -214,7 +161,7 @@ module.exports = (robot) ->
               value: value
             )
 
-        userid = get_slack_id_by_backlog_id(body.createdUser.id,idmap)
+        userid = get_slack_id_by_backlog_id(body.createdUser.id)
 
         get_slack_user_icon userid,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
           user_info = JSON.parse user_info_body
@@ -259,12 +206,10 @@ decorate = (s) ->
     return "未設定"
   return s
 
-# idからSlackのユーザー名を取得
-get_slack_id_by_backlog_id = (id , json) ->
-  return "" if json == null
-
-  for val in json
-    return val.slackUserId if val.backlogUserId == id
+# backlog_idからslack_idを取得
+get_slack_id_by_backlog_id = (id) ->
+  for user_info in users_list
+    return user_info.slack_id if user_info.backlog_id == id
   return ""
 
 # Backlogから課題情報を取得

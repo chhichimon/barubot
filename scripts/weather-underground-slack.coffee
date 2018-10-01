@@ -15,6 +15,6 @@ module.exports = (robot) ->
         mrkdwn_in: ["fields","text"]
       ]
 
-      # Slack に投稿
-      robot.messageRoom "test", data
-      res.end "OK"
+    # Slack に投稿
+    robot.messageRoom "test", data
+    res.end "OK"

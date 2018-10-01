@@ -10,9 +10,22 @@ module.exports = (robot) ->
       text: "今日の天気"
       attachments: [
         color: "#07b3de"
-        thumb_url: "#{body.value3}"
-        title: "#{body.value1}"
-        text: "#{body.value2}"
+        thumb_url: "#{body.image_url}"
+        title: "#{body.condition}"
+        title_link: "#{body.forecast_url}"
+        fields: [
+          {
+            title: "最高気温"
+            value: "#{body.high_temp}℃"
+            short: true
+          },
+          {
+            title: "最低気温"
+            value: "#{body.low_temp}℃"
+            short: true
+          }
+        ]
+        mrkdwn_in: ["fields","text"]
       ]
 
     # Slack に投稿

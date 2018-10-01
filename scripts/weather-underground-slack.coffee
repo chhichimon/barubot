@@ -1,10 +1,10 @@
 # Description:
 #   Backlog to Slack
 
-SLACK_TOKEN = process.env.SLACK_TOKEN
+bodyParser = require 'body-parser'
 
 module.exports = (robot) ->
-  robot.router.post "/weather", (req, res) ->
-    room = "test"
+  robot.router.post "/weather", bodyParser.text(), (req, res) ->
 
-    console.log req.body
+    body = if req.body then JSON.parse req.body else {}
+    console.log body

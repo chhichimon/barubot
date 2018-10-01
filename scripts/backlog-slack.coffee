@@ -101,6 +101,9 @@ module.exports = (robot) ->
       # 完了理由
       resolution = { 0: "対応済み", 1: "対応しない", 2: "無効", 3: "重複", 4: "再現しない" }
 
+      # 優先度
+      issue_priority = { 2: "高", 3: "中", 4: "低" }
+
       # 投稿メッセージを整形
       url = "#{backlogUrl}view/#{body.project.projectKey}-#{body.content.key_id}"
 
@@ -139,7 +142,7 @@ module.exports = (robot) ->
             short: true
           )
 
-        # 課題更新
+        # 課題変更点羅列
         if body.content?.changes?
           for change in body.content.changes
             title = null
@@ -147,20 +150,26 @@ module.exports = (robot) ->
             short = true
 
             switch change.field
-              when "assigner" then title = "担当者変更"
-              when "attachment" then title = "添付ファイル変更"
-              when "milestone" then title = "マイルストーン変更"
-              when "limitDate" then title = "期限日変更"
+              when "status"
+                title = "ステータス"
+                value = "#{decorate(issue_status[change.old_value])} → #{decorate(issue_status[change.new_value])}"
               when "description"
-                title = "詳細変更"
+                title = "詳細"
                 value = "#{decorate(change.old_value)}\n ↓ \n#{decorate(change.new_value)}"
                 short = false
-              when "status"
-                title = "ステータス変更"
-                value = "#{decorate(issue_status[change.old_value])} → #{decorate(issue_status[change.new_value])}"
+              when "assigner" then title = "担当者"
+              when "startDate" then title = "開始日"
+              when "limitDate" then title = "期限日"
+              when "milestone" then title = "マイルストーン"
               when "resolution"
                 title = "完了理由変更"
                 value = "#{decorate(resolution[change.old_value])} → #{decorate(resolution[change.new_value])}"
+              when "estimatedHours" then title = "予定時間"
+              when "actualHours" then title = "実績時間"
+              when "priority"
+                title = "優先度"
+                value = "#{decorate(issue_priority[change.old_value])} → #{decorate(issue_priority[change.new_value])}"
+              when "attachment" then title = "添付ファイル"
 
             if title?
               fields.push(

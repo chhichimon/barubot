@@ -12,8 +12,16 @@ module.exports = (robot) ->
         ja: "晴れ"
       },
       {
+        en: "Mostly Clear"
+        ja: "快晴"
+      },
+      {
         en: "Rain"
         ja: "雨"
+      },
+      {
+        en: "Snow"
+        ja: "雪"
       },
       {
         en: "Cloudy"
@@ -25,7 +33,7 @@ module.exports = (robot) ->
       },
       {
         en: "Partly Cloudy"
-        ja: "曇り時々晴れ"
+        ja: "晴れ時々曇り"
       }
     ]
 
@@ -43,7 +51,7 @@ module.exports = (robot) ->
       ]
 
     # Slack に投稿
-    robot.messageRoom "test", data
+    robot.messageRoom "talk", data
     res.end "OK"
 
 # コンディション変換

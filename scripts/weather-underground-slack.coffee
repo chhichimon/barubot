@@ -30,15 +30,16 @@ module.exports = (robot) ->
     ]
 
     condition_ja = get_condition_ja(body.condition,conditions)
+    condition_ja = body.condition if condition_ja == ""
 
     # メッセージ整形
     data =
       attachments: [
         color: "#07b3de"
         thumb_url: "#{body.image_url}"
-        title: "今日の台東区の天気"
+        title: "今日の天気 - 台東区"
         title_link: "#{body.forecast_url}"
-        text: "#{condition_ja}\n" + "最高気温：#{body.high_temp}℃\n" + "最低気温：#{body.low_temp}℃\n" + "湿度：#{body.humidity}\n" + "\n#{body.check_time}"
+        text: "#{condition_ja}\n" + "最高気温：#{body.high_temp}℃\n" + "最低気温：#{body.low_temp}℃\n" + "湿度：#{body.humidity}%\n" + "\n#{body.check_time}"
       ]
 
     # Slack に投稿

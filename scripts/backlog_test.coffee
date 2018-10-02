@@ -18,6 +18,7 @@ module.exports = (robot) ->
     .then (messages) ->
       msg.send messages.join("\n")
 
+###
   robot.respond /スター集計$/, (msg) ->
     d = new Date()
     cmn_fn.add_date( d, -1, 'DD')
@@ -43,3 +44,4 @@ module.exports = (robot) ->
           stars_list.sortcompare_stars
 
           msg.send stars_list.join("\n")
+###

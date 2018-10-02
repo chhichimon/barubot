@@ -60,7 +60,7 @@ class common_function
  * @return {Date}              加算後日付
 ###
   dateDiff: (date1, date2, interval) ->
-  diff = date2.getTime() - date1.getTime()
+    diff = date2.getTime() - date1.getTime()
     new Promise (resolve) ->
       switch interval
         when 'YYYY'

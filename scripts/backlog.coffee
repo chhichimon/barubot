@@ -48,15 +48,15 @@ class Backlog
         resolve messages
 
   # since,until (yyyy-MM-dd)
-  get_stars: (user_id,since,until) ->
+  get_stars: (user_id,since_str,until_str) ->
     new Promise (resolve) ->
       url = "#{backlogApiDomain}/api/v2/users/#{user_id}/stars/count?apiKey=#{backlogApiKey}"
       options =
         url: url
         qs: {
           apiKey: backlogApiKey
-          since: since
-          until: until
+          since: since_str
+          until: until_str
         }
 
       request options, (err, res, body) ->

@@ -41,7 +41,7 @@ module.exports = (robot) ->
         msg.send ":ok: #{title}は遅延してないので安心しろ。"
       else
         info = $('.trouble p').text()
-        msg.send ":warning: #{title}は遅延しとる。フザケンナ。\n#{info}"
+        msg.send ":warning: #{title}は遅延しとる。。。\n#{info}"
 
   # cronJobの引数は、秒・分・時間・日・月・曜日の順番
   new cronJob('0 0,10,20,30,40,50 7 * * 1-5', () ->
@@ -64,7 +64,7 @@ module.exports = (robot) ->
       else
         # 通常運転以外の場合
         info = $('.trouble p').text()
-        robot.send {room: "talk"}, ":warning: #{title}は遅延しとる。フザケンナ。\n#{info}"
+        robot.send {room: "talk"}, ":warning: #{title}は遅延しとる。。。\n#{info}"
 
   allTrainCron = (url) ->
     # send HTTP request
@@ -80,7 +80,7 @@ module.exports = (robot) ->
           $('.trouble').each ->
             trouble = $(this).text().trim()
             result += "- " + trouble + "\r\n"
-            robot.send {room: "talk"}, ":warning: #{title}は遅延しとる。フザケンナ。\r\n#{result}"
+            robot.send {room: "talk"}, "#{title}は遅延しとる。。。\r\n#{result}"
 
 # train_list.jsonを使用し、路線名 からURLを取得
 get_train_url = (name) ->

@@ -3,7 +3,8 @@
 
 request = require "request"
 class Backlog
-  backlogApiKey = process.env.BACKLOG_API_KEY
+#  backlogApiKey = process.env.BACKLOG_API_KEY
+  backlogApiKey = "YKF9jZYAQOM0sAeZBvpS10zMDn54Mg8wojA9Jun9wnnOTX0PzihEblc9bkS8BSV0"
   backlogApiDomain = "https://usn.backlog.com"
   backlogDomain = "https://usn.backlog.com/"
 
@@ -25,6 +26,7 @@ class Backlog
       options =
         url: url
       request options, (err, res, body) ->
+        console.log body
         json = JSON.parse body
         for row in json
           if row.name == name
@@ -48,19 +50,21 @@ class Backlog
         resolve messages
 
   # since,until (yyyy-MM-dd)
-  get_stars: (user_id,since_str,until_str) ->
-    new Promise (resolve) ->
-      url = "#{backlogApiDomain}/api/v2/users/#{user_id}/stars/count?apiKey=#{backlogApiKey}"
-      options =
-        url: url
-        qs: {
-          apiKey: backlogApiKey
-          since: since_str
-          until: until_str
-        }
-
-      request options, (err, res, body) ->
-        json = JSON.parse body
-        resolve json.count
+  get_stars: (user_id,since_str,until_str,callback) ->
+    url = "#{backlogApiDomain}/api/v2/users/#{user_id}/stars/count?apiKey=#{backlogApiKey}"
+    options =
+      url: url
+      qs: {
+        apiKey: backlogApiKey
+        since: since_str
+        until: until_str
+      }
+    request options, (err, res, body) ->
+      if err? or res.statusCode isnt 200
+        console.log err
+        return
+      else
+        result = JSON.parse body
+        callback(err,res,result.count)
 
 module.exports = Backlog

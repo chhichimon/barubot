@@ -16,8 +16,16 @@ module.exports = (robot) ->
         ja: "快晴"
       },
       {
+        en: "Mostly Sunny"
+        ja: "快晴"
+      },
+      {
         en: "Rain"
         ja: "雨"
+      },
+      {
+        en: "Showers"
+        ja: "にわか雨"
       },
       {
         en: "Snow"

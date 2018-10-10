@@ -8,7 +8,7 @@ module.exports = (robot) ->
     # メッセージ整形
     data =
       attachments: [
-        color: "#fc1e0d"
+        color: "#0040ff"
         thumb_url: "#{body.image_url}"
         title: "雨が降ってきたよ！"
         title_link: "#{body.forecast_url}"

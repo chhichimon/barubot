@@ -89,13 +89,21 @@ module.exports = (robot) ->
                 b.stars - a.stars
 
               stars_list.sort compare_stars
-              messages = []
-              messages.push "昨日のスター獲得ランキング！！"
 
+              messages = []
               for star in stars_list
                 messages.push "#{star.name} さん #{star.stars} スター"
 
-              messages.push "今日も一日がんばりましょう！"
+              messages.push "\n今日も一日がんばりましょう！"
 
-              robot.send {room: "talk"}, messages.join("\n")
+              # メッセージ整形
+              data =
+                attachments: [
+                  pretext: "昨日のスター獲得ランキング発表！！"
+                  color: "#ff78a5"
+                  text: messages.join("\n")
+                ]
+
+              robot.messageRoom "talk", data
+
   )

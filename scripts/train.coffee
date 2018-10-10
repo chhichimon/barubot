@@ -70,7 +70,7 @@ module.exports = (robot) ->
     # send HTTP request
     cheerio.fetch url, (err, $, res) ->
       if $('.elmTblLstLine.trouble').find('a').length == 0
-        msg.send "事故や遅延情報はないので安心しろ。"
+        robot.send {room: "talk"}, "事故や遅延情報はないので安心しろ。"
         return
       $('.elmTblLstLine.trouble a').each ->
         url = $(this).attr('href')

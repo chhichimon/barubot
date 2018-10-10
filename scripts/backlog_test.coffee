@@ -58,14 +58,12 @@ module.exports = (robot) ->
             for star in stars_list
               messages.push "#{star.name} さん #{star.stars} スター"
 
-            messages.push "\n今日も一日がんばりましょう！"
-
             # メッセージ整形
             data =
               attachments: [
                 pretext: "昨日のスター獲得ランキング発表！！"
                 color: "#ff78a5"
-                text: messages.join("\n")
+                text: messages.join("\n") + "\n今日も一日がんばりましょう！"
               ]
             msg.send data
 
@@ -101,14 +99,12 @@ module.exports = (robot) ->
               for star in stars_list
                 messages.push "#{star.name} さん #{star.stars} スター"
 
-              messages.push "\n今日も一日がんばりましょう！"
-
               # メッセージ整形
               data =
                 attachments: [
                   pretext: "昨日のスター獲得ランキング発表！！"
                   color: "#ff78a5"
-                  text: messages.join("\n")
+                  text: messages.join("\n") + "\n今日も一日がんばりましょう！"
                 ]
 
               robot.messageRoom "talk", data

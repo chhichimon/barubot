@@ -54,13 +54,20 @@ module.exports = (robot) ->
 
             stars_list.sort compare_stars
             messages = []
-            messages.push "昨日のスター獲得ランキング！！"
 
             for star in stars_list
               messages.push "#{star.name} さん #{star.stars} スター"
 
-            messages.push "今日も一日がんばりましょう！"
-            msg.send messages.join("\n")
+            messages.push "\n今日も一日がんばりましょう！"
+
+            # メッセージ整形
+            data =
+              attachments: [
+                pretext: "昨日のスター獲得ランキング発表！！"
+                color: "#ff78a5"
+                text: messages.join("\n")
+              ]
+            msg.send data
 
   cronjob = new cron(
     cronTime: "0 55 8 * * *"      # 実行時間：秒・分・時間・日・月・曜日

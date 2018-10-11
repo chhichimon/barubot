@@ -162,6 +162,7 @@ module.exports = (robot) ->
             )
 
         userid = get_slack_id_by_backlog_id(body.createdUser.id)
+        user_url = get_backlog_user_url(body.createdUser.id)
 
         get_slack_user_icon userid,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
           user_info = JSON.parse user_info_body
@@ -172,6 +173,7 @@ module.exports = (robot) ->
             text: "Backlog *#{body.project.name}*"
             attachments: [
               author_name: "#{body.createdUser?.name}さんが#{label}しました。"
+              author_link: "#{user_url}"
               author_icon: "#{user_icon}"
               color: "#{color}"
               title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
@@ -210,6 +212,12 @@ decorate = (s) ->
 get_slack_id_by_backlog_id = (id) ->
   for user_info in users_list
     return user_info.slack_id if user_info.backlog_id == id
+  return ""
+
+# backlog_idからslack_idを取得
+get_backlog_user_url = (id) ->
+  for user_info in users_list
+    return user_info.backlog_url if user_info.backlog_id == id
   return ""
 
 # Backlogから課題情報を取得

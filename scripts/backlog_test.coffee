@@ -61,10 +61,19 @@ module.exports = (robot) ->
             # メッセージ整形
             data =
               attachments: [
-                pretext: "昨日のスター獲得ランキング発表！！"
-                color: "#ff78a5"
-                text: messages.join("\n") + "\n今日も一日がんばりましょう！"
+                color: "#ffcc66"
+                title: "昨日のスター獲得ランキング発表！！"
+                title_link: "https://backlog.com/ja/help/usersguide/star/userguide456/"
+                thumb_url: "https://pics.prcm.jp/673b2edcd5b2c/48639059/gif/48639059.gif"
+                fields: [
+                  {
+                    title: "今日も一日がんばりましょう！"
+                    value: messages.join("\n")
+                    short: false
+                  }
+                ]
               ]
+
             msg.send data
 
   cronjob = new cron(
@@ -102,9 +111,17 @@ module.exports = (robot) ->
               # メッセージ整形
               data =
                 attachments: [
-                  pretext: "昨日のスター獲得ランキング発表！！"
-                  color: "#ff78a5"
-                  text: messages.join("\n") + "\n今日も一日がんばりましょう！"
+                  color: "#ffcc66"
+                  title: "昨日のスター獲得ランキング発表！！"
+                  title_link: "https://backlog.com/ja/help/usersguide/star/userguide456/"
+                  thumb_url: "https://pics.prcm.jp/673b2edcd5b2c/48639059/gif/48639059.gif"
+                  fields: [
+                    {
+                      title: "今日も一日がんばりましょう！"
+                      value: messages.join("\n")
+                      short: false
+                    }
+                  ]
                 ]
 
               robot.messageRoom "talk", data

@@ -42,6 +42,10 @@ module.exports = (robot) ->
       {
         en: "Partly Cloudy"
         ja: "晴れ時々曇り"
+      },
+      {
+        en: "Scattered Thunderstorms"
+        ja: "広い範囲で雷雨"
       }
     ]
 

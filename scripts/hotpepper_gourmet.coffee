@@ -49,13 +49,11 @@ module.exports = (robot) ->
   robot.respond /(free\s*food|食べ放題)( me)? (.*)/i, (msg) ->
     search_hpr msg.match[3], { free_food: 1 },(err,res,msg_data) ->
 
-  robot.respond /(hpr)( me)? (.*)/i, (msg) ->
-    search_hpr "日暮里駅", { lunch: 1 },(err,res,msg_data) ->
+  robot.respond /hpr$/, (msg) ->
+    search_hpr "日暮里", { lunch: 1 },(err,res,msg_data) ->
 
       # Slack に投稿
-      msg.send msg_data[0]
-      msg.send msg_data[1]
-      msg.send msg_data[2]
+      msg.send msg_data
 
 # リクルートWEB サービス：グルメサーチAPI から情報を取得
 search_hpr = (keyword, conditions,callback)->
@@ -78,18 +76,20 @@ search_hpr = (keyword, conditions,callback)->
       shops = JSON.parse(body).results.shop
       shuffle shops
 
-      msg_data = []
 
-      for shop in shops[0..2]
-        msg_data.push(
-          attachments: [
-            color: "good"
-            title: "#{shop.name}"
-            title_link: "#{shop.urls.pc}"
-            image_url: "#{shop.photo.pc.l}#.png"
-            text: "#{shop.address}"
-          ]
+      attachments = []
+      for shop in shops[0..5]
+        attachments.push(
+          color: "good"
+          title: "#{shop.name}"
+          title_link: "#{shop.urls.pc}"
+          image_url: "#{shop.photo.pc.l}#.png"
+          text: "#{shop.address}"
         )
+
+      msg_data =
+        text: "今日のランチ！！"
+        attachments: attachments
 
       callback(err,res,msg_data)
 

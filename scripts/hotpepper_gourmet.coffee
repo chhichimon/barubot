@@ -109,14 +109,14 @@ search_hpr = (keyword, conditions,callback)->
       shuffle shops
 
       attachments = []
-      for shop in shops[0..5]
+      for shop in shops[0..3]
         attachments.push(
           pretext: "#{shop.genre.catch}"
           color: "#ff420b"
           title: "#{shop.name}"
           title_link: "#{shop.urls.pc}"
           text: "#{shop.catch}"
-          footer: ":metro:#{shop.access}\n:yen:#{shop.budget.average}\n:clock3:#{shop.open}"
+          footer: ":access_gray:#{shop.access}\n:yen_gray:#{shop.budget.average}\n:time_gray:#{shop.open}"
           image_url: "#{shop.photo.pc.m}#.png"
         )
 

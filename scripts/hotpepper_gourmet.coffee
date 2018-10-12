@@ -59,9 +59,15 @@ module.exports = (robot) ->
       msg.send msg_data
 
   robot.respond /hpr$/, (msg) ->
-    search_hpr "日暮里駅", { lunch: 1 },(err,res,msg_data) ->
+    search_option =
+      lunch: 1
+      lat: 35.7277907
+      lng: 139.7735347
+      range: 3
+      order: 4
 
-      # Slack に投稿
+    search_hpr "ランチ", search_option,(err,res,msg_data) ->
+      msg_data.text = "もうすぐ昼だよ！今日のランチはどこにする？"
       msg.send msg_data
 
   cronjob = new cron(
@@ -69,9 +75,16 @@ module.exports = (robot) ->
     start:    true                # すぐにcronのjobを実行するか
     timeZone: "Asia/Tokyo"        # タイムゾーン指定
     onTick: ->                    # 時間が来た時に実行する処理
-      search_hpr "日暮里駅", { lunch: 1 },(err,res,msg_data) ->
-        robot.messageRoom "talk", msg_data
+      search_option =
+        lunch: 1
+        lat: 35.7277907
+        lng: 139.7735347
+        range: 3
+        order: 4
 
+      search_hpr "ランチ", search_option,(err,res,msg_data) ->
+        msg_data.text = "もうすぐ昼だよ！今日のランチはどこにする？"
+        robot.messageRoom "talk", msg_data
   )
 
 # リクルートWEB サービス：グルメサーチAPI から情報を取得
@@ -95,7 +108,6 @@ search_hpr = (keyword, conditions,callback)->
       shops = JSON.parse(body).results.shop
       shuffle shops
 
-
       attachments = []
       for shop in shops[0..5]
         attachments.push(
@@ -109,7 +121,6 @@ search_hpr = (keyword, conditions,callback)->
         )
 
       msg_data =
-        text: "昼だよ！！今日のランチはどこにする？"
         attachments: attachments
 
       callback(err,res,msg_data)

@@ -83,12 +83,12 @@ search_hpr = (keyword, conditions,callback)->
           color: "good"
           title: "#{shop.name}"
           title_link: "#{shop.urls.pc}"
-          image_url: "#{shop.photo.pc.l}#.png"
-          text: "#{shop.address}"
+          image_url: "#{shop.photo.pc.m}#.png"
+          text: "#{shop.genre.catch}\n#{shop.address}\n営業時間 ： #{shop.open}\n定休日 ： #{shop.close}\n#{shop.catch}"
         )
 
       msg_data =
-        text: "今日のランチ！！"
+        text: "昼だよ！！今日のランチはどこにする？"
         attachments: attachments
 
       callback(err,res,msg_data)

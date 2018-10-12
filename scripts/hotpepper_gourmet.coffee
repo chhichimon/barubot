@@ -17,7 +17,7 @@
 
 RWS_API_KEY = process.env.HUBOT_RWS_API_KEY
 
-cronJob = require('cron').CronJob
+cron = require("cron").CronJob
 request = require("request")
 
 module.exports = (robot) ->

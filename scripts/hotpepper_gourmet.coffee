@@ -99,11 +99,13 @@ search_hpr = (keyword, conditions,callback)->
       attachments = []
       for shop in shops[0..5]
         attachments.push(
+          pretext: "#{shop.genre.catch}"
           color: "#ff420b"
           title: "#{shop.name}"
           title_link: "#{shop.urls.pc}"
+          text: "#{shop.catch}"
+          footer: ":metro:#{shop.access}\n:yen:#{shop.budget.average}\n:clock3:#{shop.open}"
           image_url: "#{shop.photo.pc.m}#.png"
-          text: "#{shop.genre.catch}\n#{shop.address}\n営業時間 ： #{shop.open}\n定休日 ： #{shop.close}\n#{shop.catch}"
         )
 
       msg_data =

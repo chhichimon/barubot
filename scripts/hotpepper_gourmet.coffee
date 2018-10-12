@@ -50,7 +50,8 @@ module.exports = (robot) ->
     search_hpr msg.match[3], { free_food: 1 },(err,res,msg_data) ->
 
   robot.respond /(hpr)( me)? (.*)/i, (msg) ->
-    search_hpr msg.match[3], { lunch: 1 },(err,res,msg_data) ->
+    search_hpr "日暮里駅", { lunch: 1 },(err,res,msg_data) ->
+
       # Slack に投稿
       msg.send msg_data
 
@@ -74,17 +75,19 @@ search_hpr = (keyword, conditions,callback)->
     else
       shops = JSON.parse(body).results.shop
       shuffle shops
-      shop = shops[0]
 
-      msg_data =
-        text: ""
-        attachments: [
-          color: "good"
-          title: "#{shop.name}"
-          title_link: "#{shop.urls.pc}"
-          image_url: "#{shop.photo.pc.l}#.png"
-          text: "#{shop.address}"
-        ]
+      msg_data = []
+
+      for shop in shops[0..2]
+        msg_data.push(
+          attachments: [
+            color: "good"
+            title: "#{shop.name}"
+            title_link: "#{shop.urls.pc}"
+            image_url: "#{shop.photo.pc.l}#.png"
+            text: "#{shop.address}"
+          ]
+        )
 
       callback(err,res,msg_data)
 

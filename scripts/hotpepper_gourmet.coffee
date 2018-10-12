@@ -71,7 +71,7 @@ module.exports = (robot) ->
       msg.send msg_data
 
   cronjob = new cron(
-    cronTime: "0 30 11 * * 1-5"    # 実行時間：秒・分・時間・日・月・曜日
+    cronTime: "0 30 11 * * 1-6"    # 実行時間：秒・分・時間・日・月・曜日
     start:    true                # すぐにcronのjobを実行するか
     timeZone: "Asia/Tokyo"        # タイムゾーン指定
     onTick: ->                    # 時間が来た時に実行する処理
@@ -116,7 +116,7 @@ search_hpr = (keyword, conditions,callback)->
           title: "#{shop.name}"
           title_link: "#{shop.urls.pc}"
           text: "#{shop.catch}"
-          footer: ":access_gray:#{shop.access}\n:yen_gray:#{shop.budget.average}\n:time_gray:#{shop.open}"
+          footer: ":access_gray: #{shop.access}\n:yen_gray: #{shop.budget.average}\n:time_gray: #{shop.open}"
           image_url: "#{shop.photo.pc.m}#.png"
         )
 

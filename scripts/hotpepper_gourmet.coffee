@@ -53,7 +53,9 @@ module.exports = (robot) ->
     search_hpr "日暮里駅", { lunch: 1 },(err,res,msg_data) ->
 
       # Slack に投稿
-      msg.send msg_data
+      msg.send msg_data[0]
+      msg.send msg_data[1]
+      msg.send msg_data[2]
 
 # リクルートWEB サービス：グルメサーチAPI から情報を取得
 search_hpr = (keyword, conditions,callback)->

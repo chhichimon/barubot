@@ -57,14 +57,15 @@ module.exports = (robot) ->
 # リクルートWEB サービス：グルメサーチAPI から情報を取得
 search_hpr = (keyword, conditions,callback)->
   apiUrl="http://webservice.recruit.co.jp/hotpepper/gourmet/v1/"
+  qs = conditions
+  qs.key = RWS_API_KEY
+  qs.keyword = keyword
+  qs.count = 50
+  qs.format = 'json'
+
   options =
     url: apiUrl
-    qs: {
-      key: API_KEY
-      keyword: keyword
-      count: 50
-      format: 'json'
-    }.push conditions
+    qs: qs
 
   request.get options, (err,res,body) ->
     if err? or res.statusCode isnt 200

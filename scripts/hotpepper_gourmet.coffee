@@ -1,5 +1,22 @@
 # Description:
 #   Searches restaurants from Hotpepper.
+#     code : budget value
+#     B001 : ~2000YEN
+#     B002 : 2001~3000YEN
+#     B003 : 3001~4000YEN
+#     B008 : 4001~5000YEN
+#     B004 : 5001~7000YEN
+#     B005 : 7001~10000YEN
+#     B006 : 10001YEN~
+#
+#     code : middle_area
+#     Y005 : 銀座・有楽町・新橋・築地・月島
+#     Y006 : 水道橋・飯田橋・神楽坂
+#     Y010 : 東京・大手町・日本橋・人形町
+#     Y015 : 上野・御徒町・浅草
+#     Y016 : 北千住・日暮里・葛飾・荒川
+#     Y017 : 錦糸町・浅草橋・両国・亀戸
+#     Y020 : 神田・神保町・秋葉原・御茶ノ水
 #
 # Commands:
 #   hubot ご飯 <query> - ご飯検索
@@ -16,8 +33,10 @@ request = require("request")
 module.exports = (robot) ->
 
   robot.respond /(グルメ|ご飯)( me)? (.*)/i, (msg) ->
-    search_hpr msg.match[3], {},(err,res,msg_data) ->
-      console.log msg_data
+    search_option =
+      middle_area: "Y005,Y015,Y016,Y020"
+
+    search_hpr msg.match[3], search_option,(err,res,msg_data) ->
       if msg_data?
         msg.send msg_data
       else
@@ -26,6 +45,7 @@ module.exports = (robot) ->
   robot.respond /(lunch|ランチ)( me)? (.*)/i, (msg) ->
     search_option =
       lunch: 1
+      middle_area: "Y015,Y016"
       budget: "B001"
 
     search_hpr msg.match[3], search_option,(err,res,msg_data) ->
@@ -36,15 +56,10 @@ module.exports = (robot) ->
 
   robot.respond /hpr$/, (msg) ->
     search_option =
-      lunch: 1
-      lat: 35.7277907
-      lng: 139.7735347
-      range: 3
-      order: 4
-      budget: "B001"
+      middle_area: "Y005,Y015,Y016,Y020"
 
-    search_hpr "", search_option,(err,res,msg_data) ->
-      msg_data.text = "もうすぐランチやん"
+    search_hpr "酒", search_option,(err,res,msg_data) ->
+      msg_data.text = "そろそろ帰ろう。一杯やってく？"
       msg.send msg_data
 
   # talk部屋に、月〜土 11:30にランチ情報
@@ -59,9 +74,24 @@ module.exports = (robot) ->
         lng: 139.7735347
         range: 3
         order: 4
+        budget: "B001"
 
-      search_hpr "ランチ", search_option,(err,res,msg_data) ->
+      search_hpr "", search_option,(err,res,msg_data) ->
         msg_data.text = "もうすぐランチやん"
+        robot.messageRoom "talk", msg_data
+  )
+
+  # talk部屋に、月〜土 18:00にディナー情報
+  cronjob = new cron(
+    cronTime: "0 0 18 * * 1-5"    # 実行時間：秒・分・時間・日・月・曜日
+    start:    true                # すぐにcronのjobを実行するか
+    timeZone: "Asia/Tokyo"        # タイムゾーン指定
+    onTick: ->                    # 時間が来た時に実行する処理
+      search_option =
+        middle_area: "Y005,Y015,Y016,Y020"
+
+      search_hpr "酒", search_option,(err,res,msg_data) ->
+        msg_data.text = "そろそろ帰ろう。一杯やってく？"
         robot.messageRoom "talk", msg_data
   )
 
@@ -83,7 +113,6 @@ search_hpr = (keyword, conditions,callback)->
       console.log err
       return
     else
-      console.log JSON.parse(body).results.results_returned
       if parseInt(JSON.parse(body).results.results_returned,10) is 0
         msg_data = null
       else

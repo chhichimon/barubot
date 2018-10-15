@@ -85,7 +85,11 @@ search_hpr = (keyword, conditions,callback)->
     else
       shops = JSON.parse(body).results.shop
 
-      if shops?
+      console.log shops
+
+      if unless shops
+        msg_data = {}
+      else
         shuffle shops
         attachments = []
         for shop in shops[0..3]
@@ -99,8 +103,6 @@ search_hpr = (keyword, conditions,callback)->
           )
         msg_data =
           attachments: attachments
-      else
-        msg_data = {}
 
       callback(err,res,msg_data)
 

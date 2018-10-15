@@ -15,19 +15,24 @@ request = require("request")
 
 module.exports = (robot) ->
 
-  robot.respond /(hotpepper|gourmet|ご飯)( me)? (.*)/i, (msg) ->
+  robot.respond /(グルメ|ご飯)( me)? (.*)/i, (msg) ->
     search_hpr msg.match[3], {},(err,res,msg_data) ->
+      console.log msg_data
       if msg_data?
         msg.send msg_data
       else
-        msg.send "希望の店は見つからないね。何事も妥協が大事だよ。"
+        msg.send "希望の店はないなぁ。妥協してみたら？"
 
   robot.respond /(lunch|ランチ)( me)? (.*)/i, (msg) ->
-    search_hpr msg.match[3], { lunch: 1 },(err,res,msg_data) ->
+    search_option =
+      lunch: 1
+      budget: "B001"
+
+    search_hpr msg.match[3], search_option,(err,res,msg_data) ->
       if msg_data?
         msg.send msg_data
       else
-        msg.send "希望の店は見つからないね。何事も妥協が大事だよ。"
+        msg.send "希望の店はないなぁ。妥協してみたら？"
 
   robot.respond /hpr$/, (msg) ->
     search_option =
@@ -36,11 +41,13 @@ module.exports = (robot) ->
       lng: 139.7735347
       range: 3
       order: 4
+      budget: "B001"
 
-    search_hpr "ランチ", search_option,(err,res,msg_data) ->
-      msg_data.text = "もうすぐ昼だよ！今日のランチはどこにする？"
+    search_hpr "", search_option,(err,res,msg_data) ->
+      msg_data.text = "もうすぐランチやん"
       msg.send msg_data
 
+  # talk部屋に、月〜土 11:30にランチ情報
   cronjob = new cron(
     cronTime: "0 30 11 * * 1-6"    # 実行時間：秒・分・時間・日・月・曜日
     start:    true                # すぐにcronのjobを実行するか
@@ -54,7 +61,7 @@ module.exports = (robot) ->
         order: 4
 
       search_hpr "ランチ", search_option,(err,res,msg_data) ->
-        msg_data.text = "もうすぐ昼だよ！今日のランチはどこにする？"
+        msg_data.text = "もうすぐランチやん"
         robot.messageRoom "talk", msg_data
   )
 
@@ -72,28 +79,26 @@ search_hpr = (keyword, conditions,callback)->
     qs: qs
 
   request.get options, (err,res,body) ->
-    if err?
+    if err? res.statusCode isnt 200
       console.log err
-      console.log res.statusCode
-      msg_data = {}
-    else
-      if res.statusCode isnt 200
-        msg_data = {}
-      else
-        shops = JSON.parse(body).results.shop
-        shuffle shops
-        attachments = []
-        for shop in shops[0..3]
-          attachments.push(
-            color: "#ff420b"
-            title: "#{shop.name}"
-            title_link: "#{shop.urls.pc}"
-            text: "#{shop.catch}"
-            footer: ":access_gray: #{shop.access}\n:yen_gray: #{shop.budget.average}\n:time_gray: #{shop.open}"
-            image_url: "#{shop.photo.pc.m}#.png"
-          )
-        msg_data =
-          attachments: attachments
+      return
+    else if
+      shops = JSON.parse(body).results.shop
+      console.log 'Not found' unless shop
+
+      shuffle shops
+      attachments = []
+      for shop in shops[0..3]
+        attachments.push(
+          color: "#ff420b"
+          title: "#{shop.name}"
+          title_link: "#{shop.urls.pc}"
+          text: "#{shop.catch}"
+          footer: ":access_gray: #{shop.access}\n:yen_gray: #{shop.budget.average}\n:time_gray: #{shop.open}"
+          image_url: "#{shop.photo.pc.m}#.png"
+        )
+      msg_data =
+        attachments: attachments
 
       callback(err,res,msg_data)
 

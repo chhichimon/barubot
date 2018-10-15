@@ -84,21 +84,28 @@ search_hpr = (keyword, conditions,callback)->
       return
     else
       shops = JSON.parse(body).results.shop
-      return unless shop
+      unless shop
+        msg_data = null
+      else
+        shuffle shops
+        attachments = []
+        cnt = 0
+        if shops.length < 4
+          cnt = shops.length
+        else
+          cnt = 4
 
-      shuffle shops
-      attachments = []
-      for shop in shops[0..3]
-        attachments.push(
-          color: "#ff420b"
-          title: "#{shop.name}"
-          title_link: "#{shop.urls.pc}"
-          text: "#{shop.catch}"
-          footer: ":access_gray: #{shop.access}\n:yen_gray: #{shop.budget.average}\n:time_gray: #{shop.open}"
-          image_url: "#{shop.photo.pc.m}#.png"
-        )
-      msg_data =
-        attachments: attachments
+        for shop in shops[0...cnt]
+          attachments.push(
+            color: "#ff420b"
+            title: "#{shop.name}"
+            title_link: "#{shop.urls.pc}"
+            text: "#{shop.catch}"
+            footer: ":access_gray: #{shop.access}\n:yen_gray: #{shop.budget.average}\n:time_gray: #{shop.open}"
+            image_url: "#{shop.photo.pc.m}#.png"
+          )
+        msg_data =
+          attachments: attachments
 
       callback(err,res,msg_data)
 

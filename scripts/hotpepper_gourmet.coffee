@@ -17,8 +17,6 @@ module.exports = (robot) ->
 
   robot.respond /(hotpepper|gourmet|ご飯)( me)? (.*)/i, (msg) ->
     search_hpr msg.match[3], {},(err,res,msg_data) ->
-
-      console.log msg_data
       if msg_data?
         msg.send msg_data
       else
@@ -78,11 +76,10 @@ search_hpr = (keyword, conditions,callback)->
       console.log err
       return
     else
-      shops = JSON.parse(body).results.shop
-
-      unless shops
+      if JSON.parse(body).results.results_returned == 0
         return
       else
+        shops = JSON.parse(body).results.shop
         shuffle shops
         attachments = []
         for shop in shops[0..3]

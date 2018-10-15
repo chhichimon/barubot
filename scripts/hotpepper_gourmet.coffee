@@ -75,7 +75,7 @@ search_hpr = (keyword, conditions,callback)->
     if err? or res.statusCode isnt 200
       console.log err
       return
-    else if JSON.parse(body).results.results_returned is 0
+    else if JSON.parse(body).results.results_returned is "0"
       return
     else
       shops = JSON.parse(body).results.shop

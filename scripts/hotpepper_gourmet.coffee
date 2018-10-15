@@ -4,13 +4,6 @@
 # Commands:
 #   hubot ご飯 <query> - ご飯検索
 #   hubot ランチ <query> - ランチ検索
-#   hubot 酒 <query> - 日本酒が充実なお店検索
-#   hubot 焼酎 <query> - 焼酎が充実なお店検索
-#   hubot ワイン <query> - ワインが充実してるお店検索
-#   hubot カラオケ <query> - カラオケができるお店検索
-#   hubot 夜食 <query> - 23 時以降に食事ができるお店検索
-#   hubot 飲み放題 <query> - 飲み放題のお店検索
-#   hubot 食べ放題 <query> - 食べ放題のお店検索
 #
 # Author:
 #   hnarita
@@ -85,10 +78,8 @@ search_hpr = (keyword, conditions,callback)->
     else
       shops = JSON.parse(body).results.shop
 
-      console.log shops
-
       unless shops
-        msg_data = {}
+        return
       else
         shuffle shops
         attachments = []
@@ -104,7 +95,7 @@ search_hpr = (keyword, conditions,callback)->
         msg_data =
           attachments: attachments
 
-      callback(err,res,msg_data)
+        callback(err,res,msg_data)
 
 
 # arrayをシャッフルする関数

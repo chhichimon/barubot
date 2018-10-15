@@ -27,7 +27,7 @@ module.exports = (robot) ->
             result += "- " + trouble + "\r\n"
           msg.send "#{title}\r\n#{result}"
 
-  robot.respond /train (.+)/i, (msg) ->
+  robot.respond /遅延 (.+)/i, (msg) ->
     if msg.match[1] == "all"
       searchAllTrain(msg)
     else

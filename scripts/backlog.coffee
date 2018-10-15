@@ -26,7 +26,6 @@ class Backlog
       options =
         url: url
       request options, (err, res, body) ->
-        console.log body
         json = JSON.parse body
         for row in json
           if row.name == name

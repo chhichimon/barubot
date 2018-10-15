@@ -57,10 +57,8 @@ module.exports = (robot) ->
 
             for star in stars_list
               mark = ""
-              if star.stars > 0
-                while i < star.stars
-                  mark += ":star:"
-                  i ++
+              if parseInt(star.stars,10) > 0
+                mark = repeat(":star:",parseInt(star.stars,10))
 
               messages.push "#{star.name} さん #{star.stars} スター  #{mark}"
 

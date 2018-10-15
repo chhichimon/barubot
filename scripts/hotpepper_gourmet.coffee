@@ -27,14 +27,14 @@ module.exports = (robot) ->
       if msg_data?
         msg.send msg_data
       else
-        msg.send "希望の店は見つからないね。"
+        msg.send "希望の店は見つからないね。何事も妥協が大事だよ。"
 
   robot.respond /(lunch|ランチ)( me)? (.*)/i, (msg) ->
     search_hpr msg.match[3], { lunch: 1 },(err,res,msg_data) ->
       if msg_data?
         msg.send msg_data
       else
-        msg.send "希望の店は見つからないね。"
+        msg.send "希望の店は見つからないね。何事も妥協が大事だよ。"
 
   robot.respond /hpr$/, (msg) ->
     search_option =
@@ -84,24 +84,26 @@ search_hpr = (keyword, conditions,callback)->
       return
     else
       shops = JSON.parse(body).results.shop
-      shuffle shops
 
-      attachments = []
-      for shop in shops[0..3]
-        attachments.push(
-#          pretext: "#{shop.genre.catch}"
-          color: "#ff420b"
-          title: "#{shop.name}"
-          title_link: "#{shop.urls.pc}"
-          text: "#{shop.catch}"
-          footer: ":access_gray: #{shop.access}\n:yen_gray: #{shop.budget.average}\n:time_gray: #{shop.open}"
-          image_url: "#{shop.photo.pc.m}#.png"
-        )
-
-      msg_data =
-        attachments: attachments
+      if shops?
+        shuffle shops
+        attachments = []
+        for shop in shops[0..3]
+          attachments.push(
+            color: "#ff420b"
+            title: "#{shop.name}"
+            title_link: "#{shop.urls.pc}"
+            text: "#{shop.catch}"
+            footer: ":access_gray: #{shop.access}\n:yen_gray: #{shop.budget.average}\n:time_gray: #{shop.open}"
+            image_url: "#{shop.photo.pc.m}#.png"
+          )
+        msg_data =
+          attachments: attachments
+      else
+        msg_data = {}
 
       callback(err,res,msg_data)
+
 
 # arrayをシャッフルする関数
 shuffle = (array) ->

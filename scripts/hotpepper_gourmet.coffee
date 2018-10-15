@@ -74,24 +74,24 @@ search_hpr = (keyword, conditions,callback)->
   request.get options, (err,res,body) ->
     if err? or res.statusCode isnt 200
       console.log err
+      return
+    else if JSON.parse(body).results.results_returned is 0
+      return
     else
-      if JSON.parse(body).results.results_returned is 0
-        msg_data = {}
-      else
-        shops = JSON.parse(body).results.shop
-        shuffle shops
-        attachments = []
-        for shop in shops[0..3]
-          attachments.push(
-            color: "#ff420b"
-            title: "#{shop.name}"
-            title_link: "#{shop.urls.pc}"
-            text: "#{shop.catch}"
-            footer: ":access_gray: #{shop.access}\n:yen_gray: #{shop.budget.average}\n:time_gray: #{shop.open}"
-            image_url: "#{shop.photo.pc.m}#.png"
-          )
-        msg_data =
-          attachments: attachments
+      shops = JSON.parse(body).results.shop
+      shuffle shops
+      attachments = []
+      for shop in shops[0..3]
+        attachments.push(
+          color: "#ff420b"
+          title: "#{shop.name}"
+          title_link: "#{shop.urls.pc}"
+          text: "#{shop.catch}"
+          footer: ":access_gray: #{shop.access}\n:yen_gray: #{shop.budget.average}\n:time_gray: #{shop.open}"
+          image_url: "#{shop.photo.pc.m}#.png"
+        )
+      msg_data =
+        attachments: attachments
 
       callback(err,res,msg_data)
 

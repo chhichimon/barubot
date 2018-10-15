@@ -61,7 +61,7 @@ module.exports = (robot) ->
                 for i in [0...parseInt(star.stars,10)]
                   mark += ":star:"
 
-              messages.push "#{star.name} さん #{star.stars} スター  #{mark}"
+              messages.push "#{star.name}さん\t#{star.stars}スター\t#{mark}"
 
             # メッセージ整形
             data =
@@ -69,7 +69,7 @@ module.exports = (robot) ->
                 color: "#ffcc66"
                 title: "昨日のスター獲得ランキング発表！！"
                 title_link: "https://backlog.com/ja/help/usersguide/star/userguide456/"
-                thumb_url: "https://pics.prcm.jp/673b2edcd5b2c/48639059/gif/48639059.gif"
+                image_url: "https://pics.prcm.jp/673b2edcd5b2c/48639059/gif/48639059.gif"
                 fields: [
                   {
                     title: "今日も一日がんばりましょう！"

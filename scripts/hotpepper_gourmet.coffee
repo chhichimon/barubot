@@ -111,7 +111,7 @@ search_hpr = (keyword, conditions,callback)->
       attachments = []
       for shop in shops[0..3]
         attachments.push(
-          pretext: "#{shop.genre.catch}"
+#          pretext: "#{shop.genre.catch}"
           color: "#ff420b"
           title: "#{shop.name}"
           title_link: "#{shop.urls.pc}"

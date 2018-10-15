@@ -54,7 +54,7 @@ module.exports = (robot) ->
       else
         msg.send "希望の店はないなぁ。妥協してみたら？"
 
-  robot.respond /(お腹|おなか)(空いた|すいた|減った|へった)( me)? (.*)/i, (msg) ->
+  robot.respond /(お腹|おなか)(空いた|すいた|減った|へった)/i, (msg) ->
     search_option =
       middle_area: "Y015,Y016"
 

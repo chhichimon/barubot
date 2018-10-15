@@ -72,12 +72,12 @@ search_hpr = (keyword, conditions,callback)->
     qs: qs
 
   request.get options, (err,res,body) ->
-    if err? or res.statusCode isnt 200
+    if err?
       console.log err
       return
     else
-      if JSON.parse(body).results.results_returned == 0
-        return
+      if res.statusCode isnt 200
+        msg_data = {}
       else
         shops = JSON.parse(body).results.shop
         shuffle shops
@@ -94,7 +94,7 @@ search_hpr = (keyword, conditions,callback)->
         msg_data =
           attachments: attachments
 
-        callback(err,res,msg_data)
+      callback(err,res,msg_data)
 
 
 # arrayをシャッフルする関数

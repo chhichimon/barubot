@@ -82,7 +82,7 @@ search_hpr = (keyword, conditions,callback)->
     if err? res.statusCode isnt 200
       console.log err
       return
-    else if
+    else
       shops = JSON.parse(body).results.shop
       console.log 'Not found' unless shop
 

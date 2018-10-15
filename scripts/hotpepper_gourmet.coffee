@@ -87,7 +87,7 @@ search_hpr = (keyword, conditions,callback)->
 
       console.log shops
 
-      if unless shops
+      unless shops
         msg_data = {}
       else
         shuffle shops

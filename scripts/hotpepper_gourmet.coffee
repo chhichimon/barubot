@@ -72,12 +72,10 @@ search_hpr = (keyword, conditions,callback)->
     qs: qs
 
   request.get options, (err,res,body) ->
-    if err?
+    if err? or isnt 200
       console.log err
-      console.log res.statusCode
-      msg_data = {}
     else
-      if res.statusCode isnt 200
+      if JSON.parse(body).results. results_returned == 0
         msg_data = {}
       else
         shops = JSON.parse(body).results.shop

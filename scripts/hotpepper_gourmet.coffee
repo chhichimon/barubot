@@ -84,7 +84,7 @@ search_hpr = (keyword, conditions,callback)->
       return
     else
       shops = JSON.parse(body).results.shop
-      console.log 'Not found' unless shop
+      return unless shop
 
       shuffle shops
       attachments = []

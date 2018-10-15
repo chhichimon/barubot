@@ -30,34 +30,6 @@ module.exports = (robot) ->
     search_hpr msg.match[3], { lunch: 1 },(err,res,msg_data) ->
       msg.send msg_data
 
-  robot.respond /(sake|酒|日本酒)( me)? (.*)/i, (msg) ->
-    search_hpr msg.match[3], { sake: 1 },(err,res,msg_data) ->
-      msg.send msg_data
-
-  robot.respond /(shochu|焼酎)( me)? (.*)/i, (msg) ->
-    search_hpr msg.match[3], { shochu: 1 },(err,res,msg_data) ->
-      msg.send msg_data
-
-  robot.respond /(wine|ワイン)( me)? (.*)/i, (msg) ->
-    search_hpr msg.match[3], { wine: 1 },(err,res,msg_data) ->
-      msg.send msg_data
-
-  robot.respond /(karaoke|カラオケ)( me)? (.*)/i, (msg) ->
-    search_hpr msg.match[3], { karaoke: 1 },(err,res,msg_data) ->
-      msg.send msg_data
-
-  robot.respond /(midnight\s*meal|夜食)( me)? (.*)/i, (msg) ->
-    search_hpr msg.match[3], { midnight_meal: 1 },(err,res,msg_data) ->
-      msg.send msg_data
-
-  robot.respond /(free\s*drink|飲み放題)( me)? (.*)/i, (msg) ->
-    search_hpr msg.match[3], { free_drink: 1 },(err,res,msg_data) ->
-      msg.send msg_data
-
-  robot.respond /(free\s*food|食べ放題)( me)? (.*)/i, (msg) ->
-    search_hpr msg.match[3], { free_food: 1 },(err,res,msg_data) ->
-      msg.send msg_data
-
   robot.respond /hpr$/, (msg) ->
     search_option =
       lunch: 1

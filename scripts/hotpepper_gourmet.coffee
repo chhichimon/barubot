@@ -83,10 +83,11 @@ search_hpr = (keyword, conditions,callback)->
       console.log err
       return
     else
-      shops = JSON.parse(body).results.shop
-      unless shops
+      console.log JSON.parse(body).results.results_returned
+      if JSON.parse(body).results.results_returned is 0
         msg_data = null
       else
+        shops = JSON.parse(body).results.shop
         shuffle shops
         attachments = []
         cnt = 0

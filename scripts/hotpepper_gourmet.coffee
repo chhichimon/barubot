@@ -84,7 +84,7 @@ search_hpr = (keyword, conditions,callback)->
       return
     else
       shops = JSON.parse(body).results.shop
-      unless shop
+      unless shops
         msg_data = null
       else
         shuffle shops

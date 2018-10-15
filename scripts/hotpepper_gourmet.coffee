@@ -24,11 +24,17 @@ module.exports = (robot) ->
 
   robot.respond /(hotpepper|gourmet|ご飯)( me)? (.*)/i, (msg) ->
     search_hpr msg.match[3], {},(err,res,msg_data) ->
-      msg.send msg_data
+      if msg_data?
+        msg.send msg_data
+      else
+        msg.send "希望の店は見つからないね。"
 
   robot.respond /(lunch|ランチ)( me)? (.*)/i, (msg) ->
     search_hpr msg.match[3], { lunch: 1 },(err,res,msg_data) ->
-      msg.send msg_data
+      if msg_data?
+        msg.send msg_data
+      else
+        msg.send "希望の店は見つからないね。"
 
   robot.respond /hpr$/, (msg) ->
     search_option =

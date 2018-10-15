@@ -61,7 +61,7 @@ module.exports = (robot) ->
                 for i in [0...parseInt(star.stars,10)]
                   mark += ":star:"
 
-              messages.push "#{star.name}さん\t#{star.stars}スター\t#{mark}"
+              messages.push ("　　　　　　　　#{star.name}").slice(-8) + "さん " + ("   #{star.stars}").slice(-3) + "スター #{mark}"
 
             # メッセージ整形
             data =

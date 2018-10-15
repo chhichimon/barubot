@@ -63,7 +63,7 @@ module.exports = (robot) ->
       lunch: 1
       lat: 35.7277907
       lng: 139.7735347
-      range: 4
+      range: 3
       order: 4
 
     search_hpr "ランチ", search_option,(err,res,msg_data) ->
@@ -79,7 +79,7 @@ module.exports = (robot) ->
         lunch: 1
         lat: 35.7277907
         lng: 139.7735347
-        range: 4
+        range: 3
         order: 4
 
       search_hpr "ランチ", search_option,(err,res,msg_data) ->

@@ -74,7 +74,8 @@ search_hpr = (keyword, conditions,callback)->
   request.get options, (err,res,body) ->
     if err?
       console.log err
-      return
+      console.log res.statusCode
+      msg_data = {}
     else
       if res.statusCode isnt 200
         msg_data = {}

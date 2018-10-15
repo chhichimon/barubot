@@ -84,7 +84,7 @@ search_hpr = (keyword, conditions,callback)->
       return
     else
       console.log JSON.parse(body).results.results_returned
-      if JSON.parse(body).results.results_returned is 0
+      if parseInt(JSON.parse(body).results.results_returned,10) is 0
         msg_data = null
       else
         shops = JSON.parse(body).results.shop

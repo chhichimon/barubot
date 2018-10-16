@@ -33,8 +33,10 @@ module.exports = (robot) ->
   robot.respond /star$/, (msg) ->
     today = new Date()
     date_span = -1
+    date_span_text = "昨日"
     if today.getDay() is 1
       date_span = -7
+      date_span_text = "先週"
 
     cmn_fn.date_add new Date(), date_span, 'DD', (since_date) ->
       cmn_fn.date_format since_date,'YYYY-MM-DD',(since_str) ->
@@ -72,9 +74,8 @@ module.exports = (robot) ->
             data =
               attachments: [
                 color: "#ffcc66"
-                title: "昨日のスター獲得ランキング発表！！"
+                title: ":star2: #{date_span_text}のスター獲得ランキング :star2:"
                 title_link: "https://backlog.com/ja/help/usersguide/star/userguide456/"
-#                image_url: "https://pics.prcm.jp/673b2edcd5b2c/48639059/gif/48639059.gif"
                 fields: [
                   {
                     title: "今日も一日がんばりましょう！"

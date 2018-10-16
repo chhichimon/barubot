@@ -92,7 +92,14 @@ module.exports = (robot) ->
     start:    true                # すぐにcronのjobを実行するか
     timeZone: "Asia/Tokyo"        # タイムゾーン指定
     onTick: ->                    # 時間が来た時に実行する処理
-      cmn_fn.date_add new Date(), -1, 'DD', (since_date) ->
+      today = new Date()
+      date_span = -1
+      date_span_text = "昨日"
+      if today.getDay() is 1
+        date_span = -7
+        date_span_text = "先週"
+
+      cmn_fn.date_add new Date(), date_span, 'DD', (since_date) ->
         cmn_fn.date_format since_date,'YYYY-MM-DD',(since_str) ->
           cmn_fn.date_format new Date(),'YYYY-MM-DD',(until_str) ->
             stars_list = []
@@ -128,7 +135,7 @@ module.exports = (robot) ->
               data =
                 attachments: [
                   color: "#ffcc66"
-                  title: "昨日のスター獲得ランキング発表！！"
+                  title: ":star2: #{date_span_text}のスター獲得ランキング :star2:"
                   title_link: "https://backlog.com/ja/help/usersguide/star/userguide456/"
                   fields: [
                     {

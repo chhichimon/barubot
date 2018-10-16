@@ -31,7 +31,13 @@ module.exports = (robot) ->
 
   # スター集計
   robot.respond /star$/, (msg) ->
-    cmn_fn.date_add new Date(), -7, 'DD', (since_date) ->
+    today = new Date()
+    if today.getDay() = 1
+      date_span = -7
+    else
+      date_span = -1
+
+    cmn_fn.date_add new Date(), date_span, 'DD', (since_date) ->
       cmn_fn.date_format since_date,'YYYY-MM-DD',(since_str) ->
         cmn_fn.date_format new Date(),'YYYY-MM-DD',(until_str) ->
           stars_list = []
@@ -110,13 +116,13 @@ module.exports = (robot) ->
               stars_list.sort compare_stars
               messages = []
 
-            for star in stars_list
-              mark = ""
-              if parseInt(star.stars,10) > 0
-                for i in [0...parseInt(star.stars,10)]
-                  mark += ":star:"
+              for star in stars_list
+                mark = ""
+                if parseInt(star.stars,10) > 0
+                  for i in [0...parseInt(star.stars,10)]
+                    mark += ":star:"
 
-              messages.push ("#{star.name}　　　　　　　　").slice(0,7) + "さん " + ("   #{star.stars}").slice(-3) + "スター #{mark}"
+                messages.push ("#{star.name}　　　　　　　　").slice(0,7) + "さん " + ("   #{star.stars}").slice(-3) + "スター #{mark}"
 
               # メッセージ整形
               data =

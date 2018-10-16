@@ -60,7 +60,7 @@ module.exports = (robot) ->
 
     search_hpr "", search_option,(err,res,msg_data) ->
       if msg_data?
-        msg_data.text = "この辺にしとき！"
+        msg_data.text = "いってら。"
         msg.send msg_data
       else
         msg.send "我慢も大事だよね。"

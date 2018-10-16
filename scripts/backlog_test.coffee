@@ -32,10 +32,9 @@ module.exports = (robot) ->
   # スター集計
   robot.respond /star$/, (msg) ->
     today = new Date()
-    if today.getDay() = 1
+    date_span = -1
+    if today.getDay() is 1
       date_span = -7
-    else
-      date_span = -1
 
     cmn_fn.date_add new Date(), date_span, 'DD', (since_date) ->
       cmn_fn.date_format since_date,'YYYY-MM-DD',(since_str) ->

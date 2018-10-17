@@ -1,0 +1,132 @@
+[
+  {
+    "type_no": 1,
+    "color": "#36a64f",
+    "type_name": "課題を追加"
+  },
+  {
+    "type_no": 2,
+    "color": "#0c6bee",
+    "type_name": "課題を更新"
+  },
+  {
+    "type_no": 3,
+    "color": "#ecee0c",
+    "type_name": "課題にコメント"
+  },
+  {
+    "type_no": 4,
+    "color": "#ff0000",
+    "type_name": "課題を削除"
+  },
+  {
+    "type_no": 5,
+    "color": "#36a64f",
+    "type_name": "Wikiを追加"
+  },
+  {
+    "type_no": 6,
+    "color": "#0c6bee",
+    "type_name": "Wikiを更新"
+  },
+  {
+    "type_no": 7,
+    "color": "#ff0000",
+    "type_name": "Wikiを削除"
+  },
+  {
+    "type_no": 8,
+    "color": "#36a64f",
+    "type_name": "共有ファイルを追加"
+  },
+  {
+    "type_no": 9,
+    "color": "#0c6bee",
+    "type_name": "共有ファイルを更新"
+  },
+  {
+    "type_no": 10,
+    "color": "#ff0000",
+    "type_name": "共有ファイルを削除"
+  },
+  {
+    "type_no": 11,
+    "color": "#36a64f",
+    "type_name": "Subversionコミット"
+  },
+  {
+    "type_no": 12,
+    "color": "#36a64f",
+    "type_name": "GITプッシュ"
+  },
+  {
+    "type_no": 13,
+    "color": "#36a64f",
+    "type_name": "GITリポジトリ作成"
+  },
+  {
+    "type_no": 14,
+    "color": "#ff7400",
+    "type_name": "課題をまとめて更新"
+  },
+  {
+    "type_no": 15,
+    "color": "#36a64f",
+    "type_name": "ユーザーがプロジェクトに参加"
+  },
+  {
+    "type_no": 16,
+    "color": "#36a64f",
+    "type_name": "ユーザーがプロジェクトから脱退"
+  },
+  {
+    "type_no": 17,
+    "color": "#36a64f",
+    "type_name": "コメントにお知らせを追加"
+  },
+  {
+    "type_no": 18,
+    "color": "#36a64f",
+    "type_name": "プルリクエストを追加"
+  },
+  {
+    "type_no": 19,
+    "color": "#36a64f",
+    "type_name": "プルリクエストを更新"
+  },
+  {
+    "type_no": 20,
+    "color": "#36a64f",
+    "type_name": "プルリクエストにコメント"
+  },
+  {
+    "type_no": 21,
+    "color": "#36a64f",
+    "type_name": "プルリクエストを削除"
+  },
+  {
+    "type_no": 22,
+    "color": "#36a64f",
+    "type_name": "マイルストーンを追加"
+  },
+  {
+    "type_no": 23,
+    "color": "#36a64f",
+    "type_name": "マイルストーンを更新"
+  },
+  {
+    "type_no": 24,
+    "color": "#36a64f",
+    "type_name": "マイルストーンを削除"
+  },
+  {
+    "type_no": 25,
+    "color": "#36a64f",
+    "type_name": "グループがプロジェクトに参加"
+  },
+  {
+    "type_no": 26,
+    "color": "#36a64f",
+    "type_name": "グループがプロジェクトから脱退"
+  }
+]

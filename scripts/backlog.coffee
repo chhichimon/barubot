@@ -49,7 +49,7 @@ class Backlog
         resolve messages
 
   # Backlogから課題情報を取得
-  get_issue = (issue_id_or_key,callback) ->
+  get_issue: (issue_id_or_key,callback) ->
     url = "#{backlogApiDomain}/api/v2/issues/#{issue_id_or_key}"
     options =
       url: url

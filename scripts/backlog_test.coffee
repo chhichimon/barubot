@@ -86,3 +86,39 @@ module.exports = (robot) ->
               ]
 
             msg.send data
+
+
+###
+  robot.respond /issues$/, (msg) ->
+    cmn_fn.date_format new Date(),'YYYY-MM-DD',(due_date) ->
+      data = []
+      for user_info in users_list
+        param =
+          statusId:  ["1", "2", "3"]
+          assigneeId:["#{user_info.backlog_id}"]
+          sort: "dueDate"
+          dueDateUntil: due_date
+        backlog.getIssues(param)
+        .then (messages) ->
+
+          fields.push(
+            messages.join("\n")
+          )
+
+            # メッセージ整形
+            data =
+              attachments: [
+                color: "#ff0000"
+                title: "本日期限やん！！"
+                title_link: ""
+                fields: [
+                  {
+                    title: "今日も一日がんばりましょう！"
+                    value: messages.join("\n")
+                    short: false
+                  }
+                ]
+              ]
+
+      msg.send data
+###

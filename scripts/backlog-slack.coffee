@@ -260,8 +260,6 @@ module.exports = (robot) ->
 
   )
 
-
-
 #----------------------------------------------------------------------
 # 課題のステータス名を検索
 # search_task_status_name = (task_status_json, state_id) ->

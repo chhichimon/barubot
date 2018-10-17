@@ -1,13 +1,27 @@
 # Description:
 #   Backlog to Slack
 
-backlogUrl = 'https://usn.backlog.com/'
-users_list = require('../config/users.json')
-
 BACKLOG_API_KEY = process.env.BACKLOG_API_KEY
 SLACK_TOKEN = process.env.SLACK_TOKEN
 
+users_list = require('../config/users.json')
+update_types = require('../config/backlog_update_type.json')
+
+async = require "async"
+req_cron_job = require("cron").CronJob
+req_backlog = require "./backlog"
+req_cmn_fn = require "./common_function"
+
+cmn_fn = new req_cmn_fn()
+backlog = new req_backlog()
+
+backlogUrl = 'https://usn.backlog.com/'
+
+
+
 module.exports = (robot) ->
+
+  # Backlog更新情報をSlackに投稿する
   robot.router.post "/backlog/:room", (req, res) ->
     room = req.params.room
     body = req.body
@@ -15,48 +29,37 @@ module.exports = (robot) ->
     fields = []
     user_icon = ""
 
+    # 更新情報を識別
+    for update_type in update_types
+      if update_type.type_no is body.type
+        label = update_type.type_name
+        color = update_type.color
+
     try
-      switch body.type
-        when 1
-          label = '課題を追加'
-          color = '#36a64f'
-        when 2
-          label = '課題を更新'
-          color = '#0c6bee'
-        when 3
-          label = '課題にコメント'
-          color = '#ecee0c'
-        when 8
-          label = '共有ファイルを追加'
-          color = '#0c6bee'
-        when 9
-          label = '共有ファイルを更新'
-          color = '#0c6bee'
-        when 10
-          label = '共有ファイルを削除'
-          color = '#ff0000'
-        when 14
-          label = '課題をまとめて更新'
-          color = '#ff7400'
-        else
-          # 上記以外はスルー
-          return
 
       # 課題ステータス
-      issue_status = { 1: "未対応", 2: "処理中", 3: "処理済み", 4: "完了" }
+      issue_status =
+        1: "未対応"
+        2: "処理中"
+        3: "処理済み"
+        4: "完了"
 
       # 完了理由
-      resolution = { 0: "対応済み", 1: "対応しない", 2: "無効", 3: "重複", 4: "再現しない" }
+      resolution =
+        0: "対応済み"
+        1: "対応しない"
+        2: "無効"
+        3: "重複"
+        4: "再現しない"
 
       # 優先度
-      issue_priority = { 2: "高", 3: "中", 4: "低" }
-
-      # 投稿メッセージを整形
-      url = "#{backlogUrl}view/#{body.project.projectKey}-#{body.content.key_id}"
+      issue_priority =
+        2: "高"
+        3: "中"
+        4: "低"
 
       # 課題情報を取得する
-      apiUrl="#{backlogUrl}api/v2/issues/#{body.content.id}"
-      get_baccklog_issue apiUrl,BACKLOG_API_KEY,(uissue_err, issue_res, issue_body) ->
+      backlog.get_issue "#{body.content.id}",(uissue_err, issue_res, issue_body) ->
         issue_info = JSON.parse issue_body
 
         # 課題追加
@@ -168,7 +171,7 @@ module.exports = (robot) ->
           user_info = JSON.parse user_info_body
           user_icon = "#{user_info.profile.image_24}"
 
-          # メッセージ整形
+          # Slack投稿メッセージを整形
           data =
             text: "Backlog *#{body.project.name}*"
             attachments: [
@@ -193,6 +196,72 @@ module.exports = (robot) ->
       res.end "Error"
 
 
+  # 月〜土曜 8:55 にBacklogのスターを集計してSlackに投稿する
+  cronjob = new req_cron_job(
+    cronTime: "0 55 8 * * 1-6"      # 実行時間：秒・分・時間・日・月・曜日
+    start:    true                # すぐにcronのjobを実行するか
+    timeZone: "Asia/Tokyo"        # タイムゾーン指定
+    onTick: ->                    # 時間が来た時に実行する処理
+      today = new Date()
+      date_span = -1
+      date_span_text = "昨日"
+      if today.getDay() is 1
+        date_span = -7
+        date_span_text = "先週"
+
+      cmn_fn.date_add new Date(), date_span, 'DD', (since_date) ->
+        cmn_fn.date_format since_date,'YYYY-MM-DD',(since_str) ->
+          cmn_fn.date_format new Date(),'YYYY-MM-DD',(until_str) ->
+            stars_list = []
+            async.map users_list
+            , (user,callback) ->
+              backlog.get_stars user.backlog_id, since_str, until_str, (err,res,stars) ->
+                stars_list.push(
+                  name: "#{user.name}"
+                  stars: stars
+                )
+                result =
+                  name: "#{user.name}"
+                  stars: stars
+
+                callback(null,result)
+            , (err,result) ->
+
+              compare_stars = (a, b) ->
+                b.stars - a.stars
+
+              stars_list.sort compare_stars
+              messages = []
+
+              for star in stars_list
+                mark = ""
+                if parseInt(star.stars,10) > 0
+                  for i in [0...parseInt(star.stars,10)]
+                    mark += ":star:"
+
+                messages.push ("#{star.name}　　　　　　　　").slice(0,7) + "さん " + ("   #{star.stars}").slice(-3) + "スター #{mark}"
+
+              # メッセージ整形
+              data =
+                attachments: [
+                  color: "#ffcc66"
+                  title: ":star2: #{date_span_text}のスター獲得ランキング :star2:"
+                  title_link: "https://backlog.com/ja/help/usersguide/star/userguide456/"
+                  fields: [
+                    {
+                      title: "今日も一日がんばりましょう！"
+                      value: messages.join("\n")
+                      short: false
+                    }
+                  ]
+                ]
+
+              robot.messageRoom "talk", data
+
+  )
+
+
+
 #----------------------------------------------------------------------
 # 課題のステータス名を検索
 # search_task_status_name = (task_status_json, state_id) ->
@@ -214,27 +283,11 @@ get_slack_id_by_backlog_id = (id) ->
     return user_info.slack_id if user_info.backlog_id == id
   return ""
 
-# backlog_idからslack_idを取得
+# backlog_idからbacklog_urlを取得
 get_backlog_user_url = (id) ->
   for user_info in users_list
     return user_info.backlog_url if user_info.backlog_id == id
   return ""
-
-# Backlogから課題情報を取得
-get_baccklog_issue = (apiUrl,backlog_api_key,callback) ->
-  request = require("request")
-  options =
-    url: apiUrl
-    qs: {
-      apiKey: backlog_api_key
-    }
-
-  request.get options, (err,res,body) ->
-    if err? or res.statusCode isnt 200
-      console.log err
-      return
-    else
-      callback(err,res,body)
 
 # Slackからユーザーアイコンを取得
 get_slack_user_icon = (id,slack_token,callback) ->
@@ -247,7 +300,6 @@ get_slack_user_icon = (id,slack_token,callback) ->
       token: slack_token
       user: id
     }
-#    json: true
 
   request.get options, (err,res,body) ->
     if err? or res.statusCode isnt 200

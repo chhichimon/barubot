@@ -2,9 +2,9 @@
 #  Manage backlog
 
 request = require "request"
+
 class Backlog
-#  backlogApiKey = process.env.BACKLOG_API_KEY
-  backlogApiKey = "YKF9jZYAQOM0sAeZBvpS10zMDn54Mg8wojA9Jun9wnnOTX0PzihEblc9bkS8BSV0"
+  backlogApiKey = process.env.BACKLOG_API_KEY
   backlogApiDomain = "https://usn.backlog.com"
   backlogDomain = "https://usn.backlog.com/"
 
@@ -47,6 +47,22 @@ class Backlog
           messages.push(link)
 
         resolve messages
+
+  # Backlogから課題情報を取得
+  get_issue = (issue_id_or_key,callback) ->
+    url = "#{backlogApiDomain}/api/v2/issues/#{issue_id_or_key}"
+    options =
+      url: url
+      qs: {
+        apiKey: backlogApiKey
+      }
+
+    request.get options, (err,res,body) ->
+      if err? or res.statusCode isnt 200
+        console.log err
+        return
+      else
+        callback(err,res,body)
 
   # since,until (yyyy-MM-dd)
   get_stars: (user_id,since_str,until_str,callback) ->

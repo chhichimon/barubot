@@ -62,6 +62,24 @@ class Backlog
       else
         callback(err,res,body)
 
+  get_issues: (params,callback) ->
+    url = "#{backlogApiDomain}/api/v2/issues?apiKey=#{backlogApiKey}"
+    options =
+      url: url
+      qs: params
+
+    request.get options, (err, res, body) ->
+      if err? or res.statusCode isnt 200
+        console.log err
+        return
+      else
+        issues_info = JSON.parse body
+        messages = []
+        for issue in issues_info
+          messages.push("<#{backlogDomain}/view/#{issue.issueKey}|#{issue.summary}>")
+
+        callback(err,res,messages)
+
   # since,until (yyyy-MM-dd)
   get_stars: (user_id,since_str,until_str,callback) ->
     url = "#{backlogApiDomain}/api/v2/users/#{user_id}/stars/count?apiKey=#{backlogApiKey}"

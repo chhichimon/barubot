@@ -108,21 +108,20 @@ module.exports = (robot) ->
               slack_user_info = JSON.parse user_info_body
               user_icon = "#{slack_user_info.profile.image_24}"
 
-            attachments.push(
-              color: "#ff0000"
-              author_name": "#{user_info.name}さん #{user_cnt}件"
-              author_link": "#{user_info.backlog_url}"
-              author_icon": "#{user_icon}"
-              text: messages.join("\n")
-            )
+              attachments.push(
+                color: "#ff0000"
+                author_name": "#{user_info.name}さん #{user_cnt}件"
+                author_link": "#{user_info.backlog_url}"
+                author_icon": "#{user_icon}"
+                text: messages.join("\n")
+              )
 
       # メッセージ整形
       if total_cnt > 0
-
         cmn_fn.date_format new Date(),'YYYY%2FMM%2FDD',(str_today) ->
-        data =
-          text: "<https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件の課題が今日までやで> :gogogo:"
-          attachments: attachments
+          data =
+            text: "<https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件の課題が今日までやで> :gogogo:"
+            attachments: attachments
       else
         data =
           text: "今日までの課題はないねん :zawazawa:"

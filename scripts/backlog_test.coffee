@@ -81,7 +81,7 @@ module.exports = (robot) ->
                 title_link: "https://backlog.com/ja/help/usersguide/star/userguide456/"
                 fields: [
                   {
-                    title: "今日も一日がんばりましょう！"
+                    title: "今日も一日がんばりまひょ！"
                     value: messages.join("\n")
                     short: false
                   }
@@ -138,11 +138,11 @@ module.exports = (robot) ->
         if total_cnt > 0
           cmn_fn.date_format new Date(),'YYYY%2FMM%2FDD',(str_today) ->
             data =
-              text: "<https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件の課題が今日までやで> :gogogo:"
+              text: "<https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件が今日までやで> :gogogo:"
               attachments: attachments
         else
           data =
-            text: "今日までの課題はないねん :zawazawa:"
+            text: "今日までの課題はあれへん :zawazawa:"
 
         msg.send data
 
@@ -168,7 +168,7 @@ module.exports = (robot) ->
             data =
               attachments: [
                 color: "#ff0000"
-                pre_text: "課題件数のお知らせ"
+                pretext: "残っとる課題件数やで"
                 text: messages.join("\n")
               ]
 

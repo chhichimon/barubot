@@ -314,7 +314,7 @@ module.exports = (robot) ->
                 attachments: attachments
           else
             data =
-              text: "今日までの課題はないねん :zawazawa:"
+              text: "今日までの課題はあれへん :zawazawa:"
 
           robot.messageRoom "talk", data
 

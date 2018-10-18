@@ -101,6 +101,7 @@ module.exports = (robot) ->
           dueDateUntil: due_date
         backlog.getIssues(param)
         .then (messages) ->
+          console.log messages.join("\n")
           user_cnt = messages.length
           if user_cnt > 0
             total_cnt += user_cnt

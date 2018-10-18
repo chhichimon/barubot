@@ -97,8 +97,9 @@ class Backlog
         return
       else
         issues_info = JSON.parse body
+        console.log issues_info.count
         callback(err,res,issues_info.count)
-          
+
 
   # since,until (yyyy-MM-dd)
   get_stars: (user_id,since_str,until_str,callback) ->

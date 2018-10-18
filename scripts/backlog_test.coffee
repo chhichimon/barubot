@@ -149,6 +149,7 @@ module.exports = (robot) ->
   robot.respond /over$/, (msg) ->
 
     messages = []
+    data = []
     cmn_fn.date_add new Date(), -1, 'DD', (due_date) ->
       cmn_fn.date_format due_date,'YYYY-MM-DD',(due_date_str) ->
 
@@ -159,11 +160,16 @@ module.exports = (robot) ->
         backlog.get_issues_count param , (err,res,issues_count) ->
           messages.push "未完了：#{issues_count}件"
 
+          console.log messages.join("\n")
+
         # 期限オーバー件数
         param.dueDateUntil = due_date_str
         backlog.get_issues_count param , (err,res,issues_count) ->
           messages.push "期限オーバー：#{issues_count}件"
 
+          console.log messages.join("\n")
+
+        console.log messages.join("\n")
         # メッセージ整形
         data =
           attachments: [

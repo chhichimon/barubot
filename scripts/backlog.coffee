@@ -2,7 +2,7 @@
 #  Manage backlog
 
 request = require "request"
-async = require "async"
+req_async = require "async"
 
 
 class Backlog
@@ -77,7 +77,7 @@ class Backlog
       else
         issues_info = JSON.parse body
         messages = []
-        async.map issues_info
+        req_async.map issues_info
         , (issue,callback) ->
           messages = "<#{backlogDomain}/view/#{issue.issueKey}|#{issue.summary}>"
           callback(null,messages)

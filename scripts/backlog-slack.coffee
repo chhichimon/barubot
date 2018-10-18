@@ -17,8 +17,6 @@ backlog = new req_backlog()
 
 backlogUrl = 'https://usn.backlog.com/'
 
-
-
 module.exports = (robot) ->
 
   # Backlog更新情報をSlackに投稿する

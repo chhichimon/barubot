@@ -88,37 +88,63 @@ module.exports = (robot) ->
             msg.send data
 
 
-###
   robot.respond /issues$/, (msg) ->
     cmn_fn.date_format new Date(),'YYYY-MM-DD',(due_date) ->
       data = []
+      total_cnt = 0
       for user_info in users_list
         param =
           statusId:  ["1", "2", "3"]
           assigneeId:["#{user_info.backlog_id}"]
           sort: "dueDate"
+          dueDateSince: due_date
           dueDateUntil: due_date
         backlog.getIssues(param)
         .then (messages) ->
+          user_cnt = messages.length
+          if user_cnt > 0
+            total_cnt += user_cnt
+            get_slack_user_icon userid,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
+              slack_user_info = JSON.parse user_info_body
+              user_icon = "#{slack_user_info.profile.image_24}"
 
-          fields.push(
-            messages.join("\n")
-          )
+            attachments.push(
+              color: "#ff0000"
+              author_name": "#{user_info.name}さん #{user_cnt}件"
+              author_link": "#{user_info.backlog_url}"
+              author_icon": "#{user_icon}"
+              text: messages.join("\n")
+            )
 
-            # メッセージ整形
-            data =
-              attachments: [
-                color: "#ff0000"
-                title: "本日期限やん！！"
-                title_link: ""
-                fields: [
-                  {
-                    title: "今日も一日がんばりましょう！"
-                    value: messages.join("\n")
-                    short: false
-                  }
-                ]
-              ]
+      # メッセージ整形
+      if total_cnt > 0
+
+        cmn_fn.date_format new Date(),'YYYY%2FMM%2FDD',(str_today) ->
+        data =
+          text: "<https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件の課題が今日までやで> :gogogo:"
+          attachments: attachments
+      else
+        data =
+          text: "今日までの課題はないねん :zawazawa:"
 
       msg.send data
-###
+
+
+# Slackからユーザーアイコンを取得
+get_slack_user_icon = (id,slack_token,callback) ->
+  # 作成者情報をslackから取得
+  apiUrl="https://slack.com/api/users.profile.get"
+  request = require("request")
+  options =
+    url: apiUrl
+    qs: {
+      token: slack_token
+      user: id
+    }
+
+  request.get options, (err,res,body) ->
+    if err? or res.statusCode isnt 200
+      console.log err
+      return
+    else
+      callback(err,res,body)

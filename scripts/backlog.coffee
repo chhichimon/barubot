@@ -42,9 +42,7 @@ class Backlog
         json = JSON.parse body
         messages = []
         for param in json
-          messages.push(param.summary)
-          link = "  #{backlogDomain}/view/#{param.issueKey}"
-          messages.push(link)
+          messages.push("<#{backlogDomain}/view/#{param.issueKey}|#{param.summary}>")
 
         resolve messages
 

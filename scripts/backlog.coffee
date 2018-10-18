@@ -97,7 +97,6 @@ class Backlog
         return
       else
         issues_info = JSON.parse body
-        console.log issues_info.count
         callback(err,res,issues_info.count)
 
 

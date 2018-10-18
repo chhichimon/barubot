@@ -156,30 +156,24 @@ module.exports = (robot) ->
         # 未完了件数
         param =
           statusId: ["1", "2", "3"]
-
         backlog.get_issues_count param , (err,res,issues_count) ->
           messages.push "未完了：#{issues_count}件"
 
-          console.log messages.join("\n")
+          # 期限オーバー件数
+          param.dueDateUntil = due_date_str
+          backlog.get_issues_count param , (err,res,issues_count) ->
+            messages.push "期限オーバー：#{issues_count}件"
 
-        # 期限オーバー件数
-        param.dueDateUntil = due_date_str
-        backlog.get_issues_count param , (err,res,issues_count) ->
-          messages.push "期限オーバー：#{issues_count}件"
+            # メッセージ整形
+            data =
+              attachments: [
+                color: "#ff0000"
+                pre_text: "課題件数のお知らせ"
+                text: messages.join("\n")
+              ]
 
-          console.log messages.join("\n")
-
-        console.log messages.join("\n")
-        # メッセージ整形
-        data =
-          attachments: [
-            color: "#ff0000"
-            pre_text: "課題件数のお知らせ"
-            text: messages.join("\n")
-          ]
-
-        msg.send data
-
+            # Slackに投稿
+            msg.send data
 
 # Slackからユーザーアイコンを取得
 get_slack_user_icon = (id,slack_token,callback) ->

@@ -131,7 +131,7 @@ module.exports = (robot) ->
               console.log "131:" + attachments.join("\n")
               callback(null,result)
       , (err,result) ->
-      console.log "134:#{err}"
+        console.log "134:#{err}"
 
         console.log total_cnt
         console.log attachments.join("\n")

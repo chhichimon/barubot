@@ -96,27 +96,27 @@ module.exports = (robot) ->
       data = []
       attachments = []
       total_cnt = 0
-      for user_info in users_list
+      async.map users_list
+      , (user,callback) ->
         param =
           statusId:  ["1", "2", "3"]
-          assigneeId: ["#{user_info.backlog_id}"]
+          assigneeId: ["#{user.backlog_id}"]
           sort: "dueDate"
           dueDateSince: due_date
           dueDateUntil: due_date
         backlog.getIssues(param)
         .then (messages) ->
           user_cnt = messages.length
-          console.log user_cnt
           if user_cnt > 0
             total_cnt += user_cnt
-            get_slack_user_icon user_info.slack_id,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
+            get_slack_user_icon user.slack_id,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
               slack_user_info = JSON.parse user_info_body
               user_icon = "#{slack_user_info.profile.image_24}"
 
               attachments.push(
                 color: "#ff0000"
-                author_name: "#{user_info.name}さん #{user_cnt}件"
-                author_link: "#{user_info.backlog_url}"
+                author_name: "#{user.name}さん #{user_cnt}件"
+                author_link: "#{user.backlog_url}"
                 author_icon: "#{user_icon}"
                 text: messages.join("\n")
               )

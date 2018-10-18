@@ -120,14 +120,17 @@ module.exports = (robot) ->
                 author_icon: "#{user_icon}"
                 text: messages.join("\n")
 
-              console.log "130:#{total_cnt}"
-              console.log "131:#{attachment.text}"
-              callback(null,attachment)
+          else
+            attachment = null
+
+          callback(null,attachment)
 
       , (err,attachments) ->
         console.log "135:"
         console.log total_cnt
         console.log attachments.length
+
+
 
         # メッセージ整形
         if total_cnt > 0

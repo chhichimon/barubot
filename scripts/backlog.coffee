@@ -2,6 +2,8 @@
 #  Manage backlog
 
 request = require "request"
+async = require "async"
+
 
 class Backlog
   backlogApiKey = process.env.BACKLOG_API_KEY
@@ -75,10 +77,13 @@ class Backlog
       else
         issues_info = JSON.parse body
         messages = []
-        for issue in issues_info
-          messages.push("<#{backlogDomain}/view/#{issue.issueKey}|#{issue.summary}>")
+        async.map issues_info
+        , (issue,callback) ->
+          messages = "<#{backlogDomain}/view/#{issue.issueKey}|#{issue.summary}>"
+          callback(null,messages)
+      , (err,result) ->
 
-        callback(err,res,messages)
+        callback(err,res,result)
 
   # since,until (yyyy-MM-dd)
   get_stars: (user_id,since_str,until_str,callback) ->

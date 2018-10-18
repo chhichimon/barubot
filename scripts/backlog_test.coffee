@@ -94,7 +94,7 @@ module.exports = (robot) ->
   robot.respond /issues$/, (msg) ->
     cmn_fn.date_format new Date(),'YYYY-MM-DD',(due_date) ->
       data = []
-      attachments = []
+#      attachments = []
       total_cnt = 0
       async.map users_list
       , (user,callback) ->
@@ -113,6 +113,7 @@ module.exports = (robot) ->
               slack_user_info = JSON.parse user_info_body
               user_icon = "#{slack_user_info.profile.image_24}"
 
+###
               attachments.push(
                 color: "#ff0000"
                 author_name: "#{user.name}さん #{user_cnt}件"
@@ -120,7 +121,8 @@ module.exports = (robot) ->
                 author_icon: "#{user_icon}"
                 text: messages.join("\n")
               )
-              result =
+###
+              attachment =
                 color: "#ff0000"
                 author_name: "#{user.name}さん #{user_cnt}件"
                 author_link: "#{user.backlog_url}"
@@ -128,16 +130,13 @@ module.exports = (robot) ->
                 text: messages.join("\n")
 
               console.log "130:#{total_cnt}"
-              console.log "131:" + attachments.join("\n")
-              callback(null,result)
-      , (err,res) ->
-        if err
-          console.log err
-          return -1
-        console.log res.join ""
+              console.log "131:#{attachment.text}"
+              callback(null,attachment)
+
+      , (err,attachments) ->
         console.log "135:"
         console.log total_cnt
-        console.log attachments.join("\n")
+        console.log attachments.length
 
         # メッセージ整形
         if total_cnt > 0

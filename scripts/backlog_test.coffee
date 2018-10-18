@@ -120,19 +120,29 @@ module.exports = (robot) ->
                 author_icon: "#{user_icon}"
                 text: messages.join("\n")
               )
-      console.log total_cnt
-      console.log attachments.join("\n")
-      # メッセージ整形
-      if total_cnt > 0
-        cmn_fn.date_format new Date(),'YYYY%2FMM%2FDD',(str_today) ->
-          data =
-            text: "<https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件の課題が今日までやで> :gogogo:"
-            attachments: attachments
-      else
-        data =
-          text: "今日までの課題はないねん :zawazawa:"
+              result =
+                color: "#ff0000"
+                author_name: "#{user.name}さん #{user_cnt}件"
+                author_link: "#{user.backlog_url}"
+                author_icon: "#{user_icon}"
+                text: messages.join("\n")
 
-      msg.send data
+              callback(null,result)
+      , (err,result) ->
+
+        console.log total_cnt
+        console.log attachments.join("\n")
+        # メッセージ整形
+        if total_cnt > 0
+          cmn_fn.date_format new Date(),'YYYY%2FMM%2FDD',(str_today) ->
+            data =
+              text: "<https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件の課題が今日までやで> :gogogo:"
+              attachments: attachments
+        else
+          data =
+            text: "今日までの課題はないねん :zawazawa:"
+
+        msg.send data
 
 
 # Slackからユーザーアイコンを取得

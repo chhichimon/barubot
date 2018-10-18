@@ -79,10 +79,11 @@ class Backlog
         messages = []
         req_async.map issues_info
         , (issue,callback) ->
-          messages = "<#{backlogDomain}/view/#{issue.issueKey}|#{issue.summary}>"
-          callback(null,messages)
+          message = "<#{backlogDomain}/view/#{issue.issueKey}|#{issue.summary}>"
+          messages.push message
+          callback(null,message)
         , (err,result) ->
-          callback(err,res,result)
+          callback(err,res,messages)
 
   # since,until (yyyy-MM-dd)
   get_stars: (user_id,since_str,until_str,callback) ->

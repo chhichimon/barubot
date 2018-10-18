@@ -94,6 +94,7 @@ module.exports = (robot) ->
   robot.respond /issues$/, (msg) ->
     cmn_fn.date_format new Date(),'YYYY-MM-DD',(due_date) ->
       data = []
+      attachments = []
       total_cnt = 0
       for user_info in users_list
         param =

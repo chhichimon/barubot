@@ -105,8 +105,8 @@ module.exports = (robot) ->
           dueDateUntil: due_date
         backlog.getIssues(param)
         .then (messages) ->
-          console.log messages.join("\n")
           user_cnt = messages.length
+          console.log user_cnt
           if user_cnt > 0
             total_cnt += user_cnt
             get_slack_user_icon user_info.slack_id,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
@@ -120,7 +120,8 @@ module.exports = (robot) ->
                 author_icon: "#{user_icon}"
                 text: messages.join("\n")
               )
-
+      console.log total_cnt
+      console.log attachments.join("\n")
       # メッセージ整形
       if total_cnt > 0
         cmn_fn.date_format new Date(),'YYYY%2FMM%2FDD',(str_today) ->

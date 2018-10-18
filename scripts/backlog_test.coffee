@@ -150,7 +150,7 @@ module.exports = (robot) ->
 
     message = "課題件数のお知らせ"
     cmn_fn.date_add new Date(), -1, 'DD', (due_date) ->
-      cmn_fn.date_format since_date,'YYYY-MM-DD',(due_date_str) ->
+      cmn_fn.date_format due_date,'YYYY-MM-DD',(due_date_str) ->
 
         # 未完了件数
         param.statusId = ["1", "2", "3"]

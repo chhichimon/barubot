@@ -95,7 +95,7 @@ module.exports = (robot) ->
       for user_info in users_list
         param =
           statusId:  ["1", "2", "3"]
-          assigneeId:["#{user_info.backlog_id}"]
+          assigneeId: ["#{user_info.backlog_id}"]
           sort: "dueDate"
           dueDateSince: due_date
           dueDateUntil: due_date
@@ -110,9 +110,9 @@ module.exports = (robot) ->
 
               attachments.push(
                 color: "#ff0000"
-                author_name": "#{user_info.name}さん #{user_cnt}件"
-                author_link": "#{user_info.backlog_url}"
-                author_icon": "#{user_icon}"
+                author_name: "#{user_info.name}さん #{user_cnt}件"
+                author_link: "#{user_info.backlog_url}"
+                author_icon: "#{user_icon}"
                 text: messages.join("\n")
               )
 

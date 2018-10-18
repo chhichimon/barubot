@@ -258,6 +258,73 @@ module.exports = (robot) ->
 
   )
 
+  # 月〜土曜 9:00 にBacklog本日期限課題をSlackに投稿する
+  cronjob = new req_cron_job(
+    cronTime: "0 11 19 * * 1-6"      # 実行時間：秒・分・時間・日・月・曜日
+    start:    true                # すぐにcronのjobを実行するか
+    timeZone: "Asia/Tokyo"        # タイムゾーン指定
+    onTick: ->                    # 時間が来た時に実行する処理
+      cmn_fn.date_format new Date(),'YYYY-MM-DD',(due_date) ->
+        data = []
+        attachments = []
+        total_cnt = 0
+        async.map users_list
+        , (user,callback) ->
+          param =
+            statusId:  ["1", "2", "3"]
+            assigneeId: ["#{user.backlog_id}"]
+            sort: "dueDate"
+            dueDateSince: due_date
+            dueDateUntil: due_date
+
+          backlog.get_issues param , (err,res,messages) ->
+            user_cnt = messages.length
+            if user_cnt > 0
+              total_cnt += user_cnt
+              get_slack_user_icon user.slack_id,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
+                slack_user_info = JSON.parse user_info_body
+                user_icon = "#{slack_user_info.profile.image_24}"
+                attachments.push(
+                  color: "#ff0000"
+                  author_name: "#{user.name}さん #{user_cnt}件"
+                  author_link: "#{user.backlog_url}"
+                  author_icon: "#{user_icon}"
+                  text: messages.join("\n")
+                )
+
+                attachment =
+                  color: "#ff0000"
+                  author_name: "#{user.name}さん #{user_cnt}件"
+                  author_link: "#{user.backlog_url}"
+                  author_icon: "#{user_icon}"
+                  text: messages.join("\n")
+
+            else
+              attachment = {}
+
+            callback(null,attachment)
+
+        , (err,result) ->
+
+          # メッセージ整形
+          if total_cnt > 0
+            cmn_fn.date_format new Date(),'YYYY%2FMM%2FDD',(str_today) ->
+              data =
+                text: "<https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件の課題が今日までやで> :gogogo:"
+                attachments: attachments
+          else
+            data =
+              text: "今日までの課題はないねん :zawazawa:"
+
+          robot.messageRoom "talk", data
+
+  )
+
+
+
+
+
+
 #----------------------------------------------------------------------
 # 課題のステータス名を検索
 # search_task_status_name = (task_status_json, state_id) ->

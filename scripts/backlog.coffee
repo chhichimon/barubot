@@ -81,9 +81,8 @@ class Backlog
         , (issue,callback) ->
           messages = "<#{backlogDomain}/view/#{issue.issueKey}|#{issue.summary}>"
           callback(null,messages)
-      , (err,result) ->
-
-        callback(err,res,result)
+        , (err,result) ->
+          callback(err,res,result)
 
   # since,until (yyyy-MM-dd)
   get_stars: (user_id,since_str,until_str,callback) ->

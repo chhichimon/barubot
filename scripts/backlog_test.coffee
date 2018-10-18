@@ -105,7 +105,7 @@ module.exports = (robot) ->
           user_cnt = messages.length
           if user_cnt > 0
             total_cnt += user_cnt
-            get_slack_user_icon userid,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
+            get_slack_user_icon user_info.slack_id,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
               slack_user_info = JSON.parse user_info_body
               user_icon = "#{slack_user_info.profile.image_24}"
 

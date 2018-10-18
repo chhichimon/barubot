@@ -153,7 +153,9 @@ module.exports = (robot) ->
       cmn_fn.date_format due_date,'YYYY-MM-DD',(due_date_str) ->
 
         # 未完了件数
-        param.statusId = ["1", "2", "3"]
+        param =
+          statusId: ["1", "2", "3"]
+          
         backlog.get_issues_count param , (err,res,issues_count) ->
           message.push "未完了：#{issues_count}件"
 

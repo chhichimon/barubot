@@ -94,7 +94,7 @@ module.exports = (robot) ->
   robot.respond /issues$/, (msg) ->
     cmn_fn.date_format new Date(),'YYYY-MM-DD',(due_date) ->
       data = []
-#      attachments = []
+      attachments = []
       total_cnt = 0
       async.map users_list
       , (user,callback) ->
@@ -112,6 +112,13 @@ module.exports = (robot) ->
             get_slack_user_icon user.slack_id,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
               slack_user_info = JSON.parse user_info_body
               user_icon = "#{slack_user_info.profile.image_24}"
+              attachments.push(
+                color: "#ff0000"
+                author_name: "#{user.name}さん #{user_cnt}件"
+                author_link: "#{user.backlog_url}"
+                author_icon: "#{user_icon}"
+                text: messages.join("\n")
+              )
 
               attachment =
                 color: "#ff0000"
@@ -121,30 +128,22 @@ module.exports = (robot) ->
                 text: messages.join("\n")
 
           else
-            attachment = null
+            attachment = {}
 
           callback(null,attachment)
 
-      , (err,attachments) ->
-        console.log "135:"
-        console.log total_cnt
-        console.log attachments.length
-
-
+      , (err,result) ->
 
         # メッセージ整形
         if total_cnt > 0
-          console.log "141:"
           cmn_fn.date_format new Date(),'YYYY%2FMM%2FDD',(str_today) ->
             data =
               text: "<https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件の課題が今日までやで> :gogogo:"
               attachments: attachments
         else
-          console.log "147:"
           data =
             text: "今日までの課題はないねん :zawazawa:"
 
-        console.log "151:"
         msg.send data
 
 

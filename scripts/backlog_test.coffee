@@ -113,15 +113,6 @@ module.exports = (robot) ->
               slack_user_info = JSON.parse user_info_body
               user_icon = "#{slack_user_info.profile.image_24}"
 
-###
-              attachments.push(
-                color: "#ff0000"
-                author_name: "#{user.name}さん #{user_cnt}件"
-                author_link: "#{user.backlog_url}"
-                author_icon: "#{user_icon}"
-                text: messages.join("\n")
-              )
-###
               attachment =
                 color: "#ff0000"
                 author_name: "#{user.name}さん #{user_cnt}件"

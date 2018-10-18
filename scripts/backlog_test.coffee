@@ -146,6 +146,24 @@ module.exports = (robot) ->
 
         msg.send data
 
+  robot.respond /over$/, (msg) ->
+
+    message = "課題件数のお知らせ"
+    cmn_fn.date_add new Date(), -1, 'DD', (due_date) ->
+      cmn_fn.date_format since_date,'YYYY-MM-DD',(due_date_str) ->
+
+        # 未完了件数
+        param.statusId = ["1", "2", "3"]
+        backlog.get_issues_count param , (err,res,issues_count) ->
+          message.push "未完了：#{issues_count}件"
+
+        # 期限オーバー件数
+        param.dueDateUntil = due_date_str
+        backlog.get_issues_count param , (err,res,issues_count) ->
+          message.push "期限オーバー：#{issues_count}件"
+
+        msg.send message.join("\n")
+
 
 # Slackからユーザーアイコンを取得
 get_slack_user_icon = (id,slack_token,callback) ->

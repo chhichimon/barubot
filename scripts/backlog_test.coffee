@@ -2,6 +2,9 @@
 #   backlog テスト用
 #
 
+BACKLOG_API_KEY = process.env.BACKLOG_API_KEY
+SLACK_TOKEN = process.env.SLACK_TOKEN
+
 async = require "async"
 cron = require("cron").CronJob
 

@@ -310,7 +310,7 @@ module.exports = (robot) ->
           if total_cnt > 0
             cmn_fn.date_format new Date(),'YYYY%2FMM%2FDD',(str_today) ->
               data =
-                text: "<https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件の課題が今日までやで> :gogogo:"
+                text: ":eyes: <https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件の課題が今日までやで> :eyes:"
                 attachments: attachments
           else
             data =
@@ -321,8 +321,41 @@ module.exports = (robot) ->
   )
 
 
+  # 月〜土曜 9:02 にBacklog残課題件数をSlackに投稿する
+  cronjob = new req_cron_job(
+    cronTime: "0 2 9 * * 1-6"      # 実行時間：秒・分・時間・日・月・曜日
+    start:    true                # すぐにcronのjobを実行するか
+    timeZone: "Asia/Tokyo"        # タイムゾーン指定
+    onTick: ->                    # 時間が来た時に実行する処理
 
+      messages = []
+      data = []
+      cmn_fn.date_add new Date(), -1, 'DD', (due_date) ->
+        cmn_fn.date_format due_date,'YYYY-MM-DD',(due_date_str) ->
 
+          # 未完了件数
+          param =
+            statusId: ["1", "2", "3"]
+          backlog.get_issues_count param , (err,res,issues_count) ->
+            messages.push "未完了：#{issues_count}件"
+
+            # 期限オーバー件数
+            param.dueDateUntil = due_date_str
+            backlog.get_issues_count param , (err,res,issues_count) ->
+              messages.push "期限オーバー：#{issues_count}件"
+
+              # メッセージ整形
+              data =
+                attachments: [
+                  color: "#ff0000"
+                  pretext: ":fire: 残っとる課題件数やで :fire:"
+                  text: messages.join("\n")
+                ]
+
+              # Slackに投稿
+              robot.messageRoom "talk", data
+
+  )
 
 
 #----------------------------------------------------------------------

@@ -138,7 +138,7 @@ module.exports = (robot) ->
         if total_cnt > 0
           cmn_fn.date_format new Date(),'YYYY%2FMM%2FDD',(str_today) ->
             data =
-              text: "<https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件が今日までやで> :gogogo:"
+              text: ":eyes: <https://usn.backlog.com/FindIssueAllOver.action?condition.projectId=11507&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.limit=100&condition.offset=0&condition.sort=LIMIT_DATE&condition.order=false&condition.simpleSearch=false&condition.allOver=true&condition.limitDateRange.begin=#{str_today}&condition.limitDateRange.end=#{str_today}|#{total_cnt}件の課題が今日までやで> :eyes:"
               attachments: attachments
         else
           data =
@@ -168,7 +168,7 @@ module.exports = (robot) ->
             data =
               attachments: [
                 color: "#ff0000"
-                pretext: "残っとる課題件数やで"
+                pretext: ":fire: 残っとる課題件数やで :fire:"
                 text: messages.join("\n")
               ]
 

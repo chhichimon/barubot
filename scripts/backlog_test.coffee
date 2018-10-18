@@ -104,8 +104,8 @@ module.exports = (robot) ->
           sort: "dueDate"
           dueDateSince: due_date
           dueDateUntil: due_date
-        backlog.getIssues(param)
-        .then (messages) ->
+
+        backlog.get_issues param , (err,res,messages) ->
           user_cnt = messages.length
           if user_cnt > 0
             total_cnt += user_cnt
@@ -127,8 +127,11 @@ module.exports = (robot) ->
                 author_icon: "#{user_icon}"
                 text: messages.join("\n")
 
+              console.log "130:#{total_cnt}"
+              console.log "131:" + attachments.join("\n")
               callback(null,result)
       , (err,result) ->
+      console.log "134:#{err}"
 
         console.log total_cnt
         console.log attachments.join("\n")

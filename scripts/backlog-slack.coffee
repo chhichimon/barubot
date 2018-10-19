@@ -92,34 +92,34 @@ module.exports = (robot) ->
             short: true
           )
 
-        # 課題変更点羅列
-        if body.content?.changes?
-          for change in body.content.changes
-            title = null
-            value = "#{decorate(change.old_value)} → #{decorate(change.new_value)}"
-            short = true
+      # 課題変更点羅列
+      if body.content?.changes?
+        for change in body.content.changes
+          title = null
+          value = "#{decorate(change.old_value)} → #{decorate(change.new_value)}"
+          short = true
 
-            switch change.field
-              when "status"
-                title = "ステータス"
-                value = "#{decorate(issue_status[change.old_value])} → #{decorate(issue_status[change.new_value])}"
-              when "description"
-                title = "詳細"
-                value = "#{decorate(change.old_value)}\n ↓ \n#{decorate(change.new_value)}"
+          switch change.field
+            when "status"
+              title = "ステータス"
+              value = "#{decorate(issue_status[change.old_value])} → #{decorate(issue_status[change.new_value])}"
+            when "description"
+              title = "詳細"
+              value = "#{decorate(change.old_value)}\n ↓ \n#{decorate(change.new_value)}"
                 short = false
-              when "assigner" then title = "担当者"
-              when "startDate" then title = "開始日"
-              when "limitDate" then title = "期限日"
-              when "milestone" then title = "マイルストーン"
-              when "resolution"
-                title = "完了理由変更"
-                value = "#{decorate(resolution[change.old_value])} → #{decorate(resolution[change.new_value])}"
-              when "estimatedHours" then title = "予定時間"
-              when "actualHours" then title = "実績時間"
-              when "priority"
-                title = "優先度"
-                value = "#{decorate(issue_priority[change.old_value])} → #{decorate(issue_priority[change.new_value])}"
-              when "attachment" then title = "添付ファイル"
+            when "assigner" then title = "担当者"
+            when "startDate" then title = "開始日"
+            when "limitDate" then title = "期限日"
+            when "milestone" then title = "マイルストーン"
+            when "resolution"
+              title = "完了理由変更"
+              value = "#{decorate(resolution[change.old_value])} → #{decorate(resolution[change.new_value])}"
+            when "estimatedHours" then title = "予定時間"
+            when "actualHours" then title = "実績時間"
+            when "priority"
+              title = "優先度"
+              value = "#{decorate(issue_priority[change.old_value])} → #{decorate(issue_priority[change.new_value])}"
+            when "attachment" then title = "添付ファイル"
 
             if title?
               fields.push(
@@ -128,35 +128,35 @@ module.exports = (robot) ->
                 short: short
               )
 
-        # 添付ファイル
-        if body.content?.attachments?
-          value = ""
-          for attachment in body.content.attachments
-            url = "#{backlogUrl}downloadAttachment/#{attachment.id}/#{attachment.name}"
-            value += "- #{url}\n"
+      # 添付ファイル
+      if body.content?.attachments?
+        value = ""
+        for attachment in body.content.attachments
+          url = "#{backlogUrl}downloadAttachment/#{attachment.id}/#{attachment.name}"
+          value += "- #{url}\n"
 
-          if value != ""
-            fields.push(
-              title: "添付ファイル"
-              value: value
-            )
-
-        # コメント
-        if body.content?.comment? && body.content.comment.content?.trim() != ""
+        if value != ""
           fields.push(
-            title: "コメント"
-            value: body.content.comment.content
+            title: "添付ファイル"
+            value: value
           )
 
-        # 通知対象者
-        if body.notifications?
-          value = ""
-          for notification in body.notifications
-            userid = ""
-            userid = get_slack_id_by_backlog_id(notification.user.id)
-            if userid == ""
-              userid = "#{notification.user.name}"
-            value += "<@#{userid}>\n"
+      # コメント
+      if body.content?.comment? && body.content.comment.content?.trim() != ""
+        fields.push(
+          title: "コメント"
+          value: body.content.comment.content
+        )
+
+      # 通知対象者
+      if body.notifications?
+        value = ""
+        for notification in body.notifications
+          userid = ""
+          userid = get_slack_id_by_backlog_id(notification.user.id)
+          if userid == ""
+            userid = "#{notification.user.name}"
+          value += "<@#{userid}>\n"
 
           if value != ""
             fields.push(
@@ -164,48 +164,48 @@ module.exports = (robot) ->
               value: value
             )
 
-        # 共有ファイル
-        if body.type in [8, 9]
-          fields.push(
-            title: "共有ファイル"
-            value: "<#{backlogUrl}file/#{body.project.projectKey}#{body.content.dir}#{body.content.name}|#{body.content.dir}#{body.content.name}>"
-          )
+      # 共有ファイル
+      if body.type in [8, 9]
+        fields.push(
+          title: "共有ファイル"
+          value: "<#{backlogUrl}file/#{body.project.projectKey}#{body.content.dir}#{body.content.name}|#{body.content.dir}#{body.content.name}>"
+        )
 
-        # 課題をまとめて更新
-        if body.type is 14
-          msg  = ""
-          for link in body.content.link
-            msg += "<#{backlogUrl}view/#{body.project.projectKey}-#{link.key_id}|#{link.title}>\n"
-          fields.push(
-            title: "更新された課題"
-            value: msg
-          )
+      # 課題をまとめて更新
+      if body.type is 14
+        msg  = ""
+        for link in body.content.link
+          msg += "<#{backlogUrl}view/#{body.project.projectKey}-#{link.key_id}|#{link.title}>\n"
+        fields.push(
+          title: "更新された課題"
+          value: msg
+        )
 
 
-        userid = get_slack_id_by_backlog_id(body.createdUser.id)
-        user_url = get_backlog_user_url(body.createdUser.id)
+      userid = get_slack_id_by_backlog_id(body.createdUser.id)
+      user_url = get_backlog_user_url(body.createdUser.id)
 
-        get_slack_user_icon userid,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
-          user_info = JSON.parse user_info_body
-          user_icon = "#{user_info.profile.image_24}"
+      get_slack_user_icon userid,SLACK_TOKEN,(user_info_err,user_info_res,user_info_body) ->
+        user_info = JSON.parse user_info_body
+        user_icon = "#{user_info.profile.image_24}"
 
-          # Slack投稿メッセージを整形
-          data =
-            text: "Backlog *#{body.project.name}*"
-            attachments: [
-              author_name: "#{body.createdUser?.name}さんが#{label}しました。"
-              author_link: "#{user_url}"
-              author_icon: "#{user_icon}"
-              color: "#{color}"
-              title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
-              title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
-              fields: fields
-              mrkdwn_in: ["fields","text"]
-            ]
+        # Slack投稿メッセージを整形
+        data =
+          text: "Backlog *#{body.project.name}*"
+          attachments: [
+            author_name: "#{body.createdUser?.name}さんが#{label}しました。"
+            author_link: "#{user_url}"
+            author_icon: "#{user_icon}"
+            color: "#{color}"
+            title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
+            title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
+            fields: fields
+            mrkdwn_in: ["fields","text"]
+          ]
 
-          # Slack に投稿
-          robot.messageRoom room, data
-          res.end "OK"
+        # Slack に投稿
+        robot.messageRoom room, data
+        res.end "OK"
 
     catch error
       console.log error

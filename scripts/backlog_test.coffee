@@ -152,12 +152,12 @@ module.exports = (robot) ->
 
     data = []
     message = ":full_moon_with_face: *プロジェクトレポートやで* :bar_chart:\n"
-    get_backlog_report_message null (err,res,message_text) ->
+    get_backlog_report_message null, (err,res,message_text) ->
       message += message_text
 
       async.map project_list
       , (project,callback) ->
-        get_backlog_report_message project (err,res,message_text) ->
+        get_backlog_report_message project, (err,res,message_text) ->
           message += message_text
           callback(null,message_text)
       , (err,result) ->

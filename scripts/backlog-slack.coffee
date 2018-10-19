@@ -204,8 +204,8 @@ module.exports = (robot) ->
             author_link: "#{user_url}"
             author_icon: "#{user_icon}"
             color: "#{color}"
-            title: "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
-            title_link: "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
+            title: title
+            title_link: title_link
             fields: fields
             mrkdwn_in: ["fields","text"]
           ]

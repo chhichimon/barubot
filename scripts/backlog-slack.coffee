@@ -57,12 +57,13 @@ module.exports = (robot) ->
         3: "中"
         4: "低"
 
-      # 課題情報を取得する
-      backlog.get_issue "#{body.content.id}",(uissue_err, issue_res, issue_body) ->
-        issue_info = JSON.parse issue_body
+      # 課題追加
+      if body.type is 1
 
-        # 課題追加
-        if body.type == 1
+        # 課題情報を取得する
+        backlog.get_issue "#{body.content.id}",(uissue_err, issue_res, issue_body) ->
+          issue_info = JSON.parse issue_body
+
           # 詳細
           if issue_info.description?
             fields.push(
@@ -163,6 +164,24 @@ module.exports = (robot) ->
               value: value
             )
 
+        # 共有ファイル
+        if body.type in [8, 9]
+          fields.push(
+            title: "共有ファイル"
+            value: "<#{backlogUrl}file/#{body.project.projectKey}#{body.content.dir}#{body.content.name}|#{body.content.dir}#{body.content.name}>"
+          )
+
+        # 課題をまとめて更新
+        if body.type is 14
+          msg  = ""
+          for link in body.content.link
+            msg += "<#{backlogUrl}view/#{body.project.projectKey}-#{link.key_id}|#{link.title}>\n"
+          fields.push(
+            title: "更新された課題"
+            value: msg
+          )
+
+
         userid = get_slack_id_by_backlog_id(body.createdUser.id)
         user_url = get_backlog_user_url(body.createdUser.id)
 
@@ -256,7 +275,6 @@ module.exports = (robot) ->
                 ]
 
               robot.messageRoom "talk", data
-
   )
 
   # 月〜土曜 9:00 にBacklog本日期限課題をSlackに投稿する

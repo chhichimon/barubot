@@ -190,6 +190,7 @@ module.exports = (robot) ->
                   # 本日期限件数
                   param =
                     statusId: ["1", "2", "3"]
+                    dueDateSince: today_str
                     dueDateUntil: today_str
                   backlog.get_issues_count param, (err,res,issues_count) ->
                     countlist.today_period = issues_count

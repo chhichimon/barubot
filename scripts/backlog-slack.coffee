@@ -106,7 +106,7 @@ module.exports = (robot) ->
             when "description"
               title = "詳細"
               value = "#{decorate(change.old_value)}\n ↓ \n#{decorate(change.new_value)}"
-                short = false
+              short = false
             when "assigner" then title = "担当者"
             when "startDate" then title = "開始日"
             when "limitDate" then title = "期限日"

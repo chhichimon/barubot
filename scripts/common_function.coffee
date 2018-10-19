@@ -40,9 +40,6 @@ class common_function
 
     callback(date)
 
-
-
-
   # 2つの日付の差を計算する date1 , date2 ,interval
   date_diff: (date1, date2, interval) ->
     diff = date2.getTime() - date1.getTime()
@@ -78,5 +75,17 @@ class common_function
           resolve ~~(diff / 1000)
         else
           resolve ~~(diff / (24 * 60 * 60 * 1000))
+
+  # arrayをシャッフルする関数
+  array_shuffle: (array) ->
+    i = array.length
+    if i is 0 then return false
+    while --i
+      j = Math.floor Math.random() * (i + 1)
+      tmpi = array[i]
+      tmpj = array[j]
+      array[i] = tmpj
+      array[j] = tmpi
+    return
 
 module.exports = common_function

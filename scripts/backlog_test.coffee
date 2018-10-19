@@ -152,7 +152,7 @@ module.exports = (robot) ->
 
     data = []
     message = []
-    message.push ":full_moon_with_face: *プロジェクトレポートやで* :bar_chart:\n"
+    message.push ":umbrella_ground: *プロジェクトレポート作ったったよ* :tada:\n"
     get_backlog_report_message null, (err,res,message_text) ->
       message.push message_text
 

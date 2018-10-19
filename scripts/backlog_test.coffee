@@ -151,18 +151,19 @@ module.exports = (robot) ->
   robot.respond /report$/, (msg) ->
 
     data = []
-    message = ":full_moon_with_face: *プロジェクトレポートやで* :bar_chart:\n"
+    message = []
+    message.push ":full_moon_with_face: *プロジェクトレポートやで* :bar_chart:\n"
     get_backlog_report_message null, (err,res,message_text) ->
-      message += message_text
+      message.push message_text
 
       async.map project_list
       , (project,callback) ->
         get_backlog_report_message project, (err,res,message_text) ->
-          message += message_text
+          message.push message_text
           callback(null,message_text)
       , (err,result) ->
         data =
-          text: message_text
+          text: message.join("\n")
           mrkdwn: true
 
         # Slackに投稿
@@ -209,11 +210,11 @@ get_backlog_report_message = (project_info,callback) ->
   projectId =[]
   project_name = ""
 
-  if project_info?
+  unless project_info?
+    prject_name = "全プロジェクト"
+  else
     projectId.push project_info.id
     prject_name = project_info.name
-  else
-    prject_name = "全プロジェクト"
 
   today_str = ""
   yesterday_str = ""

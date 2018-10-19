@@ -121,12 +121,12 @@ module.exports = (robot) ->
               value = "#{decorate(issue_priority[change.old_value])} → #{decorate(issue_priority[change.new_value])}"
             when "attachment" then title = "添付ファイル"
 
-            if title?
-              fields.push(
-                title: title
-                value: value
-                short: short
-              )
+          if title?
+            fields.push(
+              title: title
+              value: value
+              short: short
+            )
 
       # 添付ファイル
       if body.content?.attachments?

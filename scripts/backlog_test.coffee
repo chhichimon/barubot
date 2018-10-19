@@ -211,10 +211,10 @@ get_backlog_report_message = (project_info,callback) ->
   project_name = ""
 
   unless project_info?
-    prject_name = "全プロジェクト"
+    project_name = "全プロジェクト"
   else
     projectId.push project_info.id
-    prject_name = project_info.name
+    project_name = project_info.name
 
   today_str = ""
   yesterday_str = ""

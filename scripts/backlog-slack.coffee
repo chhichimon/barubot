@@ -189,6 +189,13 @@ module.exports = (robot) ->
         user_info = JSON.parse user_info_body
         user_icon = "#{user_info.profile.image_24}"
 
+        title = ""
+        title_link = ""
+
+        if body.type in [1, 2, 3, 4]
+          title = "[#{body.project?.projectKey}-#{body.content?.key_id}] #{body.content?.summary}"
+          title_link = "#{backlogUrl}view/#{body.project?.projectKey}-#{body.content?.key_id}"
+
         # Slack投稿メッセージを整形
         data =
           text: "Backlog *#{body.project.name}*"

@@ -6,6 +6,7 @@ SLACK_TOKEN = process.env.SLACK_TOKEN
 
 users_list = require('../config/users.json')
 update_types = require('../config/backlog_update_type.json')
+project_list = require('../config/backlog_project_list.json')
 
 async = require "async"
 req_cron_job = require("cron").CronJob
@@ -328,32 +329,24 @@ module.exports = (robot) ->
     timeZone: "Asia/Tokyo"        # タイムゾーン指定
     onTick: ->                    # 時間が来た時に実行する処理
 
-      messages = []
       data = []
-      cmn_fn.date_add new Date(), -1, 'DD', (due_date) ->
-        cmn_fn.date_format due_date,'YYYY-MM-DD',(due_date_str) ->
+      message = []
+      message.push ":bar_chart: *プロジェクトレポート作ったったよ* :tada:\n"
+      get_backlog_report_message null, (err,res,message_text) ->
+        message.push message_text
 
-          # 未完了件数
-          param =
-            statusId: ["1", "2", "3"]
-          backlog.get_issues_count param , (err,res,issues_count) ->
-            messages.push "未完了：#{issues_count}件"
+        async.map project_list
+        , (project,callback) ->
+          get_backlog_report_message project, (err,res,message_text) ->
+            message.push message_text
+            callback(null,message_text)
+        , (err,result) ->
+          data =
+            text: message.join("\n")
+            mrkdwn: true
 
-            # 期限オーバー件数
-            param.dueDateUntil = due_date_str
-            backlog.get_issues_count param , (err,res,issues_count) ->
-              messages.push "期限オーバー：#{issues_count}件"
-
-              # メッセージ整形
-              data =
-                attachments: [
-                  color: "#ff0000"
-                  pretext: ":fire: 残っとる課題件数やで :fire:"
-                  text: messages.join("\n")
-                ]
-
-              # Slackに投稿
-              robot.messageRoom "talk", data
+          # Slackに投稿
+          robot.messageRoom "talk", data
 
   )
 
@@ -403,3 +396,81 @@ get_slack_user_icon = (id,slack_token,callback) ->
       return
     else
       callback(err,res,body)
+
+# プロジェクト毎の残課題件数を取得し、レポートメッセージを生成する
+get_backlog_report_message = (project_info,callback) ->
+  message_text = ""
+  projectId =[]
+  project_name = ""
+
+  unless project_info?
+    project_name = "全プロジェクト"
+  else
+    projectId.push project_info.id
+    project_name = project_info.name
+
+  today_str = ""
+  yesterday_str = ""
+
+  countlist =
+    not_started: 0
+    processing: 0
+    processed: 0
+    expired: 0
+    today_period: 0
+    incomplete: 0
+
+
+  cmn_fn.date_format new Date(),'YYYY-MM-DD',(due_date_str) ->
+    today_str = due_date_str
+
+    cmn_fn.date_add new Date(), -1, 'DD', (due_date) ->
+      cmn_fn.date_format due_date,'YYYY-MM-DD',(due_date_str) ->
+        yesterday_str = due_date_str
+
+        # 未着手件数
+        param =
+          projectId: projectId
+          statusId: ["1"]
+        backlog.get_issues_count param , (err,res,issues_count) ->
+          countlist.not_started = issues_count
+          # 処理中件数
+          param =
+            projectId: projectId
+            statusId: ["2"]
+          backlog.get_issues_count param , (err,res,issues_count) ->
+            countlist.processing = issues_count
+            # 処理済み件数
+            param =
+              projectId: projectId
+              statusId: ["3"]
+            backlog.get_issues_count param , (err,res,issues_count) ->
+              countlist.processed = issues_count
+
+              # 期限オーバー件数
+              param =
+                projectId: projectId
+                statusId: ["1", "2", "3"]
+                dueDateUntil: yesterday_str
+              backlog.get_issues_count param, (err,res,issues_count) ->
+                countlist.expired = issues_count
+
+                # 本日期限件数
+                param =
+                  projectId: projectId
+                  statusId: ["1", "2", "3"]
+                  dueDateSince: today_str
+                  dueDateUntil: today_str
+                backlog.get_issues_count param, (err,res,issues_count) ->
+                  countlist.today_period = issues_count
+
+                  # 未完了件数
+                  countlist.incomplete = countlist.not_started + countlist.processing + countlist.processed
+
+                  # メッセージ整形
+                  message_text += ">#{project_name}\n"
+                  message_text += "```\n"
+                  message_text += "未完了 #{countlist.incomplete}件 ： □ 未着手 #{countlist.not_started}件\t■ 処理中 #{countlist.processing}件\t■ 処理済み #{countlist.processed}件\n本日期限 #{countlist.today_period}件\t期限オーバー #{countlist.expired}件\n"
+                  message_text += "```\n"
+
+                  callback(err,res,message_text)

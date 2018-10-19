@@ -143,7 +143,7 @@ module.exports = (robot) ->
               attachments: attachments
         else
           data =
-            text: "今日までの課題はあれへん :zawazawa:"
+            text: "今日までの課題はなし！ :zawazawa:"
 
         msg.send data
 
@@ -152,7 +152,7 @@ module.exports = (robot) ->
 
     data = []
     message = []
-    message.push ":umbrella_ground: *プロジェクトレポート作ったったよ* :tada:\n"
+    message.push ":bar_chart: *プロジェクトレポート作ったったよ* :tada:\n"
     get_backlog_report_message null, (err,res,message_text) ->
       message.push message_text
 

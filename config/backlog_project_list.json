@@ -1,0 +1,62 @@
+[
+    {
+        "id": 11507,
+        "projectKey": "UGUISU",
+        "name": "せいおう会作業管理",
+        "chartEnabled": true,
+        "subtaskingEnabled": true,
+        "projectLeaderCanEditProjectLeader": true,
+        "useWikiTreeView": true,
+        "textFormattingRule": "markdown",
+        "archived": false,
+        "displayOrder": 2147483646
+    },
+    {
+        "id": 25824,
+        "projectKey": "KRNUMC",
+        "name": "インフラ再構築",
+        "chartEnabled": true,
+        "subtaskingEnabled": true,
+        "projectLeaderCanEditProjectLeader": false,
+        "useWikiTreeView": true,
+        "textFormattingRule": "markdown",
+        "archived": false,
+        "displayOrder": 2147483646
+    },
+    {
+        "id": 35605,
+        "projectKey": "ASTRO",
+        "name": "アストロステージ改修管理",
+        "chartEnabled": true,
+        "subtaskingEnabled": true,
+        "projectLeaderCanEditProjectLeader": false,
+        "useWikiTreeView": true,
+        "textFormattingRule": "markdown",
+        "archived": false,
+        "displayOrder": 2147483646
+    },
+    {
+        "id": 35806,
+        "projectKey": "WEBRES",
+        "name": "WEB予約開発",
+        "chartEnabled": true,
+        "subtaskingEnabled": true,
+        "projectLeaderCanEditProjectLeader": false,
+        "useWikiTreeView": true,
+        "textFormattingRule": "markdown",
+        "archived": false,
+        "displayOrder": 2147483646
+    },
+    {
+        "id": 43353,
+        "projectKey": "UMCMT",
+        "name": "システム保守管理",
+        "chartEnabled": true,
+        "subtaskingEnabled": true,
+        "projectLeaderCanEditProjectLeader": false,
+        "useWikiTreeView": true,
+        "textFormattingRule": "markdown",
+        "archived": false,
+        "displayOrder": 2147483646
+    }
+]

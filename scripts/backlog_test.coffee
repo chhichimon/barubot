@@ -210,7 +210,7 @@ get_backlog_report_message = (project_info,callback) ->
   prject_name = ""
 
   if project_info?
-    projectId = project_info.id
+    projectId.push project_info.id
     prject_name = project_info.name
   else
     prject_name = "全プロジェクト"
@@ -236,26 +236,26 @@ get_backlog_report_message = (project_info,callback) ->
 
         # 未着手件数
         param =
-          projectId: [projectId]
+          projectId: projectId
           statusId: ["1"]
         backlog.get_issues_count param , (err,res,issues_count) ->
           countlist.not_started = issues_count
           # 処理中件数
           param =
-            projectId: [projectId]
+            projectId: projectId
             statusId: ["2"]
           backlog.get_issues_count param , (err,res,issues_count) ->
             countlist.processing = issues_count
             # 処理済み件数
             param =
-              projectId: [projectId]
+              projectId: projectId
               statusId: ["3"]
             backlog.get_issues_count param , (err,res,issues_count) ->
               countlist.processed = issues_count
 
               # 期限オーバー件数
               param =
-                projectId: [projectId]
+                projectId: projectId
                 statusId: ["1", "2", "3"]
                 dueDateUntil: yesterday_str
               backlog.get_issues_count param, (err,res,issues_count) ->
@@ -263,7 +263,7 @@ get_backlog_report_message = (project_info,callback) ->
 
                 # 本日期限件数
                 param =
-                  projectId: [projectId]
+                  projectId: projectId
                   statusId: ["1", "2", "3"]
                   dueDateSince: today_str
                   dueDateUntil: today_str

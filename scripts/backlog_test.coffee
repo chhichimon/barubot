@@ -207,7 +207,7 @@ get_slack_user_icon = (id,slack_token,callback) ->
 get_backlog_report_message = (project_info,callback) ->
   message_text = ""
   projectId =[]
-  prject_name = ""
+  project_name = ""
 
   if project_info?
     projectId.push project_info.id

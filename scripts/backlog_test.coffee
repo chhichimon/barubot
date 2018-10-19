@@ -164,51 +164,51 @@ module.exports = (robot) ->
     cmn_fn.date_format new Date(),'YYYY-MM-DD',(due_date_str) ->
       today_str = due_date_str
 
-    cmn_fn.date_add new Date(), -1, 'DD', (due_date) ->
-      cmn_fn.date_format due_date,'YYYY-MM-DD',(due_date_str) ->
-        yesterday_str = due_date_str
+      cmn_fn.date_add new Date(), -1, 'DD', (due_date) ->
+        cmn_fn.date_format due_date,'YYYY-MM-DD',(due_date_str) ->
+          yesterday_str = due_date_str
 
-    # 未着手件数
-    backlog.get_issues_count {statusId: ['1']} , (err,res,issues_count) ->
-      countlist.not_started = issues_count
+          # 未着手件数
+          backlog.get_issues_count {statusId: ['1']} , (err,res,issues_count) ->
+            countlist.not_started = issues_count
 
-    # 処理中件数
-    backlog.get_issues_count {statusId: ['2']} , (err,res,issues_count) ->
-      countlist.processing = issues_count
+            # 処理中件数
+            backlog.get_issues_count {statusId: ['2']} , (err,res,issues_count) ->
+              countlist.processing = issues_count
 
-    # 処理済み件数
-    backlog.get_issues_count {statusId: ['3']} , (err,res,issues_count) ->
-      countlist.processed = issues_count
+              # 処理済み件数
+              backlog.get_issues_count {statusId: ['3']} , (err,res,issues_count) ->
+                countlist.processed = issues_count
 
-    # 期限オーバー件数
-    param =
-      statusId: ["1", "2", "3"]
-      dueDateUntil: yesterday_str
-    backlog.get_issues_count param, (err,res,issues_count) ->
-      countlist.expired = issues_count
+                # 期限オーバー件数
+                param =
+                  statusId: ["1", "2", "3"]
+                  dueDateUntil: yesterday_str
+                backlog.get_issues_count param, (err,res,issues_count) ->
+                  countlist.expired = issues_count
 
-    # 本日期限件数
-    param =
-      statusId: ["1", "2", "3"]
-      dueDateUntil: today_str
-    backlog.get_issues_count param, (err,res,issues_count) ->
-      countlist.today_period = issues_count
+                  # 本日期限件数
+                  param =
+                    statusId: ["1", "2", "3"]
+                    dueDateUntil: today_str
+                  backlog.get_issues_count param, (err,res,issues_count) ->
+                    countlist.today_period = issues_count
 
-    # 未完了件数
-    countlist.incomplete = countlist.not_started + countlist.processing + countlist.processed
+                    # 未完了件数
+                    countlist.incomplete = countlist.not_started + countlist.processing + countlist.processed
 
-    # メッセージ整形
-    message_text = ":fire: *残っとる課題件数やで* :fire:\n"
-    message_text += ">全プロジェクト\n"
-    message_text += "```\n"
-    message_text += "未完了 #{countlist.incomplete}件 ： □ 未着手 #{countlist.not_started}件\t■ 処理中 #{countlist.processing}件\t■ 処理済み #{countlist.processed}件\n本日期限 #{countlist.today_period}件\t期限オーバー #{countlist.expired}件\n"
-    message_text += "```\n"
-    data =
-      text: message_text
-      mrkdwn: true
+                    # メッセージ整形
+                    message_text = ":fire: *残っとる課題件数やで* :fire:\n"
+                    message_text += ">全プロジェクト\n"
+                    message_text += "```\n"
+                    message_text += "未完了 #{countlist.incomplete}件 ： □ 未着手 #{countlist.not_started}件\t■ 処理中 #{countlist.processing}件\t■ 処理済み #{countlist.processed}件\n本日期限 #{countlist.today_period}件\t期限オーバー #{countlist.expired}件\n"
+                    message_text += "```\n"
+                    data =
+                      text: message_text
+                      mrkdwn: true
 
-    # Slackに投稿
-    msg.send data
+                    # Slackに投稿
+                    msg.send data
 
 ###
     "text": ":fire: *残っとる課題件数やで* :fire:\n>全プロジェクト\n```\n未完了 12件 ： □ 未着手 4件\t■ 処理中 3件\t■ 処理済み 5件\n本日期限 5件\t期限オーバー 8件\n```\n>UGUISU\n```\n未完了ＸＸ件（未着手ＸＸ件\t処理中ＸＸ件\t処理済みＸＸ件）\n```\n<http://aaa|aaa>",

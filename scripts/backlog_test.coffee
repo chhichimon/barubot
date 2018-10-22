@@ -166,7 +166,6 @@ module.exports = (robot) ->
         data =
           text: message
           mrkdwn: true
-
         # Slackに投稿
         msg.send data
 

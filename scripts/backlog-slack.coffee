@@ -35,7 +35,6 @@ module.exports = (robot) ->
         color = update_type.color
 
     try
-
       # 課題ステータス
       issue_status =
         1: "未対応"

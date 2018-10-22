@@ -151,19 +151,21 @@ module.exports = (robot) ->
   robot.respond /report$/, (msg) ->
 
     data = []
-    message = []
-    message.push ":backlog: *プロジェクトレポート作ったったよ* :tada:\n"
+    message = ":backlog: *プロジェクトレポート作ったったよ* :tada:\n"
+    # 全プロジェクトのレポート
     get_backlog_report_message null, (err,res,message_text) ->
-      message.push message_text
+      message += message_text + "\n"
 
+      # 各プロジェクト毎のレポート
       async.map project_list
       , (project,callback) ->
         get_backlog_report_message project, (err,res,message_text) ->
           message.push message_text
           callback(null,message_text)
       , (err,result) ->
+        message += result.join("\n")
         data =
-          text: ":backlog: *プロジェクトレポート作ったったよ* :tada:\n" + result.join("\n")
+          text: message
           mrkdwn: true
 
         # Slackに投稿

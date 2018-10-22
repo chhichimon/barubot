@@ -353,7 +353,6 @@ module.exports = (robot) ->
     start:    true                # すぐにcronのjobを実行するか
     timeZone: "Asia/Tokyo"        # タイムゾーン指定
     onTick: ->                    # 時間が来た時に実行する処理
-
       data = []
       message = []
       message.push ":backlog: *プロジェクトレポート作ったったよ* :tada:\n"

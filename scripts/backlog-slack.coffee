@@ -347,26 +347,29 @@ module.exports = (robot) ->
   )
 
 
-  # 月〜土曜 9:02 にBacklog残課題件数をSlackに投稿する
+  # 月〜土曜 9:02 にBacklogプロジェクトレポートをSlackに投稿する
   cronjob = new req_cron_job(
     cronTime: "0 2 9 * * 1-6"      # 実行時間：秒・分・時間・日・月・曜日
     start:    true                # すぐにcronのjobを実行するか
     timeZone: "Asia/Tokyo"        # タイムゾーン指定
     onTick: ->                    # 時間が来た時に実行する処理
-      data = []
-      message = []
-      message.push ":backlog: *プロジェクトレポート作ったったよ* :tada:\n"
-      get_backlog_report_message null, (err,res,message_text) ->
-        message.push message_text
 
+      data = []
+      message = ":backlog: *プロジェクトレポート作ったったよ* :tada:\n"
+
+      # 全プロジェクトのレポート
+      get_backlog_report_message null, (err,res,message_text) ->
+        message += message_text + "\n"
+
+        # 各プロジェクト毎のレポート
         async.map project_list
         , (project,callback) ->
           get_backlog_report_message project, (err,res,message_text) ->
-            message.push message_text
             callback(null,message_text)
         , (err,result) ->
+          message += result.join("\n")
           data =
-            text: message.join("\n")
+            text: message
             mrkdwn: true
 
           # Slackに投稿

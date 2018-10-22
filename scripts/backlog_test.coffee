@@ -153,13 +153,13 @@ module.exports = (robot) ->
     data = []
     message = ":backlog: *プロジェクトレポート作ったったよ* :tada:\n"
     # 全プロジェクトのレポート
-    get_backlog_report_message null, (err,res,message_text) ->
+    backlog.get_backlog_report_message null, (err,res,message_text) ->
       message += message_text + "\n"
 
       # 各プロジェクト毎のレポート
       async.map project_list
       , (project,callback) ->
-        get_backlog_report_message project, (err,res,message_text) ->
+        backlog.get_backlog_report_message project, (err,res,message_text) ->
           callback(null,message_text)
       , (err,result) ->
         message += result.join("\n")

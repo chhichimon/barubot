@@ -189,8 +189,6 @@ get_slack_user_icon = (id,slack_token,callback) ->
       callback(err,res,body)
 
 
-
-
 # プロジェクト毎の残課題件数を取得し、レポートメッセージを生成する
 get_backlog_report_message = (project_info,callback) ->
   message_text = ""

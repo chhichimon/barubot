@@ -158,26 +158,26 @@ class Backlog
           param =
             projectId: projectId
             statusId: ["1"]
-          get_issues_count param , (err,res,issues_count) ->
+          Backlog.get_issues_count param , (err,res,issues_count) ->
             countlist.not_started = issues_count
             # 処理中件数
             param =
               projectId: projectId
               statusId: ["2"]
-            get_issues_count param , (err,res,issues_count) ->
+            Backlog.get_issues_count param , (err,res,issues_count) ->
               countlist.processing = issues_count
               # 処理済み件数
               param =
                 projectId: projectId
                 statusId: ["3"]
-              get_issues_count param , (err,res,issues_count) ->
+              Backlog.get_issues_count param , (err,res,issues_count) ->
                 countlist.processed = issues_count
                 # 期限オーバー件数
                 param =
                   projectId: projectId
                   statusId: ["1", "2", "3"]
                   dueDateUntil: yesterday_str
-                get_issues_count param, (err,res,issues_count) ->
+                Backlog.get_issues_count param, (err,res,issues_count) ->
                   countlist.expired = issues_count
                   # 本日期限件数
                   param =
@@ -185,7 +185,7 @@ class Backlog
                     statusId: ["1", "2", "3"]
                     dueDateSince: today_str
                     dueDateUntil: today_str
-                  get_issues_count param, (err,res,issues_count) ->
+                  Backlog.get_issues_count param, (err,res,issues_count) ->
                     countlist.today_period = issues_count
                     # 未完了件数
                     countlist.incomplete = countlist.not_started + countlist.processing + countlist.processed

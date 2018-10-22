@@ -171,7 +171,6 @@ module.exports = (robot) ->
         # Slackに投稿
         msg.send data
 
-
 # Slackからユーザーアイコンを取得
 get_slack_user_icon = (id,slack_token,callback) ->
   # 作成者情報をslackから取得

@@ -152,7 +152,7 @@ module.exports = (robot) ->
 
     data = []
     message = []
-    message.push ":bar_chart: *プロジェクトレポート作ったったよ* :tada:\n"
+    message.push ":backlog: *プロジェクトレポート作ったったよ* :tada:\n"
     get_backlog_report_message null, (err,res,message_text) ->
       message.push message_text
 
@@ -163,7 +163,7 @@ module.exports = (robot) ->
           callback(null,message_text)
       , (err,result) ->
         data =
-          text: message.join("\n")
+          text: result.join("\n")
           mrkdwn: true
 
         # Slackに投稿

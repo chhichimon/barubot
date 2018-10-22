@@ -160,7 +160,6 @@ module.exports = (robot) ->
       async.map project_list
       , (project,callback) ->
         get_backlog_report_message project, (err,res,message_text) ->
-          message.push message_text
           callback(null,message_text)
       , (err,result) ->
         message += result.join("\n")

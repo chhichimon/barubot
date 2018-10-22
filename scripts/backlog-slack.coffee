@@ -375,14 +375,7 @@ module.exports = (robot) ->
   )
 
 
-#----------------------------------------------------------------------
-# 課題のステータス名を検索
-# search_task_status_name = (task_status_json, state_id) ->
-#  return __search_name_by_id(task_status_json, state_id)
 
-# 完了理由のステータス名を検索
-#search_task_resolution_name = (task_resolution_json, resolution_id) ->
-#  return __search_name_by_id(task_resolution_json, resolution_id)
 
 # 空文字の場合、未設定を返す
 decorate = (s) ->

@@ -169,18 +169,6 @@ module.exports = (robot) ->
         # Slackに投稿
         msg.send data
 
-###
-    "text": ":fire: *残っとる課題件数やで* :fire:\n>全プロジェクト\n```\n未完了 12件 ： □ 未着手 4件\t■ 処理中 3件\t■ 処理済み 5件\n本日期限 5件\t期限オーバー 8件\n```\n>UGUISU\n```\n未完了ＸＸ件（未着手ＸＸ件\t処理中ＸＸ件\t処理済みＸＸ件）\n```\n<http://aaa|aaa>",
-    "mrkdwn": true
-
-
-            data =
-              attachments: [
-                color: "#ff0000"
-                pretext: ":fire: 残っとる課題件数やで :fire:"
-                text: messages.join("\n")
-              ]
-###
 
 # Slackからユーザーアイコンを取得
 get_slack_user_icon = (id,slack_token,callback) ->
